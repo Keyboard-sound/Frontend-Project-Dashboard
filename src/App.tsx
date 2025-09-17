@@ -1,7 +1,8 @@
-import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RootLayout from "./layouts/RootLayout.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
+import Products from "./pages/Products.tsx";
+import Customers from "./pages/Customers.tsx";
 
 const router = createBrowserRouter([
   {
@@ -13,8 +14,12 @@ const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
-        path: "/dashboard",
-        element: <Dashboard />,
+        path: "/products",
+        element: <Products />,
+      },
+      {
+        path: "/customers",
+        element: <Customers />,
       },
     ],
   },

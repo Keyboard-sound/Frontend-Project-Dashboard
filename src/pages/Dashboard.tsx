@@ -6,8 +6,8 @@ export default function Dashboard() {
 
   return (
     <div className="w-full ml-2 p-4 rounded-lg bg-white">
-      <div>
-        <h1 className="font-semibold text-lg">Dashboard Overview</h1>
+      <h1 className="pl-2 font-semibold text-lg">Dashboard Overview</h1>
+      <div className="pl-2 text-sm text-gray-400">
         {time ? formatTime(new Date(time)) : formatTime(new Date())}
       </div>
     </div>
