@@ -1,8 +1,9 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RootLayout from "./layouts/RootLayout.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
-import Products from "./pages/Products.tsx";
+import ProductsPage from "./pages/Products/Products.tsx";
 import Customers from "./pages/Customers.tsx";
+import { productsLoader } from "./pages/Products/productsLoader.ts";
 
 const router = createBrowserRouter([
   {
@@ -15,7 +16,8 @@ const router = createBrowserRouter([
       },
       {
         path: "/products",
-        element: <Products />,
+        element: <ProductsPage />,
+        loader: productsLoader,
       },
       {
         path: "/customers",
