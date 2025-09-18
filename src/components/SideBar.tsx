@@ -47,7 +47,7 @@ export default function SideBar() {
             <NavLink
               key={to}
               to={to}
-              className="flex items-center gap-2 text-gray-400 text-sm py-3.5 px-3"
+              className="flex items-center gap-2 text-gray-400 text-sm py-3.5 pl-3.5 pr-3"
             >
               <Icon className="size-5 stroke-2 shrink-0" />
               <span
