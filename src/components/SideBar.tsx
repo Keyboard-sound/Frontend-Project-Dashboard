@@ -49,7 +49,7 @@ export default function SideBar() {
               to={to}
               className="flex items-center gap-2 text-gray-400 text-sm py-3.5 px-3"
             >
-              <Icon className="size-6 stroke-2 shrink-0" />
+              <Icon className="size-5 stroke-2 shrink-0" />
               <span
                 className={`${
                   isOpen ? "opacity-100" : "opacity-0 w-0 overflow-hidden"
