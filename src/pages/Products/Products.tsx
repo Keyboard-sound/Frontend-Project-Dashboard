@@ -8,17 +8,20 @@ export default function ProductsPage() {
     return (
       <div
         key={p.id}
-        className="flex flex-col justify-around items-center border border-gray-400 rounded-lg p-1 w-40 h-50"
+        className="flex flex-col justify-around items-center border border-gray-400 rounded-lg p-1 w-60 h-70 mx-auto"
       >
-        <img src={p.image} alt={p.title} className="w-20 h-20" />
+        <img src={p.images[0]} alt={p.title} className="w-50 h-50 rounded-sm" />
         <span className="text-xs text-center overflow-hidden">{p.title}</span>
+        <span>{`$${p.price}`}</span>
       </div>
     );
   });
   return (
-    <div className="w-full ml-2 p-4 rounded-lg bg-white">
+    <div className="w-full ml-2 p-4 rounded-lg bg-white overflow-auto">
       <h1 className="pl-2 font-semibold text-lg mb-[10px]">Products Page</h1>
-      <div className="flex flex-wrap gap-2">{renderProducts}</div>
+      <div className="flex flex-wrap items-center gap-y-6">
+        {renderProducts}
+      </div>
     </div>
   );
 }

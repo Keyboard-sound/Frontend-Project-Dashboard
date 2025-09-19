@@ -28,7 +28,7 @@ export default function SideBar() {
       >
         <div className="flex items-center px-2 py-4 font-bold text-xl mb-[10px]">
           <button
-            className=" p-1 mr-[10px] hover:outline outline-gray-400 rounded-sm cursor-pointer"
+            className=" p-1 mr-[10px] hover:outline focus:outline outline-gray-400 rounded-sm cursor-pointer"
             onClick={() => setIsOpen(!isOpen)}
           >
             <Bars3Icon className="w-6 h-6 stroke-2" />
