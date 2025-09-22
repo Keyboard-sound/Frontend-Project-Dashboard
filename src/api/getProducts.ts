@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export interface ProductsListRes {
+export interface Products {
   id: number;
   title: string;
   slug: string;
@@ -15,13 +15,13 @@ export interface ProductsListRes {
   images: string[];
 }
 
-export async function getProductsList(): Promise<ProductsListRes[]> {
+export async function getProducts(): Promise<Products[]> {
   try {
-    const res = await axios.get<ProductsListRes[]>(
+    const res = await axios.get<Products[]>(
       "https://api.escuelajs.co/api/v1/products"
     );
     const data = res.data;
-    console.log(data);
+    console.log("from get product", data); // for testing
     return data;
   } catch (error) {
     console.error("Error", error);

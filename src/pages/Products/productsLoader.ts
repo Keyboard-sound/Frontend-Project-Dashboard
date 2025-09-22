@@ -1,8 +1,8 @@
-import { getProductsList } from "../../api/getProductsList";
-import type { ProductsListRes } from "../../api/getProductsList";
+import { getProductsList } from "../../api/getProducts";
+import type { Products } from "../../api/getProducts";
 
 export interface ProductsLoaderResult {
-  products: ProductsListRes[];
+  products: Products[];
 }
 
 export async function productsLoader(): Promise<ProductsLoaderResult> {

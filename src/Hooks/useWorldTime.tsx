@@ -26,7 +26,7 @@ export default function useWorldTime(timeZone: string = "Etc/UTC") {
         intervalID = setInterval(() => {
           const elaped = Date.now() - startTime;
           setTime(new Date(startDate.getTime() + elaped));
-        }, 1000);
+        }, 60000);
       } catch (error) {
         console.log("timeError", error);
       }
