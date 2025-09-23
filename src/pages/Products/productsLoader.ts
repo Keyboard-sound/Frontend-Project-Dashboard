@@ -1,4 +1,4 @@
-import { getProductsList } from "../../api/getProducts";
+import { getProducts } from "../../api/getProducts";
 import type { Products } from "../../api/getProducts";
 
 export interface ProductsLoaderResult {
@@ -6,7 +6,7 @@ export interface ProductsLoaderResult {
 }
 
 export async function productsLoader(): Promise<ProductsLoaderResult> {
-  const products = await getProductsList();
+  const products = await getProducts();
 
   return {
     products,
