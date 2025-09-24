@@ -21,7 +21,6 @@ export async function getProducts(): Promise<Products[]> {
       "https://api.escuelajs.co/api/v1/products"
     );
     const data = res.data;
-    console.log("from get product", data); // for testing
     return data;
   } catch (error) {
     console.error("Error", error);

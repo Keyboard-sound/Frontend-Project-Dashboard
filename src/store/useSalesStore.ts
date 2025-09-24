@@ -5,7 +5,7 @@ import { getProducts } from "../api/getProducts";
 import type { SaleRecord } from "../data/generateSalesData";
 import type { Products } from "../api/getProducts";
 
-interface SalesStore {
+export interface SalesStore {
   salesData: SaleRecord[];
   products: Products[];
   loading: boolean;
@@ -18,10 +18,14 @@ interface SalesStore {
   setProducts: (products: Products[]) => void;
   setLoading: (loading: boolean) => void;
   clearAllData: () => void;
-  generateSalesData: (days: number) => Promise<void>;
+  generateSalesData: (count: number) => Promise<void>;
   fetchProducts: () => Promise<void>;
 
   getTotalRevenue: () => number;
+  // getPhysicalSales: () => number;
+  // getOnlineSales: () => number;
+  // getReturns: () => number;
+  getTotalCustomers: () => number;
   getTotalOrders: () => number;
   getFilteredSales: () => SaleRecord[];
 }
@@ -36,6 +40,7 @@ const useSalesStore = create<SalesStore>()(
         dateRange: "30d",
       },
       setSalesData: (data) => set({ salesData: data }),
+
       addSalesData: (data) =>
         set((state) => ({
           salesData: [...state.salesData, ...data],
@@ -56,13 +61,14 @@ const useSalesStore = create<SalesStore>()(
           setLoading(true);
           const products = await getProducts();
           setProducts(products);
+          console.log("Products from store", products);
         } catch (error) {
           console.error("Error fetching products:", error);
         }
         setLoading(false);
       },
 
-      generateSalesData: async (days) => {
+      generateSalesData: async (count) => {
         const { products, addSalesData, fetchProducts } = get();
 
         if (products.length === 0) {
@@ -71,7 +77,7 @@ const useSalesStore = create<SalesStore>()(
 
         try {
           const currentProducts = get().products;
-          const newSales = await generateSalesData(days, currentProducts);
+          const newSales = await generateSalesData(count, currentProducts);
           addSalesData(newSales);
         } catch (error) {
           console.error("Error generating sales data", error);
@@ -80,7 +86,15 @@ const useSalesStore = create<SalesStore>()(
 
       getTotalRevenue: () => {
         const { salesData } = get();
-        return salesData.reduce((sum, sale) => sum + (sale.total || 0), 0);
+
+        return salesData.reduce((sum, sale) => {
+          return sale.status === "completed" ? sum + (sale.total || 0) : sum;
+        }, 0);
+      },
+
+      getTotalCustomers: () => {
+        const { salesData } = get();
+        return new Set(salesData.map((sale) => sale.customerEmail)).size;
       },
 
       getTotalOrders: () => get().salesData.length,
