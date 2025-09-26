@@ -22,6 +22,7 @@ export default function useWorldTime(timeZone: string = "Etc/UTC") {
         const utcTime = new Date(data);
         startDate = utcTime;
         startTime = Date.now();
+        setTime(utcTime);
 
         intervalID = setInterval(() => {
           const elaped = Date.now() - startTime;
@@ -38,7 +39,7 @@ export default function useWorldTime(timeZone: string = "Etc/UTC") {
         clearInterval(intervalID);
       }
     };
-  }, []);
+  }, [timeZone]);
   return { time, formatTime };
 }
 
