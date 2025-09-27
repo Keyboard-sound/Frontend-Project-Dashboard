@@ -26,7 +26,7 @@ export default function SideBar() {
           isOpen ? "w-[240px]" : "w-[50px]"
         } bg-blue-50 rounded-lg transition-all ease-in-out duration-300`}
       >
-        <div className="flex items-center px-2 py-4 font-bold text-xl mb-[10px]">
+        <div className="flex items-center px-2 py-4 font-bold mb-[10px]">
           <button
             className=" p-1 mr-[10px] hover:outline focus:outline outline-gray-400 rounded-sm cursor-pointer"
             onClick={() => setIsOpen(!isOpen)}
@@ -34,7 +34,7 @@ export default function SideBar() {
             <Bars3Icon className="w-6 h-6 stroke-2" />
           </button>
           <span
-            className={`transition-opacity duration-200 ${
+            className={`transition-opacity duration-200 text-2xl ${
               !isOpen ? "opacity-0 w-0 overflow-hidden" : "opacity-100"
             }`}
           >

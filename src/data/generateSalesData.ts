@@ -1,5 +1,4 @@
 import { faker } from "@faker-js/faker";
-// import { getProducts } from "../api/getProducts";
 import type { Products } from "../api/getProducts";
 
 export interface SaleRecord {
@@ -14,20 +13,18 @@ export interface SaleRecord {
   total: number;
   date: Date;
   status: string;
-  salesChannel: string;
+  channel: string;
 }
 export async function generateSalesData(
   count: number,
   products: Products[]
 ): Promise<SaleRecord[]> {
-  // const products = await getProducts();
-
   const sales = Array.from({ length: count }).map(() => {
     const product = faker.helpers.arrayElement(products);
     const quantity = faker.number.int({ min: 1, max: 10 });
     const salesStatus = ["completed", "pending", "returns"];
     const paymentMethod = ["credit_card", "paypal", "bank_transfer"];
-    const salesChannel = ["online", "physical"];
+    const channel = ["online", "physical"];
     return {
       id: faker.string.alphanumeric(5),
       customerName: faker.person.firstName(),
@@ -41,7 +38,7 @@ export async function generateSalesData(
       date: faker.date.recent({ days: 90 }),
       status: faker.helpers.arrayElement(salesStatus),
       payment: faker.helpers.arrayElement(paymentMethod),
-      salesChannel: faker.helpers.arrayElement(salesChannel),
+      channel: faker.helpers.arrayElement(channel),
     };
   });
 

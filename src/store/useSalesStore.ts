@@ -21,10 +21,12 @@ export interface SalesStore {
   generateSalesData: (count: number) => Promise<void>;
   fetchProducts: () => Promise<void>;
 
-  getTotalRevenue: () => number;
-  // getPhysicalSales: () => number;
-  // getOnlineSales: () => number;
-  // getReturns: () => number;
+  getTotalSales: () => number;
+  getPhysicalSales: () => SaleRecord[];
+  getTotalPhysicalSale: () => number;
+  getTotalOnlineSale: () => number;
+  getOnlineSales: () => SaleRecord[];
+  getTotalReturns: () => number;
   getTotalCustomers: () => number;
   getTotalOrders: () => number;
   getFilteredSales: () => SaleRecord[];
@@ -84,11 +86,38 @@ const useSalesStore = create<SalesStore>()(
         }
       },
 
-      getTotalRevenue: () => {
+      getTotalSales: () => {
         const { salesData } = get();
 
         return salesData.reduce((sum, sale) => {
-          return sale.status === "completed" ? sum + (sale.total || 0) : sum;
+          return sale.status !== "pending" ? sum + (sale.total || 0) : sum;
+        }, 0);
+      },
+
+      getPhysicalSales: () => {
+        const { salesData } = get();
+        return salesData.filter((sale) => sale.channel === "physical");
+      },
+      getTotalPhysicalSale: () => {
+        const { salesData } = get();
+        return salesData.reduce((sum, sale) => {
+          return sale.channel === "physicals" ? sum + (sale.total || 0) : sum;
+        }, 0);
+      },
+      getTotalOnlineSale: () => {
+        const { salesData } = get();
+        return salesData.reduce((sum, sale) => {
+          return sale.channel === "online" ? sum + (sale.total || 0) : sum;
+        }, 0);
+      },
+      getOnlineSales: () => {
+        const { salesData } = get();
+        return salesData.filter((sale) => sale.channel === "online");
+      },
+      getTotalReturns: () => {
+        const { salesData } = get();
+        return salesData.reduce((sum, sale) => {
+          return sale.status === "returns" ? sum + (sale.total || 0) : sum;
         }, 0);
       },
 

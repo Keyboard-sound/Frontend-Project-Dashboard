@@ -1,20 +1,60 @@
 import StatsCards from "../../components/StatsCards";
 import TimeDisplay from "../../components/TimeDisplay";
 import useSalesStore from "../../store/useSalesStore";
+import {
+  ChartBarIcon,
+  TrashIcon,
+  RocketLaunchIcon,
+} from "@heroicons/react/24/outline";
 
 export default function Dashboard() {
-  const { generateSalesData, clearAllData } = useSalesStore();
+  const { generateSalesData, clearAllData, loading } = useSalesStore();
 
   return (
-    <div className="w-full ml-2 p-4 rounded-lg bg-white">
-      <h1 className="pl-2 font-semibold text-lg">Dashboard Overview</h1>
-      <TimeDisplay />
-      <h3 className="font-semibold">Sales Analytics</h3>
-      <button onClick={() => generateSalesData(100)} className="bg-red-500">
-        generate 100 Sales
-      </button>
-      <button onClick={clearAllData}>Clear Data</button>
-      <StatsCards />
+    <div className="w-full pl-5 pr-7 py-5 rounded-lg bg-white">
+      <div className="mt-3">
+        <h1 className="pl-2 font-semibold text-lg">Dashboard Overview</h1>
+        <TimeDisplay />
+        <div className="flex gap-2 mt-2 mb-2">
+          <div className="flex items-center border px-2 py-1 border-gray-200  rounded-lg shadow-sm ">
+            <button
+              onClick={() => generateSalesData(100)}
+              className="flex gap-1 items-center w-full text-slate-400 cursor-pointer"
+              disabled={loading}
+            >
+              <ChartBarIcon className="w-4 h-4 stroke-2" />
+              Generate 100 Sales
+            </button>
+          </div>
+
+          <div className="flex items-center border px-2 py-1 border-gray-200  rounded-lg shadow-sm ">
+            <button
+              onClick={() => generateSalesData(300)}
+              className="flex gap-1 items-center w-full text-slate-400 cursor-pointer"
+              disabled={loading}
+            >
+              <RocketLaunchIcon className="w-4 h-4 stroke-2" />
+              Generate 300 Sales
+            </button>
+          </div>
+
+          <div className="flex items-center border border-gray-200 rounded-lg px-2 py- shadow-sm">
+            <button
+              onClick={clearAllData}
+              className=" flex gap-1 items-center text-red-400 cursor-pointer"
+            >
+              <TrashIcon className="w-4 h-4 stroke-2" />
+              Clear Data
+            </button>
+          </div>
+        </div>
+        <div className="mt-3">
+          <StatsCards />
+        </div>
+        <div className="bg-white border border-gray-200 rounded-lg mt-5">
+          <h3 className="font-semibold">Sales Analytics</h3>
+        </div>
+      </div>
     </div>
   );
 }

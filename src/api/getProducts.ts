@@ -18,7 +18,7 @@ export interface Products {
 export async function getProducts(): Promise<Products[]> {
   try {
     const res = await axios.get<Products[]>(
-      "https://api.escuelajs.co/api/v1/products"
+      "https://api.escuelajs.co/api/v1/products?offset=0&limit=15"
     );
     const data = res.data;
     return data;
