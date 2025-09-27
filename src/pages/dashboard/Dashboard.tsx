@@ -6,6 +6,7 @@ import {
   TrashIcon,
   RocketLaunchIcon,
 } from "@heroicons/react/24/outline";
+import SalesAnalyticsGraph from "../../components/SalesAnalyticsGraph";
 
 export default function Dashboard() {
   const { generateSalesData, clearAllData, loading } = useSalesStore();
@@ -53,6 +54,9 @@ export default function Dashboard() {
         </div>
         <div className="bg-white border border-gray-200 rounded-lg mt-5">
           <h3 className="font-semibold">Sales Analytics</h3>
+          <div className="px-1 py-2">
+            <SalesAnalyticsGraph />
+          </div>
         </div>
       </div>
     </div>

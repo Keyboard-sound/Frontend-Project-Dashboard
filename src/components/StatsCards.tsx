@@ -17,7 +17,6 @@ export default function StatsCards() {
       totalSales: getTotalSales(),
       online: getTotalOnlineSale(),
       returns: getTotalReturns(),
-      // avgOrder: salesData.length > 0 ? getTotalSales() / getTotalOrders() : 0,
     }),
     [getTotalSales, getTotalReturns, getTotalOnlineSale, salesData]
   );

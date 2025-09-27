@@ -96,23 +96,31 @@ const useSalesStore = create<SalesStore>()(
 
       getPhysicalSales: () => {
         const { salesData } = get();
-        return salesData.filter((sale) => sale.channel === "physical");
+        return salesData.filter(
+          (sale) => sale.channel === "physical" && sale.status === "completed"
+        );
       },
       getTotalPhysicalSale: () => {
         const { salesData } = get();
         return salesData.reduce((sum, sale) => {
-          return sale.channel === "physicals" ? sum + (sale.total || 0) : sum;
+          return sale.channel === "physicals" && sale.status === "completed"
+            ? sum + (sale.total || 0)
+            : sum;
         }, 0);
       },
       getTotalOnlineSale: () => {
         const { salesData } = get();
         return salesData.reduce((sum, sale) => {
-          return sale.channel === "online" ? sum + (sale.total || 0) : sum;
+          return sale.channel === "online" && sale.status === "completetd"
+            ? sum + (sale.total || 0)
+            : sum;
         }, 0);
       },
       getOnlineSales: () => {
         const { salesData } = get();
-        return salesData.filter((sale) => sale.channel === "online");
+        return salesData.filter(
+          (sale) => sale.channel === "online" && sale.status === "completed"
+        );
       },
       getTotalReturns: () => {
         const { salesData } = get();
