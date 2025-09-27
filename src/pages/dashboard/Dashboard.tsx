@@ -52,9 +52,9 @@ export default function Dashboard() {
         <div className="mt-3">
           <StatsCards />
         </div>
-        <div className="bg-white border border-gray-200 rounded-lg mt-5">
+        <div className="bg-white border border-gray-200 w-[790px] rounded-lg mt-5 px-4 py-5">
           <h3 className="font-semibold">Sales Analytics</h3>
-          <div className="px-1 py-2">
+          <div>
             <SalesAnalyticsGraph />
           </div>
         </div>

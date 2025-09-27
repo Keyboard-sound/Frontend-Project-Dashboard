@@ -32,7 +32,7 @@ export default function SalesAnalyticsGraph() {
 
   return (
     <ResponsiveContainer width="100%" height={300}>
-      <LineChart data={salesData}>
+      <LineChart data={graphData.onlineSales}>
         <Legend verticalAlign="top" align="center" />
         <Line
           type="monotone"

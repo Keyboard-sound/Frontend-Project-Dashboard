@@ -111,7 +111,7 @@ const useSalesStore = create<SalesStore>()(
       getTotalOnlineSale: () => {
         const { salesData } = get();
         return salesData.reduce((sum, sale) => {
-          return sale.channel === "online" && sale.status === "completetd"
+          return sale.channel === "online" && sale.status === "completed"
             ? sum + (sale.total || 0)
             : sum;
         }, 0);
