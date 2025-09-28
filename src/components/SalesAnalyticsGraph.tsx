@@ -12,6 +12,21 @@ import useSalesStore from "../store/useSalesStore";
 import { useMemo } from "react";
 import colors from "tailwindcss/colors";
 
+const MONTH = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
 export default function SalesAnalyticsGraph() {
   const { salesData, getFilteredSales } = useSalesStore();
   const chartData = useMemo(() => {
@@ -20,7 +35,6 @@ export default function SalesAnalyticsGraph() {
       string,
       { date: string; physicalTotal: number; onlineTotal: number }
     > = {};
-    console.log("completed", completed);
 
     completed.forEach((sale) => {
       const key = new Date(sale.date).toISOString().split("T")[0];
@@ -41,11 +55,19 @@ export default function SalesAnalyticsGraph() {
   const formatCurrency = (value: number): string => {
     return `$${value.toLocaleString()}`;
   };
+
+  const formatDate = (dateStr: string): string => {
+    const date = new Date(dateStr);
+    const day = date.getDate();
+    const month = date.toLocaleString("en-US", { month: "short" });
+
+    return `${day}-${month}`;
+  };
   console.log("data for analysis", chartData);
 
   return (
     <ResponsiveContainer width="100%" height={300}>
-      <LineChart data={chartData}>
+      <LineChart data={chartData} margin={{ right: 30 }}>
         <CartesianGrid horizontal={false} />
         <Legend verticalAlign="top" align="center" />
         <Line
@@ -66,9 +88,11 @@ export default function SalesAnalyticsGraph() {
           dataKey="date"
           stroke={colors.slate[400]}
           tick={{ fontSize: 12 }}
+          tickFormatter={formatDate}
           angle={45}
           textAnchor="start"
           height={60}
+          interval="preserveEnd"
         />
         <YAxis
           stroke={colors.slate[400]}
