@@ -32,6 +32,15 @@ export interface SalesStore {
   getFilteredSales: () => SaleRecord[];
 }
 
+const sortSalesByDate = (sales: SaleRecord[]): SaleRecord[] => {
+  return [...sales].sort((a, b) => {
+    const dateA = a.date instanceof Date ? a.date : new Date(a.date);
+    const dateB = b.date instanceof Date ? b.date : new Date(b.date);
+
+    return dateA.getTime() - dateB.getTime();
+  });
+};
+
 const useSalesStore = create<SalesStore>()(
   persist(
     (set, get) => ({
@@ -41,11 +50,11 @@ const useSalesStore = create<SalesStore>()(
       filters: {
         dateRange: "30d",
       },
-      setSalesData: (data) => set({ salesData: data }),
+      setSalesData: (data) => set({ salesData: sortSalesByDate(data) }),
 
       addSalesData: (data) =>
         set((state) => ({
-          salesData: [...state.salesData, ...data],
+          salesData: sortSalesByDate([...state.salesData, ...data]),
         })),
       setProducts: (products) => set({ products }),
       setLoading: (loading) => set({ loading }),
@@ -103,7 +112,7 @@ const useSalesStore = create<SalesStore>()(
       getTotalPhysicalSale: () => {
         const { salesData } = get();
         return salesData.reduce((sum, sale) => {
-          return sale.channel === "physicals" && sale.status === "completed"
+          return sale.channel === "physical" && sale.status === "completed"
             ? sum + (sale.total || 0)
             : sum;
         }, 0);
