@@ -68,7 +68,7 @@ export default function SalesAnalyticsGraph() {
   return (
     <ResponsiveContainer width="100%" height={300}>
       <LineChart data={chartData} margin={{ right: 30 }}>
-        <CartesianGrid horizontal={false} />
+        <CartesianGrid stroke={colors.slate[200]} horizontal={false} />
         <Legend verticalAlign="top" align="center" />
         <Line
           type="monotone"
@@ -86,8 +86,8 @@ export default function SalesAnalyticsGraph() {
         />
         <XAxis
           dataKey="date"
-          stroke={colors.slate[400]}
-          tick={{ fontSize: 12 }}
+          stroke={colors.slate[200]}
+          tick={{ fill: colors.slate[400], fontSize: 12 }}
           tickFormatter={formatDate}
           angle={45}
           textAnchor="start"
@@ -95,8 +95,8 @@ export default function SalesAnalyticsGraph() {
           interval="preserveEnd"
         />
         <YAxis
-          stroke={colors.slate[400]}
-          tick={{ fontSize: 12 }}
+          stroke={colors.slate[200]}
+          tick={{ fill: colors.slate[400], fontSize: 12 }}
           tickFormatter={formatCurrency}
         />
         <Tooltip />
