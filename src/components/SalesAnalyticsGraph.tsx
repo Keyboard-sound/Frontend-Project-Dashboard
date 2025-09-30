@@ -13,18 +13,28 @@ import { useMemo } from "react";
 import colors from "tailwindcss/colors";
 
 export default function SalesAnalyticsGraph() {
-  const { getFilteredSales } = useSalesStore();
+  const { salesData, filters } = useSalesStore();
 
   const chartData = useMemo(() => {
-    const filtered = getFilteredSales();
-    console.log("from filtered", filtered);
+    const filtered = salesData.filter((sale) => {
+      if (!sale.date) return false;
+
+      const dayDiff = Math.floor(
+        (Date.now() - new Date(sale.date).getTime()) / (1000 * 60 * 60 * 24)
+      );
+
+      const dayLimit = parseInt(filters.dateRange.replace("d", ""));
+
+      return dayDiff <= dayLimit;
+    });
+    const completed = filtered.filter((sale) => sale.status === "completed");
 
     const grouped: Record<
       string,
       { date: string; physicalTotal: number; onlineTotal: number }
     > = {};
 
-    filtered.forEach((sale) => {
+    completed.forEach((sale) => {
       const key = new Date(sale.date).toISOString().split("T")[0];
 
       if (!grouped[key]) {
@@ -38,7 +48,7 @@ export default function SalesAnalyticsGraph() {
       }
     });
     return Object.values(grouped);
-  }, [getFilteredSales]);
+  }, [salesData, filters]);
 
   const formatCurrency = (value: number): string => {
     return `$${value.toLocaleString()}`;

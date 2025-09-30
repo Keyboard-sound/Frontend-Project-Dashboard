@@ -9,7 +9,12 @@ import {
 import SalesAnalyticsGraph from "../../components/SalesAnalyticsGraph";
 
 export default function Dashboard() {
-  const { generateSalesData, clearAllData, loading } = useSalesStore();
+  const { generateSalesData, filters, updateFilters, clearAllData, loading } =
+    useSalesStore();
+
+  // useEffect(() => {
+
+  // },[])
 
   return (
     <div className="w-full pl-5 pr-7 py-5 rounded-lg bg-white">
@@ -54,6 +59,20 @@ export default function Dashboard() {
         </div>
         <div className="bg-white border border-gray-200 w-[790px] rounded-lg mt-5 px-4 py-5">
           <h3 className="font-semibold">Sales Analytics</h3>
+          <div className="border border-gray-200">
+            <select
+              value={filters.dateRange}
+              onChange={(e) =>
+                updateFilters({
+                  dateRange: e.target.value as "7d" | "30d" | "90d",
+                })
+              }
+            >
+              <option value="7d">Last 7 Days</option>
+              <option value="30d">Last 30 Days</option>
+              <option value="90d">Last 90 Days</option>
+            </select>
+          </div>
           <div>
             <SalesAnalyticsGraph />
           </div>

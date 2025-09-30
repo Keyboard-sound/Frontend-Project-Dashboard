@@ -17,6 +17,7 @@ export interface SalesStore {
   addSalesData: (data: SaleRecord[]) => void;
   setProducts: (products: Products[]) => void;
   setLoading: (loading: boolean) => void;
+  updateFilters: (filters: Partial<SalesStore["filters"]>) => void;
   clearAllData: () => void;
   generateSalesData: (count: number) => Promise<void>;
   fetchProducts: () => Promise<void>;
@@ -58,6 +59,8 @@ const useSalesStore = create<SalesStore>()(
         })),
       setProducts: (products) => set({ products }),
       setLoading: (loading) => set({ loading }),
+      updateFilters: (newFilters) =>
+        set((state) => ({ filters: { ...state.filters, ...newFilters } })),
       clearAllData: () =>
         set({
           salesData: [],
@@ -151,10 +154,7 @@ const useSalesStore = create<SalesStore>()(
         const { salesData, filters } = get();
 
         return salesData.filter((sale) => {
-          if (!sale.date) {
-            console.log("❌ Sale without date:", sale);
-            return false;
-          }
+          if (!sale.date) return false;
 
           const daysDiff = Math.floor(
             (Date.now() - new Date(sale.date).getTime()) / (1000 * 60 * 60 * 24)
