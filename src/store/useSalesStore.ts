@@ -89,6 +89,8 @@ const useSalesStore = create<SalesStore>()(
         try {
           const currentProducts = get().products;
           const newSales = await generateSalesData(count, currentProducts);
+          console.log("newsales", newSales);
+
           addSalesData(newSales);
         } catch (error) {
           console.error("Error generating sales data", error);
@@ -149,8 +151,13 @@ const useSalesStore = create<SalesStore>()(
         const { salesData, filters } = get();
 
         return salesData.filter((sale) => {
+          if (!sale.date) {
+            console.log("❌ Sale without date:", sale);
+            return false;
+          }
+
           const daysDiff = Math.floor(
-            (Date.now() - sale.date.getTime()) / (1000 * 60 * 60 * 24)
+            (Date.now() - new Date(sale.date).getTime()) / (1000 * 60 * 60 * 24)
           );
           const dateLimit = parseInt(filters.dateRange.replace("d", ""));
           if (daysDiff > dateLimit) return false;
@@ -159,6 +166,7 @@ const useSalesStore = create<SalesStore>()(
         });
       },
     }),
+
     {
       name: "sales-store",
       partialize: (state) => ({

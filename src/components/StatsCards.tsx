@@ -20,11 +20,6 @@ export default function StatsCards() {
     }),
     [getTotalSales, getTotalReturns, getTotalOnlineSale, salesData]
   );
-  // console.log(
-  //   "salesData from stat card filtered",
-  //   salesData.filter((sale) => sale.status !== "pending")
-  // );
-  // console.log("salesData from stat card", salesData);
 
   return (
     <div className="flex gap-5">

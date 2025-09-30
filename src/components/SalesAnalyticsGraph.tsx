@@ -12,24 +12,11 @@ import useSalesStore from "../store/useSalesStore";
 import { useMemo } from "react";
 import colors from "tailwindcss/colors";
 
-const MONTH = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
-
 export default function SalesAnalyticsGraph() {
   const { salesData, getFilteredSales } = useSalesStore();
+
   const chartData = useMemo(() => {
+    const filtered = getFilteredSales();
     const completed = salesData.filter((sale) => sale.status === "completed");
     const grouped: Record<
       string,
