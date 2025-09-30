@@ -13,17 +13,18 @@ import { useMemo } from "react";
 import colors from "tailwindcss/colors";
 
 export default function SalesAnalyticsGraph() {
-  const { salesData, getFilteredSales } = useSalesStore();
+  const { getFilteredSales } = useSalesStore();
 
   const chartData = useMemo(() => {
     const filtered = getFilteredSales();
-    const completed = salesData.filter((sale) => sale.status === "completed");
+    console.log("from filtered", filtered);
+
     const grouped: Record<
       string,
       { date: string; physicalTotal: number; onlineTotal: number }
     > = {};
 
-    completed.forEach((sale) => {
+    filtered.forEach((sale) => {
       const key = new Date(sale.date).toISOString().split("T")[0];
 
       if (!grouped[key]) {
@@ -37,7 +38,7 @@ export default function SalesAnalyticsGraph() {
       }
     });
     return Object.values(grouped);
-  }, [salesData]);
+  }, [getFilteredSales]);
 
   const formatCurrency = (value: number): string => {
     return `$${value.toLocaleString()}`;
