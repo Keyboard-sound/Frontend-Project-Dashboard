@@ -62,6 +62,7 @@ export default function SalesAnalyticsGraph() {
     return `${day}-${month}`;
   };
   console.log("data for analysis", chartData);
+  console.log("data fro mstore", salesData);
 
   return (
     <ResponsiveContainer width="100%" height={300}>

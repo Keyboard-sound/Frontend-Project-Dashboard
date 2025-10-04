@@ -7,14 +7,11 @@ import {
   RocketLaunchIcon,
 } from "@heroicons/react/24/outline";
 import SalesAnalyticsGraph from "../../components/SalesAnalyticsGraph";
+import SalesAct from "../../components/SalesActivities";
 
 export default function Dashboard() {
   const { generateSalesData, filters, updateFilters, clearAllData, loading } =
     useSalesStore();
-
-  // useEffect(() => {
-
-  // },[])
 
   return (
     <div className="w-full pl-5 pr-7 py-5 rounded-lg bg-white">
@@ -57,25 +54,31 @@ export default function Dashboard() {
         <div className="mt-3">
           <StatsCards />
         </div>
-        <div className="bg-white border border-gray-200 w-[790px] rounded-lg mt-5 px-4 py-5">
-          <h3 className="font-semibold">Sales Analytics</h3>
-          <div className="border border-gray-200">
-            <select
-              value={filters.dateRange}
-              onChange={(e) =>
-                updateFilters({
-                  dateRange: e.target.value as "7d" | "30d" | "90d",
-                })
-              }
-            >
-              <option value="7d">Last 7 Days</option>
-              <option value="30d">Last 30 Days</option>
-              <option value="90d">Last 90 Days</option>
-            </select>
+        <div className=" bg-white border border-gray-200 w-[790px] rounded-lg mt-5 px-4 py-5">
+          <div className="flex justify-between items-center">
+            <h3 className="font-semibold">Sales Analytics</h3>
+            <div className="border border-gray-200 rounded-lg px-1 py-2 text-sm ">
+              <select
+                className="outline-none"
+                value={filters.dateRange}
+                onChange={(e) =>
+                  updateFilters({
+                    dateRange: e.target.value as "7d" | "30d" | "90d",
+                  })
+                }
+              >
+                <option value="7d">Last 7 Days</option>
+                <option value="30d">Last 30 Days</option>
+                <option value="90d">Last 90 Days</option>
+              </select>
+            </div>
           </div>
           <div>
             <SalesAnalyticsGraph />
           </div>
+        </div>
+        <div className="h-[210px] border border-gray-200 rounded-lg  mt-5 px-4 py-5">
+          <SalesAct />
         </div>
       </div>
     </div>
