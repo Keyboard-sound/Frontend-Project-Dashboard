@@ -61,8 +61,6 @@ export default function SalesAnalyticsGraph() {
 
     return `${day}-${month}`;
   };
-  console.log("data for analysis", chartData);
-  console.log("data fro mstore", salesData);
 
   return (
     <ResponsiveContainer width="100%" height={300}>
@@ -98,7 +96,7 @@ export default function SalesAnalyticsGraph() {
           tick={{ fill: colors.slate[400], fontSize: 12 }}
           tickFormatter={formatCurrency}
         />
-        <Tooltip />
+        <Tooltip formatter={(value: number) => value.toLocaleString("en-US")} />
       </LineChart>
     </ResponsiveContainer>
   );

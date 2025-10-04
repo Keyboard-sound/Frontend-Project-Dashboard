@@ -12,6 +12,15 @@ interface SalesActType {
   channel: string;
 }
 
+const formatDate = (dateStr: string) => {
+  const date = new Date(dateStr);
+  const day = date.getDate();
+  const month = date.getMonth();
+  const year = date.getFullYear();
+
+  return `${day}/${month}/${year}`;
+};
+
 export default function SalesAct() {
   const { salesData } = useSalesStore();
 
@@ -31,49 +40,70 @@ export default function SalesAct() {
       .slice(0, 3);
   }, [salesData]);
 
-  const renderedInvoices = invoices.map((invoice) => (
-    <div key={invoice.id} className="flex gap-4 text-sm font-medium space-y-3">
-      <div>
-        <span>{invoice.id}</span>
-      </div>
-      <div>
-        <span>{invoice.customerName}</span>
-      </div>
-      <div>
-        <span>{invoice.date.toString()}</span>
-      </div>
-      <div>
-        <span>{invoice.amount}</span>
-      </div>
-      <div>
-        <span>{invoice.customerEmail}</span>
-      </div>
-      <div>
-        <span>{invoice.productId}</span>
-      </div>
-      <div>
-        <span>{invoice.status}</span>
-      </div>
-    </div>
-  ));
-
   return (
     <div>
-      <h3 className="font-semibold mb-2">Latest Invoices</h3>
-      <div className="flex gap-20">
-        <span className="text-xs text-slate-400 font-medium">Invoice No.</span>
-        <span className="text-[10px] text-slate-400 font-medium">
-          Customer Name
-        </span>
-        <span className="text-[10px] text-slate-400 font-medium">Date</span>
-        <span className="text-[10px] text-slate-400 font-medium">Amount</span>
-        <span className="text-[10px] text-slate-400 font-medium">Email</span>
-        <span className="text-[10px] text-slate-400 font-medium">
-          Product ID
-        </span>
-        <span className="text-[10px] text-slate-400 font-medium">Status</span>
-      </div>
-      {renderedInvoices}
+      <h3 className="font-semibold mb-1">Latest Invoices</h3>
+      <table className="w-full border-separate border-spacing-x-2 border-spacing-y-3 text-left">
+        <thead>
+          <tr>
+            <th className="w-20 text-xs text-slate-400 font-medium pb-1">
+              Invoice No.
+            </th>
+            <th className="w-25 text-[10px] text-slate-400 font-medium">
+              Customer Name
+            </th>
+            <th className="w-10 text-[10px] text-slate-400 font-medium">
+              Date
+            </th>
+            <th className="w-25 text-[10px] text-slate-400 text-center font-medium">
+              Amount
+            </th>
+            <th className="w-25 text-[10px] text-slate-400 font-medium">
+              Email
+            </th>
+            <th className="w-20 text-[10px] text-slate-400 font-medium">
+              Product ID
+            </th>
+            <th className="w-20 text-[10px] text-slate-400 font-medium">
+              Status
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {invoices.map((invoice) => (
+            <tr key={invoice.id} className=" text-xs font-medium">
+              <td>{invoice.id}</td>
+
+              <td>{invoice.customerName}</td>
+
+              <td>{formatDate(invoice.date.toString())}</td>
+
+              <td className="text-emerald-400 text-center">
+                ${invoice.amount.toLocaleString("en-US")}
+              </td>
+
+              <td>{invoice.customerEmail}</td>
+
+              <td>{invoice.productId}</td>
+
+              <td className="text-center">
+                <div
+                  className={`w-20 px-2 py-1 rounded-lg text-xs font-medium 
+                    ${
+                      invoice.status === "completed"
+                        ? "bg-emerald-200 text-emerald-400"
+                        : invoice.status === "returns"
+                        ? "bg-rose-200 text-rose-400"
+                        : "bg-gray-200 text-slate-400"
+                    }`}
+                >
+                  {invoice.status}
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

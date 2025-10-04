@@ -77,7 +77,7 @@ export default function Dashboard() {
             <SalesAnalyticsGraph />
           </div>
         </div>
-        <div className="h-[210px] border border-gray-200 rounded-lg  mt-5 px-4 py-5">
+        <div className="h-[210px] border border-gray-200 rounded-lg  mt-5 px-4 py-4">
           <SalesAct />
         </div>
       </div>
