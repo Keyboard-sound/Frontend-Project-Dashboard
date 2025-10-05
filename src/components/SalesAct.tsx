@@ -42,36 +42,27 @@ export default function SalesAct() {
 
   return (
     <div>
-      <h3 className="font-semibold mb-1">Latest Invoices</h3>
-      <table className="w-full border-separate border-spacing-x-2 border-spacing-y-3 text-left">
+      <h3 className="text-sm lg:text-base font-semibold mb-1">
+        Latest Invoices
+      </h3>
+      <table className="w-full border-separate border-spacing-x-2 border-spacing-y-1 md:border-spacing-y-2 text-left">
         <thead>
-          <tr>
-            <th className="w-20 text-xs text-slate-400 font-medium pb-1">
-              Invoice No.
-            </th>
-            <th className="w-25 text-[10px] text-slate-400 font-medium">
-              Customer Name
-            </th>
-            <th className="w-10 text-[10px] text-slate-400 font-medium">
-              Date
-            </th>
-            <th className="w-25 text-[10px] text-slate-400 text-center font-medium">
-              Amount
-            </th>
-            <th className="w-25 text-[10px] text-slate-400 font-medium">
-              Email
-            </th>
-            <th className="w-20 text-[10px] text-slate-400 font-medium">
-              Product ID
-            </th>
-            <th className="w-20 text-[10px] text-slate-400 font-medium">
-              Status
-            </th>
+          <tr className="text-[10px] text-slate-400 font-medium">
+            <th className="w-20 ">Invoice No.</th>
+            <th className="w-25  ">Customer Name</th>
+            <th className="w-10 ">Date</th>
+            <th className="w-25 text-center">Amount</th>
+            <th className="w-25 ">Email</th>
+            <th className="w-20 ">Product ID</th>
+            <th className="w-20 ">Status</th>
           </tr>
         </thead>
         <tbody>
           {invoices.map((invoice) => (
-            <tr key={invoice.id} className=" text-xs font-medium">
+            <tr
+              key={invoice.id}
+              className=" text-[10px] lg:text-xs font-medium"
+            >
               <td>{invoice.id}</td>
 
               <td>{invoice.customerName}</td>

@@ -7,14 +7,14 @@ import {
   RocketLaunchIcon,
 } from "@heroicons/react/24/outline";
 import SalesAnalyticsGraph from "../../components/SalesAnalyticsGraph";
-import SalesAct from "../../components/SalesActivities";
+import SalesAct from "../../components/SalesAct";
 
 export default function Dashboard() {
   const { generateSalesData, filters, updateFilters, clearAllData, loading } =
     useSalesStore();
 
   return (
-    <div className="w-full pl-5 pr-7 py-5 rounded-lg bg-white">
+    <div className="w-full pl-5 pr-7 py-5 rounded-lg bg-white overflow-auto">
       <div className="mt-3">
         <h1 className="pl-2 font-semibold text-lg">Dashboard Overview</h1>
         <TimeDisplay />
@@ -22,7 +22,7 @@ export default function Dashboard() {
           <div className="flex items-center border px-2 py-1 border-gray-200  rounded-lg shadow-sm ">
             <button
               onClick={() => generateSalesData(100)}
-              className="flex gap-1 items-center w-full text-slate-400 cursor-pointer"
+              className="flex gap-1 items-center w-full text-slate-400 text-xs lg:text-base cursor-pointer"
               disabled={loading}
             >
               <ChartBarIcon className="w-4 h-4 stroke-2" />
@@ -33,7 +33,7 @@ export default function Dashboard() {
           <div className="flex items-center border px-2 py-1 border-gray-200  rounded-lg shadow-sm ">
             <button
               onClick={() => generateSalesData(300)}
-              className="flex gap-1 items-center w-full text-slate-400 cursor-pointer"
+              className="flex gap-1 items-center w-full text-slate-400 text-xs lg:text-base cursor-pointer"
               disabled={loading}
             >
               <RocketLaunchIcon className="w-4 h-4 stroke-2" />
@@ -44,40 +44,60 @@ export default function Dashboard() {
           <div className="flex items-center border border-gray-200 rounded-lg px-2 py- shadow-sm">
             <button
               onClick={clearAllData}
-              className=" flex gap-1 items-center text-red-400 cursor-pointer"
+              className=" flex gap-1 items-center text-red-400 text-xs lg:text-base cursor-pointer"
             >
               <TrashIcon className="w-4 h-4 stroke-2" />
               Clear Data
             </button>
           </div>
         </div>
-        <div className="mt-3">
-          <StatsCards />
+        <div className="flex flex-wrap lg:flex-nowrap gap-5">
+          {/* Cards */}
+          <div className="w-full lg:w-[70%]">
+            <StatsCards />
+          </div>
+
+          {/* target */}
+          <div className="w-full lg:w-[30%] border border-gray-200 rounded-lg px-4 py-4">
+            Target Goal
+          </div>
         </div>
-        <div className=" bg-white border border-gray-200 w-[790px] rounded-lg mt-5 px-4 py-5">
-          <div className="flex justify-between items-center">
-            <h3 className="font-semibold">Sales Analytics</h3>
-            <div className="border border-gray-200 rounded-lg px-1 py-2 text-sm ">
-              <select
-                className="outline-none"
-                value={filters.dateRange}
-                onChange={(e) =>
-                  updateFilters({
-                    dateRange: e.target.value as "7d" | "30d" | "90d",
-                  })
-                }
-              >
-                <option value="7d">Last 7 Days</option>
-                <option value="30d">Last 30 Days</option>
-                <option value="90d">Last 90 Days</option>
-              </select>
+
+        {/* graph */}
+        <div className="flex gap-5 mt-5">
+          <div className=" bg-white border border-gray-200 w-[70%] h-full rounded-lg px-4 py-5">
+            <div className="flex justify-between items-center">
+              <h3 className="text-sm lg:text-base font-semibold">
+                Sales Analytics
+              </h3>
+              <div className="border border-gray-200 rounded-lg px-1 py-2 text-sm ">
+                <select
+                  className="outline-none"
+                  value={filters.dateRange}
+                  onChange={(e) =>
+                    updateFilters({
+                      dateRange: e.target.value as "7d" | "30d" | "90d",
+                    })
+                  }
+                >
+                  <option value="7d">Last 7 Days</option>
+                  <option value="30d">Last 30 Days</option>
+                  <option value="90d">Last 90 Days</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <SalesAnalyticsGraph />
             </div>
           </div>
-          <div>
-            <SalesAnalyticsGraph />
+
+          <div className="w-[30%] border border-gray-200 rounded-lg px-4 py-4">
+            Activities log
           </div>
         </div>
-        <div className="h-[210px] border border-gray-200 rounded-lg  mt-5 px-4 py-4">
+
+        {/* Show Sale activities */}
+        <div className="w-full min-h-50 border border-gray-200 rounded-lg  mt-5 px-4 py-4 overflow-x-auto">
           <SalesAct />
         </div>
       </div>
