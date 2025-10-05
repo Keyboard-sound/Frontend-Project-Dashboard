@@ -25,11 +25,15 @@ export default function useWorldTime(timeZone: string = "Etc/UTC") {
         setTime(utcTime);
 
         intervalID = setInterval(() => {
-          const elaped = Date.now() - startTime;
-          setTime(new Date(startDate.getTime() + elaped));
+          const elapsed = Date.now() - startTime;
+          setTime(new Date(startDate.getTime() + elapsed));
         }, 60000);
       } catch (error) {
         console.log("timeError", error);
+        setTime(new Date());
+        intervalID = setInterval(() => {
+          setTime(new Date());
+        }, 60000);
       }
     }
     fetchTime();
