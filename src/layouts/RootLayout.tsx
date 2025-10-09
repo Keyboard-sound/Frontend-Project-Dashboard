@@ -3,9 +3,11 @@ import { Outlet } from "react-router-dom";
 
 export default function RootLayout() {
   return (
-    <div className="flex flex-cols mx-auto px-4 py-3 pl-1 bg-blue-50 h-screen">
+    <div className="flex lg:pr-4 lg:py-3 bg-blue-50 h-screen">
       <SideBar />
-      <Outlet />
+      <main className="flex-1">
+        <Outlet />
+      </main>
     </div>
   );
 }

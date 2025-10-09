@@ -3,3 +3,7 @@
 .recharts-surface:focus {
   outline: none !important;
 }
+
+@theme {
+  --text-2xs: 0.625rem;
+}

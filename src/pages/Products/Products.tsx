@@ -17,7 +17,7 @@ export default function ProductsPage() {
     );
   });
   return (
-    <div className="w-full ml-2 p-4 rounded-lg bg-white overflow-auto">
+    <div className="w-full p-4 rounded-lg bg-white overflow-auto">
       <h1 className="pl-2 font-semibold text-lg mb-[10px]">Products Page</h1>
       <div className="flex flex-wrap items-center gap-y-6">
         {renderProducts}

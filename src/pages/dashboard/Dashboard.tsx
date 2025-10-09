@@ -8,16 +8,22 @@ import {
 } from "@heroicons/react/24/outline";
 import SalesAnalyticsGraph from "../../components/SalesAnalyticsGraph";
 import SalesAct from "../../components/SalesAct";
+import SearchInput from "../../components/SearchInput";
 
 export default function Dashboard() {
   const { generateSalesData, filters, updateFilters, clearAllData, loading } =
     useSalesStore();
 
   return (
-    <div className="w-full pl-5 pr-7 py-5 rounded-lg bg-white overflow-auto">
+    <div className="w-full pl-5 pr-7 py-5 rounded-lg bg-white overflow-auto overflow-y-auto lg:overflow-clip">
       <div className="mt-3">
-        <h1 className="pl-2 font-semibold text-lg">Dashboard Overview</h1>
-        <TimeDisplay />
+        <div className="flex justify-between">
+          <div className="flex flex-col ">
+            <h1 className="pl-2 font-semibold text-base lg:text-lg">Dashboard Overview</h1>
+            <TimeDisplay />
+          </div>
+          <SearchInput placeholder="search..." />
+        </div>
         <div className="flex gap-2 mt-2 mb-2">
           <div className="flex items-center border px-2 py-1 border-gray-200  rounded-lg shadow-sm ">
             <button
