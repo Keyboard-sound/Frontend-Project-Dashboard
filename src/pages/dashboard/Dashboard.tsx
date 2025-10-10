@@ -1,11 +1,12 @@
-import StatsCards from "../../components/StatsCards";
-import TimeDisplay from "../../components/TimeDisplay";
-import useSalesStore from "../../store/useSalesStore";
+import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/react";
 import {
   ChartBarIcon,
   TrashIcon,
   RocketLaunchIcon,
 } from "@heroicons/react/24/outline";
+import StatsCards from "../../components/StatsCards";
+import TimeDisplay from "../../components/TimeDisplay";
+import useSalesStore from "../../store/useSalesStore";
 import SalesAnalyticsGraph from "../../components/SalesAnalyticsGraph";
 import SalesAct from "../../components/SalesAct";
 import SearchInput from "../../components/SearchInput";
@@ -15,11 +16,13 @@ export default function Dashboard() {
     useSalesStore();
 
   return (
-    <div className="w-full pl-5 pr-7 py-5 rounded-lg bg-white overflow-auto overflow-y-auto lg:overflow-clip">
+    <div className="w-full pl-5 pr-7 py-5 rounded-lg bg-white overflow-auto overflow-y-auto">
       <div className="mt-3">
         <div className="flex justify-between">
           <div className="flex flex-col ">
-            <h1 className="pl-2 font-semibold text-base lg:text-lg">Dashboard Overview</h1>
+            <h1 className="pl-2 font-semibold text-base lg:text-lg">
+              Dashboard Overview
+            </h1>
             <TimeDisplay />
           </div>
           <SearchInput placeholder="search..." />
@@ -76,20 +79,56 @@ export default function Dashboard() {
               <h3 className="text-sm lg:text-base font-semibold">
                 Sales Analytics
               </h3>
-              <div className="border border-gray-200 rounded-lg px-1 py-2 text-sm ">
-                <select
-                  className="outline-none"
-                  value={filters.dateRange}
-                  onChange={(e) =>
-                    updateFilters({
-                      dateRange: e.target.value as "7d" | "30d" | "90d",
-                    })
-                  }
-                >
-                  <option value="7d">Last 7 Days</option>
-                  <option value="30d">Last 30 Days</option>
-                  <option value="90d">Last 90 Days</option>
-                </select>
+              <div>
+                <Menu>
+                  <MenuButton className="border border-gray-200 rounded-lg p-2 text-2xs lg:text-sm cursor-pointer">
+                    {filters.dateRange === "7d" && "Last 7 Days"}
+                    {filters.dateRange === "30d" && "Last 30 Days"}
+                    {filters.dateRange === "90d" && "Last 90 Days"}
+                  </MenuButton>
+                  <MenuItems
+                    transition
+                    anchor="bottom end"
+                    className="[--anchor-gap:--spacing(1)] w-30 text-2xs lg:text-sm border border-gray-200 focus:outline-none rounded-lg transition duration-100 ease-out data-closed:opacity-0 data-closed:scale-95 bg-white"
+                  >
+                    <MenuItem>
+                      {({ focus }) => (
+                        <button
+                          onClick={() => updateFilters({ dateRange: "7d" })}
+                          className={`w-full text-left px-4 py-2  ${
+                            filters.dateRange === "7d" ? "bg-blue-100" : ""
+                          } ${focus ? "bg-gray-100" : ""}`}
+                        >
+                          Last 7 Days
+                        </button>
+                      )}
+                    </MenuItem>
+                    <MenuItem>
+                      {({ focus }) => (
+                        <button
+                          onClick={() => updateFilters({ dateRange: "30d" })}
+                          className={`w-full text-left px-4 py-2 ${
+                            filters.dateRange === "30d" ? "bg-blue-100" : ""
+                          } ${focus ? "bg-gray-100" : ""}`}
+                        >
+                          Last 30 Days
+                        </button>
+                      )}
+                    </MenuItem>
+                    <MenuItem>
+                      {({ focus }) => (
+                        <button
+                          onClick={() => updateFilters({ dateRange: "90d" })}
+                          className={`w-full text-left px-4 py-2 ${
+                            filters.dateRange === "90d" ? "bg-blue-100" : ""
+                          } ${focus ? "bg-gray-100" : ""}`}
+                        >
+                          Last 90 Days
+                        </button>
+                      )}
+                    </MenuItem>
+                  </MenuItems>
+                </Menu>
               </div>
             </div>
             <div>
