@@ -82,7 +82,7 @@ export default function Dashboard() {
               </h3>
               <div>
                 <Menu>
-                  <MenuButton className="flex flex-row justify-between gap-1 items-center border border-gray-200 rounded-lg p-2 text-2xs lg:text-sm cursor-pointer hover:bg-gray-50">
+                  <MenuButton className="flex flex-row gap-1 justify-between items-center w-24 lg:w-32 border border-gray-200 rounded-lg p-2 text-2xs lg:text-sm cursor-pointer hover:bg-gray-50">
                     {filters.dateRange === "7d" && "Last 7 Days"}
                     {filters.dateRange === "30d" && "Last 30 Days"}
                     {filters.dateRange === "90d" && "Last 90 Days"}
@@ -91,13 +91,13 @@ export default function Dashboard() {
                   <MenuItems
                     transition
                     anchor="bottom end"
-                    className="[--anchor-gap:--spacing(1)] w-30 text-2xs lg:text-sm shadow-md rounded-lg transition duration-100 ease-out focus:outline-none data-closed:opacity-0 data-closed:scale-95 bg-white"
+                    className="[--anchor-gap:--spacing(1)] flex flex-col gap-0.25 w-32 lg:w-40 p-1 text-2xs text-nowrap lg:text-sm shadow-md rounded-lg transition duration-100 ease-out focus:outline-none data-closed:opacity-0 data-closed:scale-95 bg-white"
                   >
                     <MenuItem>
                       {({ focus }) => (
                         <button
                           onClick={() => updateFilters({ dateRange: "7d" })}
-                          className={`w-full text-left px-4 py-2  ${
+                          className={`text-left px-4 py-2 rounded-lg ${
                             filters.dateRange === "7d" ? "bg-indigo-100" : ""
                           } ${focus ? "bg-gray-100" : ""}`}
                         >
@@ -109,7 +109,7 @@ export default function Dashboard() {
                       {({ focus }) => (
                         <button
                           onClick={() => updateFilters({ dateRange: "30d" })}
-                          className={`w-full text-left px-4 py-2 ${
+                          className={`text-left px-4 py-2  rounded-lg ${
                             filters.dateRange === "30d" ? "bg-indigo-100" : ""
                           } ${focus ? "bg-gray-100" : ""}`}
                         >
@@ -121,7 +121,7 @@ export default function Dashboard() {
                       {({ focus }) => (
                         <button
                           onClick={() => updateFilters({ dateRange: "90d" })}
-                          className={`w-full text-left px-4 py-2 ${
+                          className={`text-left px-4 py-2  rounded-lg ${
                             filters.dateRange === "90d" ? "bg-indigo-100" : ""
                           } ${focus ? "bg-gray-100" : ""}`}
                         >
