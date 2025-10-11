@@ -2,20 +2,20 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import {
   Squares2X2Icon,
-  WalletIcon,
   ShoppingBagIcon,
-  BriefcaseIcon,
-  DocumentTextIcon,
   Bars3Icon,
+  // WalletIcon,
+  // BriefcaseIcon,
+  // DocumentTextIcon,
 } from "@heroicons/react/24/outline";
 
 export default function SideBar() {
   const sidebarItems = [
     { name: "Dashboard", to: "/", icon: Squares2X2Icon },
-    { name: "Sales", to: "/sales", icon: WalletIcon },
     { name: "Products", to: "/products", icon: ShoppingBagIcon },
-    { name: "Customer", to: "/customers", icon: BriefcaseIcon },
-    { name: "Reports", to: "/reports", icon: DocumentTextIcon },
+    // { name: "Sales", to: "/sales", icon: WalletIcon },
+    // { name: "Customer", to: "/customers", icon: BriefcaseIcon },
+    // { name: "Reports", to: "/reports", icon: DocumentTextIcon },
   ];
   const [isOpen, setIsOpen] = useState(true);
 
@@ -33,7 +33,7 @@ export default function SideBar() {
           <Bars3Icon className="w-6 h-6 stroke-2" />
         </button>
         <h1
-          className={`transition-opacity duration-300 text-2xl ${
+          className={`transition duration-300 ease-in-out  text-2xl ${
             !isOpen ? "opacity-0 w-0 overflow-hidden" : "opacity-100"
           }`}
         >
@@ -45,11 +45,16 @@ export default function SideBar() {
         <nav className="flex flex-col w-full gap-y-1">
           {sidebarItems.map(({ name, to, icon: Icon }) => (
             <ul>
-              <li className="flex items-center text-gray-400 text-sm px-1 py-3 lg:p-2 cursor-pointer">
+              <li key={to} className="flex items-center text-gray-400 text-sm ">
                 <NavLink
-                  key={to}
                   to={to}
-                  className="flex items-center gap-4 focus:bg-red-100"
+                  className={({ isActive }) =>
+                    `flex items-center gap-4 w-full rounded-lg px-1 py-3 lg:p-2 cursor-pointer transition-colors duration-100 ${
+                      isActive
+                        ? "bg-indigo-700 font-medium text-white"
+                        : "hover:bg-blue-100"
+                    }`
+                  }
                 >
                   <div className="p-1 pl-1.5">
                     <Icon className="w-5 h-5 stroke-2" />

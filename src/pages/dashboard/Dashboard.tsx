@@ -3,6 +3,7 @@ import {
   ChartBarIcon,
   TrashIcon,
   RocketLaunchIcon,
+  ChevronDownIcon,
 } from "@heroicons/react/24/outline";
 import StatsCards from "../../components/StatsCards";
 import TimeDisplay from "../../components/TimeDisplay";
@@ -81,22 +82,23 @@ export default function Dashboard() {
               </h3>
               <div>
                 <Menu>
-                  <MenuButton className="border border-gray-200 rounded-lg p-2 text-2xs lg:text-sm cursor-pointer">
+                  <MenuButton className="flex flex-row justify-between gap-1 items-center border border-gray-200 rounded-lg p-2 text-2xs lg:text-sm cursor-pointer hover:bg-gray-50">
                     {filters.dateRange === "7d" && "Last 7 Days"}
                     {filters.dateRange === "30d" && "Last 30 Days"}
                     {filters.dateRange === "90d" && "Last 90 Days"}
+                    <ChevronDownIcon className="w-2 h-2 lg:w-4 lg:h-4 stroke-2" />
                   </MenuButton>
                   <MenuItems
                     transition
                     anchor="bottom end"
-                    className="[--anchor-gap:--spacing(1)] w-30 text-2xs lg:text-sm border border-gray-200 focus:outline-none rounded-lg transition duration-100 ease-out data-closed:opacity-0 data-closed:scale-95 bg-white"
+                    className="[--anchor-gap:--spacing(1)] w-30 text-2xs lg:text-sm shadow-md rounded-lg transition duration-100 ease-out focus:outline-none data-closed:opacity-0 data-closed:scale-95 bg-white"
                   >
                     <MenuItem>
                       {({ focus }) => (
                         <button
                           onClick={() => updateFilters({ dateRange: "7d" })}
                           className={`w-full text-left px-4 py-2  ${
-                            filters.dateRange === "7d" ? "bg-blue-100" : ""
+                            filters.dateRange === "7d" ? "bg-indigo-100" : ""
                           } ${focus ? "bg-gray-100" : ""}`}
                         >
                           Last 7 Days
@@ -108,7 +110,7 @@ export default function Dashboard() {
                         <button
                           onClick={() => updateFilters({ dateRange: "30d" })}
                           className={`w-full text-left px-4 py-2 ${
-                            filters.dateRange === "30d" ? "bg-blue-100" : ""
+                            filters.dateRange === "30d" ? "bg-indigo-100" : ""
                           } ${focus ? "bg-gray-100" : ""}`}
                         >
                           Last 30 Days
@@ -120,7 +122,7 @@ export default function Dashboard() {
                         <button
                           onClick={() => updateFilters({ dateRange: "90d" })}
                           className={`w-full text-left px-4 py-2 ${
-                            filters.dateRange === "90d" ? "bg-blue-100" : ""
+                            filters.dateRange === "90d" ? "bg-indigo-100" : ""
                           } ${focus ? "bg-gray-100" : ""}`}
                         >
                           Last 90 Days
