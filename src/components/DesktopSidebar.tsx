@@ -48,7 +48,7 @@ export default function DesktopSidebar() {
     >
       <div className="flex items-center w-full px-1 py-4 lg:px-2 font-bold mb-2.5 gap-4">
         <button
-          className="p-1 hover:outline focus:outline outline-gray-400 rounded-sm cursor-pointer"
+          className="border border-transparent p-1 rounded-sm cursor-pointer hover:shadow-md hover:border-gray-200"
           onClick={() => setIsOpen(!isOpen)}
         >
           <Bars3Icon className="w-6 h-6 stroke-2" />
