@@ -19,9 +19,17 @@ export default function RootLayout() {
         onClose={() => setMobileMenuOpen(false)}
         className="relative z-40 lg:hidden"
       >
-        <div className="fixed inset-0 bg-black/30" aria-hidden="true">
+        <div
+          className={`fixed inset-0 bg-black/30 transition-opacity duration-300 ${
+            mobileMenuOpen ? "opacity-100" : "opacity-0"
+          }`}
+          aria-hidden="true"
+        >
           <div className="fixed inset-0 flex pt-10">
-            <DialogPanel className="bg-white pt-4 px-2 w-50 shadow-xl transition-transform duration-300 ease-in-out data-closed:-translate-x-full">
+            <DialogPanel
+              transition
+              className="bg-white pt-4 px-2 w-56 shadow-xl transition-transform duration-300 ease-in-out data-closed:-translate-x-full"
+            >
               <MobileNav onNavigate={() => setMobileMenuOpen(false)} />
             </DialogPanel>
           </div>

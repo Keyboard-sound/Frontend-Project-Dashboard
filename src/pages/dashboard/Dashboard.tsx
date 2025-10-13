@@ -17,14 +17,15 @@ export default function Dashboard() {
     useSalesStore();
 
   return (
-    <div className="w-full p-4 lg:pl-5 lg:pr-7 rounded-lg bg-white overflow-auto overflow-y-auto">
+    <div className="w-full p-4 lg:pl-5 lg:pr-7 lg:pt-6 rounded-lg bg-white overflow-auto overflow-y-auto">
       <div className="flex justify-between">
-        <div className="flex flex-col ">
+        <div className="flex flex-col">
           <h1 className="pl-2 font-semibold text-base lg:text-lg">
             Dashboard Overview
           </h1>
           <TimeDisplay />
         </div>
+
         <SearchInput placeholder="search..." />
       </div>
       <div className="flex gap-2 mt-2 mb-2 text-2xs lg:text-sm text-slate-400">

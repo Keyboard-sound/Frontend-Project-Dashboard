@@ -15,7 +15,7 @@ export default function DesktopSidebar() {
               <NavLink
                 to={to}
                 className={({ isActive }) =>
-                  `flex items-center gap-4 w-full rounded-lg px-1 py-3 lg:p-2 cursor-pointer transition-colors duration-100 ${
+                  `flex items-center gap-4 w-full rounded-lg p-2 cursor-pointer transition-colors duration-100 ${
                     isActive
                       ? "bg-blue-700 font-medium text-white"
                       : "hover:bg-blue-100"
@@ -44,17 +44,21 @@ export default function DesktopSidebar() {
     <aside
       className={`${
         isOpen ? "w-64" : "w-18"
-      } hidden lg:flex flex-col h-full lg:items-center bg-blue-50 rounded-lg transition-all ease-in-out duration-200 lg:p-3 lg:pt-6`}
+      } hidden lg:flex flex-col h-full lg:items-center bg-blue-50 rounded-lg transition-all ease-out duration-150 lg:p-3 lg:pt-6`}
     >
-      <div className="flex items-center w-full px-1 py-4 lg:px-2 font-bold mb-2.5 gap-4">
-        <button
-          className="border border-transparent p-1 rounded-sm cursor-pointer hover:shadow-md hover:border-gray-200"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <Bars3Icon className="w-6 h-6 stroke-2" />
-        </button>
+      <div className="w-full flex items-center mb-2.5">
+        <div className="flex justify-center font-bold">
+          <button
+            className="border border-transparent rounded-lg cursor-pointer p-2 hover:shadow-md hover:border-gray-200"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            <div className="p-1">
+              <Bars3Icon className="w-6 h-6 stroke-2" />
+            </div>
+          </button>
+        </div>
         <h1
-          className={`transition duration-300 ease-in-out  text-2xl ${
+          className={`transition duration-300 ease-in-out text-2xl font-semibold pl-4 ${
             !isOpen ? "opacity-0 w-0 overflow-hidden" : "opacity-100"
           }`}
         >
