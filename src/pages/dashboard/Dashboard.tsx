@@ -5,7 +5,7 @@ import {
   RocketLaunchIcon,
   ChevronDownIcon,
 } from "@heroicons/react/24/outline";
-import StatsCards from "../../components/StatsCards";
+import StatCardList from "../../components/StatCardList";
 import TimeDisplay from "../../components/TimeDisplay";
 import useSalesStore from "../../store/useSalesStore";
 import SalesAnalyticsGraph from "../../components/SalesAnalyticsGraph";
@@ -62,28 +62,28 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="flex flex-wrap lg:flex-nowrap gap-5">
+      <div className="flex gap-5">
         {/* Cards */}
-        <div className="w-full lg:w-[70%]">
-          <StatsCards />
-        </div>
+        <div className="grid grid-cols-2 grid-rows-2 lg:flex gap-3 lg:gap-5 w-full">
+          <StatCardList />
 
-        {/* target */}
-        <div className="w-full lg:w-[30%] border border-gray-200 rounded-lg px-4 py-4">
-          Target Goal
+          {/* target */}
+          <div className="flex-1 px-4 py-4 border-gray-200  border rounded-lg">
+            Target Goal
+          </div>
         </div>
       </div>
 
       {/* graph */}
-      <div className="flex gap-5 mt-5">
-        <div className=" bg-white border border-gray-200 w-[70%] h-full rounded-lg px-4 py-5">
+      <div className="flex-wrap lg:flex lg:flex-nowrap gap-3 lg:gap-5 mt-3 lg:mt-5">
+        <div className=" bg-white border border-gray-200 w-full lg:w-[70%] h-full rounded-lg p-2 lg:px-4 lg:py-5">
           <div className="flex justify-between items-center">
             <h3 className="text-sm lg:text-base font-semibold">
               Sales Analytics
             </h3>
             <div>
               <Menu>
-                <MenuButton className="flex flex-row justify-between items-center w-24 lg:w-32 border border-gray-200 rounded-lg p-2 text-2xs lg:text-sm cursor-pointer hover:shadow-sm">
+                <MenuButton className="flex flex-row justify-between items-center w-24 lg:w-32 border border-gray-200 rounded-lg px-2 py-1 text-2xs text-nowrap lg:text-sm cursor-pointer hover:shadow-sm">
                   {filters.dateRange === "7d" && "Last 7 Days"}
                   {filters.dateRange === "30d" && "Last 30 Days"}
                   {filters.dateRange === "90d" && "Last 90 Days"}
@@ -139,7 +139,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="w-[30%] border border-gray-200 rounded-lg px-4 py-4">
+        <div className="w-full lg:w-[30%] border border-gray-200 rounded-lg px-4 py-4 mt-3 lg:mt-0">
           Activities log
         </div>
       </div>
