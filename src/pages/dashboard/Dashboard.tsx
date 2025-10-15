@@ -17,7 +17,7 @@ export default function Dashboard() {
     useSalesStore();
 
   return (
-    <div className="w-full p-4 lg:pl-5 lg:pr-7 lg:pt-6 rounded-lg bg-white overflow-y-auto">
+    <div className="w-full h-full p-4 lg:pl-5 lg:pr-7 lg:pt-6 rounded-lg bg-white overflow-y-auto">
       <div className="flex justify-between">
         <div className="flex flex-col">
           <h1 className="pl-2 font-semibold text-base lg:text-lg">
