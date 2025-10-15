@@ -51,10 +51,10 @@ export default function StatCardList() {
   ];
 
   return (
-    <div>
+    <>
       {cardItems.map((card) => (
         <StatCard key={card.title} {...card} />
       ))}
-    </div>
+    </>
   );
 }

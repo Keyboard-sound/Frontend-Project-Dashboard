@@ -15,7 +15,7 @@ export const StatCard: FC<{
   const isUp = trend === "up";
 
   return (
-    <div className="flex flex-col border border-gray-200 rounded-lg p-2 lg:p-4 lg:space-y-1.5">
+    <div className="flex flex-col border border-gray-200 rounded-lg p-2 lg:flex-1 lg:p-4 lg:space-y-1.5">
       <div className="flex gap-2 lg:gap-4 items-center px-2">
         <div className="p-2 rounded shadow-sm">
           <Icon className={`w-5 h-5 ${color} stroke-2`} />

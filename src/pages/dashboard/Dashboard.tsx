@@ -17,7 +17,7 @@ export default function Dashboard() {
     useSalesStore();
 
   return (
-    <div className="w-full p-4 lg:pl-5 lg:pr-7 lg:pt-6 rounded-lg bg-white overflow-auto overflow-y-auto">
+    <div className="w-full p-4 lg:pl-5 lg:pr-7 lg:pt-6 rounded-lg bg-white overflow-y-auto">
       <div className="flex justify-between">
         <div className="flex flex-col">
           <h1 className="pl-2 font-semibold text-base lg:text-lg">
@@ -28,7 +28,7 @@ export default function Dashboard() {
 
         <SearchInput placeholder="search..." />
       </div>
-      <div className="flex gap-2 mt-2 mb-2 text-2xs lg:text-sm text-slate-400">
+      <div className="flex gap-2 pt-2 pb-3 lg:pb-5 text-2xs lg:text-sm text-slate-400">
         <div className="flex items-center border border-gray-200  rounded-lg hover:shadow-sm ">
           <button
             onClick={() => generateSalesData(100)}
@@ -62,15 +62,15 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="flex gap-5">
+      <div className="grid grid-cols-2 gap-3 lg:flex lg:gap-5">
         {/* Cards */}
-        <div className="grid grid-cols-2 grid-rows-2 lg:flex gap-3 lg:gap-5 w-full">
+        <div className="contents lg:flex lg:gap-5 lg:w-[70%]">
           <StatCardList />
+        </div>
 
-          {/* target */}
-          <div className="flex-1 px-4 py-4 border-gray-200  border rounded-lg">
-            Target Goal
-          </div>
+        {/* target */}
+        <div className="lg:w-[30%] px-4 py-4 border-gray-200  border rounded-lg">
+          Target Goal
         </div>
       </div>
 
@@ -145,7 +145,7 @@ export default function Dashboard() {
       </div>
 
       {/* Show Sale activities */}
-      <div className="w-full min-h-50 border border-gray-200 rounded-lg  mt-5 px-4 py-4 overflow-x-auto">
+      <div className="w-full min-h-50 border border-gray-200 rounded-lg mt-3 lg:mt-5 px-4 py-4 overflow-x-auto">
         <SalesAct />
       </div>
     </div>
