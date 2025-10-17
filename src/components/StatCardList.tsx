@@ -1,27 +1,51 @@
-import useSalesStore from "../store/useSalesStore";
-import { useMemo, type ComponentProps } from "react";
+import { useMemo } from "react";
 import {
   ShoppingCartIcon,
   CreditCardIcon,
   ReceiptRefundIcon,
 } from "@heroicons/react/24/outline";
+import useSalesStore from "../store/useSalesStore";
 import { StatCard } from "./StatCard";
+import type { ComponentProps } from "react";
 
 type StatCardProps = ComponentProps<typeof StatCard>;
 //need to create last year sales that hardcode value
 
 export default function StatCardList() {
-  const { getTotalSales, getTotalReturns, getTotalOnlineSale, salesData } =
-    useSalesStore();
-  const stats = useMemo(
-    () => ({
-      sales: salesData,
-      totalSales: getTotalSales(),
-      online: getTotalOnlineSale(),
-      returns: getTotalReturns(),
-    }),
-    [getTotalSales, getTotalReturns, getTotalOnlineSale, salesData]
-  );
+  const { salesData, filters } = useSalesStore();
+
+  const stats = useMemo(() => {
+    const filtered = salesData.filter((sale) => {
+      if (!sale.date) return false;
+
+      const dayDiff = Math.floor(
+        (Date.now() - new Date(sale.date).getTime()) / (1000 * 60 * 60 * 24)
+      );
+      const dayLimit = parseInt(filters.dateRange.replace("d", ""));
+
+      return dayDiff <= dayLimit;
+    });
+
+    const totalSales = filtered.reduce((sum, sale) => {
+      return sale.status !== "pending" ? sum + (sale.total || 0) : sum;
+    }, 0);
+
+    const online = filtered.reduce((sum, sale) => {
+      return sale.channel === "online" && sale.status === "completed"
+        ? sum + (sale.total || 0)
+        : sum;
+    }, 0);
+
+    const returns = filtered.reduce((sum, sale) => {
+      return sale.status === "returns" ? sum + (sale.total || 0) : sum;
+    }, 0);
+
+    return {
+      totalSales,
+      online,
+      returns,
+    };
+  }, [salesData, filters]);
 
   const cardItems: StatCardProps[] = [
     {

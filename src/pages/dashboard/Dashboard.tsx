@@ -32,7 +32,7 @@ export default function Dashboard() {
         <div className="flex items-center border border-gray-200  rounded-lg hover:shadow-sm ">
           <button
             onClick={() => generateSalesData(100)}
-            className="flex gap-1 items-center w-full p-1 lg:px-2 lg:py-1  cursor-pointer"
+            className="flex gap-1 items-center w-full p-1 lg:px-2 lg:py-1 cursor-pointer"
             disabled={loading}
           >
             <ChartBarIcon className="w-3 h-3 lg:w-4 lg:h-4 stroke-2" />
@@ -60,6 +60,58 @@ export default function Dashboard() {
             Clear Data
           </button>
         </div>
+        <div className="ml-auto">
+          <Menu>
+            <MenuButton className="flex flex-row justify-between items-center w-21 lg:w-32 border border-gray-200 rounded-lg px-2 py-1 text-2xs text-black text-nowrap lg:text-sm cursor-pointer hover:shadow-sm focus:outline-none">
+              {filters.dateRange === "7d" && "Last 7 Days"}
+              {filters.dateRange === "30d" && "Last 30 Days"}
+              {filters.dateRange === "90d" && "Last 90 Days"}
+              <ChevronDownIcon className="w-2 h-2 lg:w-4 lg:h-4 stroke-2" />
+            </MenuButton>
+            <MenuItems
+              transition
+              anchor="bottom end"
+              className="[--anchor-gap:--spacing(1)] flex flex-col gap-1 w-24 lg:w-32 p-1 text-2xs text-center text-nowrap lg:text-sm shadow-md rounded-lg transition duration-100 ease-out focus:outline-none data-closed:opacity-0 data-closed:scale-95 bg-white"
+            >
+              <MenuItem>
+                {({ focus }) => (
+                  <button
+                    onClick={() => updateFilters({ dateRange: "7d" })}
+                    className={`px-2 py-1 rounded-lg ${
+                      filters.dateRange === "7d" ? "bg-indigo-100" : ""
+                    } ${focus ? "bg-gray-100" : ""}`}
+                  >
+                    Last 7 Days
+                  </button>
+                )}
+              </MenuItem>
+              <MenuItem>
+                {({ focus }) => (
+                  <button
+                    onClick={() => updateFilters({ dateRange: "30d" })}
+                    className={`px-2 py-1 rounded-lg ${
+                      filters.dateRange === "30d" ? "bg-indigo-100" : ""
+                    } ${focus ? "bg-gray-100" : ""}`}
+                  >
+                    Last 30 Days
+                  </button>
+                )}
+              </MenuItem>
+              <MenuItem>
+                {({ focus }) => (
+                  <button
+                    onClick={() => updateFilters({ dateRange: "90d" })}
+                    className={`px-2 py-1 rounded-lg ${
+                      filters.dateRange === "90d" ? "bg-indigo-100" : ""
+                    } ${focus ? "bg-gray-100" : ""}`}
+                  >
+                    Last 90 Days
+                  </button>
+                )}
+              </MenuItem>
+            </MenuItems>
+          </Menu>
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-3 lg:flex lg:gap-5">
@@ -81,58 +133,6 @@ export default function Dashboard() {
             <h3 className="text-sm lg:text-base font-semibold">
               Sales Analytics
             </h3>
-            <div>
-              <Menu>
-                <MenuButton className="flex flex-row justify-between items-center w-24 lg:w-32 border border-gray-200 rounded-lg px-2 py-1 text-2xs text-nowrap lg:text-sm cursor-pointer hover:shadow-sm">
-                  {filters.dateRange === "7d" && "Last 7 Days"}
-                  {filters.dateRange === "30d" && "Last 30 Days"}
-                  {filters.dateRange === "90d" && "Last 90 Days"}
-                  <ChevronDownIcon className="w-2 h-2 lg:w-4 lg:h-4 stroke-2" />
-                </MenuButton>
-                <MenuItems
-                  transition
-                  anchor="bottom end"
-                  className="[--anchor-gap:--spacing(1)] flex flex-col gap-0.25 w-24 lg:w-32 p-1 text-2xs text-center text-nowrap lg:text-sm shadow-md rounded-lg transition duration-100 ease-out focus:outline-none data-closed:opacity-0 data-closed:scale-95 bg-white"
-                >
-                  <MenuItem>
-                    {({ focus }) => (
-                      <button
-                        onClick={() => updateFilters({ dateRange: "7d" })}
-                        className={`px-4 py-2 rounded-lg ${
-                          filters.dateRange === "7d" ? "bg-indigo-100" : ""
-                        } ${focus ? "bg-gray-100" : ""}`}
-                      >
-                        Last 7 Days
-                      </button>
-                    )}
-                  </MenuItem>
-                  <MenuItem>
-                    {({ focus }) => (
-                      <button
-                        onClick={() => updateFilters({ dateRange: "30d" })}
-                        className={`px-4 py-2  rounded-lg ${
-                          filters.dateRange === "30d" ? "bg-indigo-100" : ""
-                        } ${focus ? "bg-gray-100" : ""}`}
-                      >
-                        Last 30 Days
-                      </button>
-                    )}
-                  </MenuItem>
-                  <MenuItem>
-                    {({ focus }) => (
-                      <button
-                        onClick={() => updateFilters({ dateRange: "90d" })}
-                        className={`px-4 py-2  rounded-lg ${
-                          filters.dateRange === "90d" ? "bg-indigo-100" : ""
-                        } ${focus ? "bg-gray-100" : ""}`}
-                      >
-                        Last 90 Days
-                      </button>
-                    )}
-                  </MenuItem>
-                </MenuItems>
-              </Menu>
-            </div>
           </div>
           <div>
             <SalesAnalyticsGraph />
