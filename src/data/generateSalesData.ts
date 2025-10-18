@@ -15,10 +15,11 @@ export interface SaleRecord {
   status: string;
   channel: string;
 }
-export async function generateSalesData(
+
+export function generateSalesData(
   count: number,
   products: Products[]
-): Promise<SaleRecord[]> {
+): SaleRecord[] {
   const sales = Array.from({ length: count }).map(() => {
     const product = faker.helpers.arrayElement(products);
     const quantity = faker.number.int({ min: 1, max: 10 });

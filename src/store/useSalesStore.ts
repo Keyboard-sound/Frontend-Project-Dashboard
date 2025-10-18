@@ -2,12 +2,15 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { generateSalesData } from "../data/generateSalesData";
 import { getProducts } from "../api/getProducts";
+import { generateLastYearSalesData } from "../data/generateLastYearSalesData";
 import type { SaleRecord } from "../data/generateSalesData";
+import type { LastYearData } from "../data/generateLastYearSalesData";
 import type { Products } from "../api/getProducts";
 
 export interface SalesStore {
   salesData: SaleRecord[];
   products: Products[];
+  lastYearData: LastYearData | null;
   loading: boolean;
   filters: {
     dateRange: "7d" | "30d" | "90d";
@@ -19,7 +22,8 @@ export interface SalesStore {
   setLoading: (loading: boolean) => void;
   updateFilters: (filters: Partial<SalesStore["filters"]>) => void;
   clearAllData: () => void;
-  generateSalesData: (count: number) => Promise<void>;
+  loadSalesData: (count: number) => Promise<void>;
+  loadLastYearData: () => Promise<void>;
   fetchProducts: () => Promise<void>;
 
   getTotalSales: () => number;
@@ -47,6 +51,7 @@ const useSalesStore = create<SalesStore>()(
     (set, get) => ({
       salesData: [],
       products: [],
+      lastYearData: null,
       loading: false,
       filters: {
         dateRange: "30d",
@@ -82,7 +87,7 @@ const useSalesStore = create<SalesStore>()(
         setLoading(false);
       },
 
-      generateSalesData: async (count) => {
+      loadSalesData: async (count) => {
         const { products, addSalesData, fetchProducts } = get();
 
         if (products.length === 0) {
@@ -91,13 +96,25 @@ const useSalesStore = create<SalesStore>()(
 
         try {
           const currentProducts = get().products;
-          const newSales = await generateSalesData(count, currentProducts);
+          const newSales = generateSalesData(count, currentProducts);
           console.log("newsales", newSales);
 
           addSalesData(newSales);
         } catch (error) {
           console.error("Error generating sales data", error);
         }
+      },
+
+      loadLastYearData: async () => {
+        const { products, fetchProducts } = get();
+
+        if (products.length === 0) {
+          await fetchProducts();
+        }
+
+        const currentProducts = get().products;
+        const lastYearData = generateLastYearSalesData(currentProducts);
+        set({ lastYearData });
       },
 
       getTotalSales: () => {
@@ -172,6 +189,7 @@ const useSalesStore = create<SalesStore>()(
       partialize: (state) => ({
         salesData: state.salesData,
         products: state.products,
+        lastYearData: state.lastYearData,
         filters: state.filters,
       }),
     }

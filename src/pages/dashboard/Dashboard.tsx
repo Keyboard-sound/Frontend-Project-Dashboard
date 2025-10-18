@@ -13,7 +13,7 @@ import SalesAct from "../../components/SalesAct";
 import SearchInput from "../../components/SearchInput";
 
 export default function Dashboard() {
-  const { generateSalesData, filters, updateFilters, clearAllData, loading } =
+  const { loadSalesData, filters, updateFilters, clearAllData, loading } =
     useSalesStore();
 
   return (
@@ -31,7 +31,7 @@ export default function Dashboard() {
       <div className="flex gap-2 pt-2 pb-3 lg:pb-5 text-2xs lg:text-sm text-slate-400">
         <div className="flex items-center border border-gray-200  rounded-lg hover:shadow-sm ">
           <button
-            onClick={() => generateSalesData(100)}
+            onClick={() => loadSalesData(100)}
             className="flex gap-1 items-center w-full p-1 lg:px-2 lg:py-1 cursor-pointer"
             disabled={loading}
           >
@@ -42,7 +42,7 @@ export default function Dashboard() {
 
         <div className="flex items-center border  border-gray-200  rounded-lg hover:shadow-sm ">
           <button
-            onClick={() => generateSalesData(300)}
+            onClick={() => loadSalesData(300)}
             className="flex gap-1 items-center w-full p-1 lg:px-2 lg:py-1 cursor-pointer"
             disabled={loading}
           >

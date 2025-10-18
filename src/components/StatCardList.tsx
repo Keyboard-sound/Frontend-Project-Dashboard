@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import {
   ShoppingCartIcon,
   CreditCardIcon,
@@ -9,10 +9,14 @@ import { StatCard } from "./StatCard";
 import type { ComponentProps } from "react";
 
 type StatCardProps = ComponentProps<typeof StatCard>;
-//need to create last year sales that hardcode value
 
 export default function StatCardList() {
-  const { salesData, filters } = useSalesStore();
+  const { salesData, filters, loadLastYearData, lastYearData } =
+    useSalesStore();
+
+  useEffect(() => {
+    loadLastYearData();
+  }, [loadLastYearData]);
 
   const stats = useMemo(() => {
     const filtered = salesData.filter((sale) => {
@@ -40,12 +44,22 @@ export default function StatCardList() {
       return sale.status === "returns" ? sum + (sale.total || 0) : sum;
     }, 0);
 
+    const lastYear = lastYearData?.[filters.dateRange] || {
+      totalPhysicalSales: 0,
+      totalOnlineSales: 0,
+      totalReturns: 0,
+      totalSalesLastYear: 0,
+    };
+    const totalSalesLastYear = lastYear
+    
+    const totalSalesChange = 
+
     return {
       totalSales,
       online,
       returns,
     };
-  }, [salesData, filters]);
+  }, [salesData, filters, lastYearData]);
 
   const cardItems: StatCardProps[] = [
     {
