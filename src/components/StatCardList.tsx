@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import {
   ShoppingCartIcon,
   CreditCardIcon,
@@ -11,12 +11,7 @@ import type { ComponentProps } from "react";
 type StatCardProps = ComponentProps<typeof StatCard>;
 
 export default function StatCardList() {
-  const { salesData, filters, loadLastYearData, lastYearData } =
-    useSalesStore();
-
-  useEffect(() => {
-    loadLastYearData();
-  }, [loadLastYearData]);
+  const { salesData, filters, lastYearData } = useSalesStore();
 
   const stats = useMemo(() => {
     const filtered = salesData.filter((sale) => {
@@ -34,13 +29,13 @@ export default function StatCardList() {
       return sale.status !== "pending" ? sum + (sale.total || 0) : sum;
     }, 0);
 
-    const online = filtered.reduce((sum, sale) => {
+    const totalOnline = filtered.reduce((sum, sale) => {
       return sale.channel === "online" && sale.status === "completed"
         ? sum + (sale.total || 0)
         : sum;
     }, 0);
 
-    const returns = filtered.reduce((sum, sale) => {
+    const totalReturns = filtered.reduce((sum, sale) => {
       return sale.status === "returns" ? sum + (sale.total || 0) : sum;
     }, 0);
 
@@ -48,42 +43,99 @@ export default function StatCardList() {
       totalPhysicalSales: 0,
       totalOnlineSales: 0,
       totalReturns: 0,
-      totalSalesLastYear: 0,
+      totalSales: 0,
     };
-    const totalSalesLastYear = lastYear
-    
-    const totalSalesChange = 
+    const totalSalesLastYear = lastYear.totalSales;
+    const totalOnlineSalesLastYear = lastYear.totalOnlineSales;
+    const totalReturnsLastYear = lastYear.totalReturns;
+
+    const totalSalesChange =
+      totalSalesLastYear === 0
+        ? null
+        : (
+            ((totalSales - totalSalesLastYear) / totalSalesLastYear) *
+            100
+          ).toFixed(2);
+
+    const totalOnlineSalesChange =
+      lastYear.totalOnlineSales === 0
+        ? null
+        : (
+            ((totalOnline - lastYear.totalOnlineSales) /
+              lastYear.totalOnlineSales) *
+            100
+          ).toFixed(2);
+
+    const totalReturnsChange =
+      lastYear.totalReturns === 0
+        ? null
+        : (
+            ((totalReturns - lastYear.totalReturns) / lastYear.totalReturns) *
+            100
+          ).toFixed(2);
 
     return {
       totalSales,
-      online,
-      returns,
+      online: totalOnline,
+      returns: totalReturns,
+      totalSalesLastYear,
+      totalOnlineSalesLastYear,
+      totalSalesChange,
+      totalOnlineSalesChange,
+      totalReturnsChange,
+      totalReturnsLastYear,
     };
   }, [salesData, filters, lastYearData]);
+
+  const renderedTrendValue = (value: string | null) => {
+    return `${value?.toLocaleString()}%`;
+  };
+
+  const renderedTrend = (trendValue: string | null, inverseTrend: boolean) => {
+    if (trendValue === null) {
+      return null;
+    }
+    const numValue = parseFloat(trendValue);
+
+    return inverseTrend
+      ? numValue >= 0
+        ? "down"
+        : "up"
+      : numValue >= 0
+      ? "up"
+      : "down";
+  };
+
+  const renderedCompareValue = (value: number | null) => {
+    return value !== null ? value.toLocaleString() : "N/A";
+  };
 
   const cardItems: StatCardProps[] = [
     {
       title: "total sales",
       value: stats.totalSales.toLocaleString(),
       icon: ShoppingCartIcon,
-      trend: "up",
-      trendValue: "100%",
+      trend: renderedTrend(stats.totalSalesChange, false),
+      trendValue: renderedTrendValue(stats.totalSalesChange),
+      compareValue: renderedCompareValue(stats.totalSalesLastYear),
       color: "text-blue-500",
     },
     {
       title: "online sales",
       value: stats.online.toLocaleString(),
       icon: CreditCardIcon,
-      trend: "down",
-      trendValue: "10.58%",
+      trend: renderedTrend(stats.totalOnlineSalesChange, false),
+      trendValue: renderedTrendValue(stats.totalOnlineSalesChange),
+      compareValue: renderedCompareValue(stats.totalOnlineSalesLastYear),
       color: "text-violet-500",
     },
     {
       title: "returns",
       value: stats.returns.toLocaleString(),
       icon: ReceiptRefundIcon,
-      trend: "up",
-      trendValue: "10%",
+      trend: renderedTrend(stats.totalReturnsChange, true),
+      trendValue: renderedTrendValue(stats.totalReturnsChange),
+      compareValue: renderedCompareValue(stats.totalReturnsLastYear),
       color: "text-yellow-500",
     },
   ];

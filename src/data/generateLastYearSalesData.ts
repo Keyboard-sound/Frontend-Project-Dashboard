@@ -53,14 +53,11 @@ function generatePeriodData(
 
 export function generateLastYearSalesData(products: Products[]): LastYearData {
   return {
-    "7d": generatePeriodData(products, faker.number.int({ min: 20, max: 50 })),
-    "30d": generatePeriodData(
-      products,
-      faker.number.int({ min: 80, max: 150 })
-    ),
+    "7d": generatePeriodData(products, faker.number.int({ min: 10, max: 30 })),
+    "30d": generatePeriodData(products, faker.number.int({ min: 40, max: 80 })),
     "90d": generatePeriodData(
       products,
-      faker.number.int({ min: 200, max: 400 })
+      faker.number.int({ min: 100, max: 200 })
     ),
   };
 }

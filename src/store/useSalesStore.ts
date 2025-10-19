@@ -88,7 +88,8 @@ const useSalesStore = create<SalesStore>()(
       },
 
       loadSalesData: async (count) => {
-        const { products, addSalesData, fetchProducts } = get();
+        const { products, addSalesData, fetchProducts, loadLastYearData } =
+          get();
 
         if (products.length === 0) {
           await fetchProducts();
@@ -97,9 +98,9 @@ const useSalesStore = create<SalesStore>()(
         try {
           const currentProducts = get().products;
           const newSales = generateSalesData(count, currentProducts);
-          console.log("newsales", newSales);
-
           addSalesData(newSales);
+
+          await loadLastYearData();
         } catch (error) {
           console.error("Error generating sales data", error);
         }
