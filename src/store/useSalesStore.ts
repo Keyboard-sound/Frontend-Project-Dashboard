@@ -70,6 +70,7 @@ const useSalesStore = create<SalesStore>()(
         set({
           salesData: [],
           products: [],
+          lastYearData: null,
           filters: { dateRange: "30d" },
         }),
 

@@ -36,7 +36,8 @@ export default function Dashboard() {
             disabled={loading}
           >
             <ChartBarIcon className="w-3 h-3 lg:w-4 lg:h-4 stroke-2" />
-            Generate 100 Sales
+            <span className="hidden md:inline">Generate 100 Sales</span>
+            <span className="md:hidden">100 Sales</span>
           </button>
         </div>
 
@@ -47,7 +48,8 @@ export default function Dashboard() {
             disabled={loading}
           >
             <RocketLaunchIcon className="w-3 h-3 lg:w-4 lg:h-4 stroke-2" />
-            Generate 300 Sales
+            <span className="hidden md:inline">Generate 300 Sales</span>
+            <span className="md:hidden">300 Sales</span>
           </button>
         </div>
 
@@ -62,7 +64,7 @@ export default function Dashboard() {
         </div>
         <div className="ml-auto">
           <Menu>
-            <MenuButton className="flex flex-row justify-between items-center w-21 lg:w-32 border border-gray-200 rounded-lg px-2 py-1 text-2xs text-black text-nowrap lg:text-sm cursor-pointer hover:shadow-sm focus:outline-none">
+            <MenuButton className="flex flex-row justify-between items-center w-23 lg:w-32 border border-gray-200 rounded-lg px-2 py-1 text-2xs text-black text-nowrap lg:text-sm cursor-pointer hover:shadow-sm focus:outline-none">
               {filters.dateRange === "7d" && "Last 7 Days"}
               {filters.dateRange === "30d" && "Last 30 Days"}
               {filters.dateRange === "90d" && "Last 90 Days"}
