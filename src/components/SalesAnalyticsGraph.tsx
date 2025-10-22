@@ -12,6 +12,20 @@ import useSalesStore from "../store/useSalesStore";
 import { useMemo } from "react";
 import colors from "tailwindcss/colors";
 
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: {
+    dataKey: string;
+    value: number;
+    payload: {
+      date: string;
+      physicalTotal: number;
+      onlineTotal: number;
+    };
+  }[];
+  label?: string | number;
+}
+
 export default function SalesAnalyticsGraph() {
   const { salesData, filters } = useSalesStore();
 
@@ -62,6 +76,36 @@ export default function SalesAnalyticsGraph() {
     return `${day}-${month}`;
   };
 
+  const tooltipFormatDate = (dateStr: string) => {
+    const date = new Date(dateStr);
+    const day = date.getDate();
+    const month = date.toLocaleDateString("en-Us", { month: "short" });
+    const year = date.getFullYear().toString().slice(-2);
+    return `${day} ${month}'${year}`;
+  };
+
+  const CustomTooltip = ({ payload, active }: CustomTooltipProps) => {
+    if (!active || !payload || payload.length === 0) return null;
+
+    const data = payload[0].payload;
+
+    if (active) {
+      return (
+        <div className="p-2 space-y-1 rounded-lg shadow-md bg-white">
+          <p className="text-xs font-semibold">
+            {tooltipFormatDate(data.date)}
+          </p>
+          <p className="text-sm text-violet-500">
+            online: {formatCurrency(data.onlineTotal)}
+          </p>
+          <p className="text-sm text-blue-500">
+            physical: {data.physicalTotal}
+          </p>
+        </div>
+      );
+    }
+  };
+
   return (
     <ResponsiveContainer width="100%" height={300}>
       <LineChart data={chartData} margin={{ right: 30 }}>
@@ -96,7 +140,10 @@ export default function SalesAnalyticsGraph() {
           tick={{ fill: colors.slate[400], fontSize: 12 }}
           tickFormatter={formatCurrency}
         />
-        <Tooltip formatter={(value: number) => value.toLocaleString("en-US")} />
+        <Tooltip
+          formatter={(value: number) => value.toLocaleString("en-US")}
+          content={CustomTooltip}
+        />
       </LineChart>
     </ResponsiveContainer>
   );
