@@ -26,6 +26,26 @@ interface CustomTooltipProps {
   label?: string | number;
 }
 
+const formatCurrency = (value: number): string => {
+  return `$${value.toLocaleString()}`;
+};
+
+const formatDate = (dateStr: string): string => {
+  const date = new Date(dateStr);
+  const day = date.getDate();
+  const month = date.toLocaleString("en-US", { month: "short" });
+
+  return `${day}-${month}`;
+};
+
+const tooltipFormatDate = (dateStr: string) => {
+  const date = new Date(dateStr);
+  const day = date.getDate();
+  const month = date.toLocaleDateString("en-Us", { month: "short" });
+  const year = date.getFullYear().toString().slice(-2);
+  return `${day} ${month}'${year}`;
+};
+
 export default function SalesAnalyticsGraph() {
   const { salesData, filters } = useSalesStore();
 
@@ -64,26 +84,6 @@ export default function SalesAnalyticsGraph() {
     return Object.values(grouped);
   }, [salesData, filters]);
 
-  const formatCurrency = (value: number): string => {
-    return `$${value.toLocaleString()}`;
-  };
-
-  const formatDate = (dateStr: string): string => {
-    const date = new Date(dateStr);
-    const day = date.getDate();
-    const month = date.toLocaleString("en-US", { month: "short" });
-
-    return `${day}-${month}`;
-  };
-
-  const tooltipFormatDate = (dateStr: string) => {
-    const date = new Date(dateStr);
-    const day = date.getDate();
-    const month = date.toLocaleDateString("en-Us", { month: "short" });
-    const year = date.getFullYear().toString().slice(-2);
-    return `${day} ${month}'${year}`;
-  };
-
   const CustomTooltip = ({ payload, active }: CustomTooltipProps) => {
     if (!active || !payload || payload.length === 0) return null;
 
@@ -111,20 +111,35 @@ export default function SalesAnalyticsGraph() {
       <LineChart data={chartData} margin={{ right: 30 }}>
         <CartesianGrid stroke={colors.slate[200]} horizontal={false} />
         <Legend verticalAlign="top" align="center" />
-        <Line
-          type="monotone"
-          dataKey="onlineTotal"
-          stroke={colors.violet[500]}
-          strokeWidth={2}
-          name="Online Sale"
-        />
-        <Line
-          type="monotone"
-          dataKey="physicalTotal"
-          stroke={colors.blue[500]}
-          strokeWidth={2}
-          name="Physical Sale"
-        />
+        {chartData.length > 0 ? (
+          <>
+            <Line
+              type="monotone"
+              dataKey="onlineTotal"
+              stroke={colors.violet[500]}
+              strokeWidth={2}
+              name="Online Sale"
+            />
+            <Line
+              type="monotone"
+              dataKey="physicalTotal"
+              stroke={colors.blue[500]}
+              strokeWidth={2}
+              name="Physical Sale"
+            />
+          </>
+        ) : (
+          <text
+            x="50%"
+            y="50%"
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fill="#90a1b9"
+            fontSize={14}
+          >
+            Sorry, No data available
+          </text>
+        )}
         <XAxis
           dataKey="date"
           stroke={colors.slate[200]}
