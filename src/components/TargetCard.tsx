@@ -44,10 +44,10 @@ export const TargetCard = () => {
         {/*sales progress bar*/}
         <div className="flex flex-row gap-1 items-center">
           {/* outer */}
-          <div className="w-[90%] h-[2px] md:h-1 rounded-full bg-gray-50">
+          <div className="w-[90%] h-[2px] md:h-2 rounded-full bg-gray-50">
             {/* inner */}
             <div
-              className="h-full md:h-1 rounded-full bg-emerald-400 transition-all ease-out duration-500"
+              className="h-full rounded-full bg-emerald-400 transition-all ease-out duration-500"
               style={{ width: `${displayPercentage.toFixed(0)}%` }}
             ></div>
           </div>
