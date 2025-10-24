@@ -1,5 +1,5 @@
 export const formatCurrency = (value: number): string => {
-  return `$${value.toLocaleString()}`;
+  return `$ ${value.toLocaleString()}`;
 };
 
 export const formatDate = (dateStr: string): string => {
