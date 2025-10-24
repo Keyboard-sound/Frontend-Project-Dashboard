@@ -16,6 +16,8 @@ export interface Products {
 }
 
 export async function getProducts(): Promise<Products[]> {
+  // fetch max 20 product
+  //set to fetch 15 product for testing
   try {
     const res = await axios.get<Products[]>(
       "https://api.escuelajs.co/api/v1/products?offset=0&limit=15"
