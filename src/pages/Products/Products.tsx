@@ -7,7 +7,7 @@ export default function ProductsPage() {
       <div className="flex flex-row justify-end w-full mb-5">
         <SearchInput placeholder="search..." />
       </div>
-      {/* card */}
+      {/* card list */}
       <div className="flex flex-wrap items-center gap-y-6">
         <ProductList />
       </div>

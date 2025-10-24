@@ -32,7 +32,7 @@ export function generateSalesData(
       customerEmail: faker.internet.email(),
       productId: product.id,
       productName: product.title,
-      category: product.category.name,
+      category: product.category,
       price: product.price,
       quantity,
       total: quantity * product.price,

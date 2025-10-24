@@ -3,26 +3,34 @@ import axios from "axios";
 export interface Products {
   id: number;
   title: string;
-  slug: string;
-  price: number;
   description: string;
-  category: {
-    id: number;
-    name: string;
-    image: string;
-    slug: string;
-  };
+  price: number;
+  discountPercentage: number;
+  rating: number;
+  stock: number;
+  brand: string;
+  category: string;
+  thumbnail: string;
   images: string[];
+}
+
+interface DummyJsonResponse {
+  products: Products[];
+  total: number;
+  skip: number;
+  limit: number;
 }
 
 export async function getProducts(): Promise<Products[]> {
   // fetch max 20 product
   //set to fetch 15 product for testing
   try {
-    const res = await axios.get<Products[]>(
-      "https://api.escuelajs.co/api/v1/products?offset=0&limit=15"
+    const res = await axios.get<DummyJsonResponse>(
+      "https://dummyjson.com/products?limit=10"
     );
-    const data = res.data;
+    const data = res.data.products;
+    console.log("data from dummy", data);
+
     return data;
   } catch (error) {
     console.error("Error", error);
