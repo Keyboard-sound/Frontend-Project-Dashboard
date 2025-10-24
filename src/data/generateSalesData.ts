@@ -26,6 +26,7 @@ export function generateSalesData(
     const salesStatus = ["completed", "pending", "returns"];
     const paymentMethod = ["credit_card", "paypal", "bank_transfer"];
     const channel = ["online", "physical"];
+    const roundedPrice = Math.floor(product.price);
     return {
       id: faker.string.alphanumeric(5),
       customerName: faker.person.firstName(),
@@ -33,9 +34,9 @@ export function generateSalesData(
       productId: product.id,
       productName: product.title,
       category: product.category,
-      price: product.price,
+      price: roundedPrice,
       quantity,
-      total: quantity * product.price,
+      total: quantity * roundedPrice,
       date: faker.date.recent({ days: 90 }),
       status: faker.helpers.arrayElement(salesStatus),
       payment: faker.helpers.arrayElement(paymentMethod),
