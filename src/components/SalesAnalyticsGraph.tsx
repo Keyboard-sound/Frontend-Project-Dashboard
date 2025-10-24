@@ -88,7 +88,7 @@ export default function SalesAnalyticsGraph() {
             online: {formatCurrency(data.onlineTotal)}
           </p>
           <p className="text-sm text-blue-500">
-            physical: {data.physicalTotal}
+            physical: {formatCurrency(data.physicalTotal)}
           </p>
         </div>
       );

@@ -11,7 +11,6 @@ import useSalesStore from "../../store/useSalesStore";
 import SalesAnalyticsGraph from "../../components/SalesAnalyticsGraph";
 import SalesAct from "../../components/SalesAct";
 import TargetCard from "../../components/TargetCard";
-import SearchInput from "../../components/SearchInput";
 
 export default function Dashboard() {
   const { loadSalesData, filters, updateFilters, clearAllData, loading } =
@@ -26,8 +25,6 @@ export default function Dashboard() {
           </h1>
           <TimeDisplay />
         </div>
-
-        <SearchInput placeholder="search..." />
       </div>
       <div className="flex gap-2 pt-2 pb-3 lg:pb-5 text-2xs lg:text-sm text-slate-400">
         <div className="flex items-center border border-gray-200  rounded-lg hover:shadow-sm ">
