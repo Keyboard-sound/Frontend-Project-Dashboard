@@ -123,7 +123,7 @@ const useSalesStore = create<SalesStore>()(
         const { salesData } = get();
 
         return salesData.reduce((sum, sale) => {
-          return sale.status !== "pending" ? sum + (sale.total || 0) : sum;
+          return sale.status === "completed" ? sum + (sale.total || 0) : sum;
         }, 0);
       },
 

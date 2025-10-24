@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import {
   Line,
   LineChart,
@@ -9,8 +10,8 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import useSalesStore from "../store/useSalesStore";
-import { useMemo } from "react";
 import colors from "tailwindcss/colors";
+import { formatCurrency, formatDate } from "../utils/formatter";
 
 interface CustomTooltipProps {
   active?: boolean;
@@ -25,18 +26,6 @@ interface CustomTooltipProps {
   }[];
   label?: string | number;
 }
-
-const formatCurrency = (value: number): string => {
-  return `$${value.toLocaleString()}`;
-};
-
-const formatDate = (dateStr: string): string => {
-  const date = new Date(dateStr);
-  const day = date.getDate();
-  const month = date.toLocaleString("en-US", { month: "short" });
-
-  return `${day}-${month}`;
-};
 
 const tooltipFormatDate = (dateStr: string) => {
   const date = new Date(dateStr);

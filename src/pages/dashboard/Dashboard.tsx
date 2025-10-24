@@ -10,6 +10,7 @@ import TimeDisplay from "../../components/TimeDisplay";
 import useSalesStore from "../../store/useSalesStore";
 import SalesAnalyticsGraph from "../../components/SalesAnalyticsGraph";
 import SalesAct from "../../components/SalesAct";
+import TargetCard from "../../components/TargetCard";
 import SearchInput from "../../components/SearchInput";
 
 export default function Dashboard() {
@@ -123,8 +124,8 @@ export default function Dashboard() {
         </div>
 
         {/* target */}
-        <div className="lg:w-[30%] px-4 py-4 border-gray-200  border rounded-lg">
-          Target Goal
+        <div className="lg:w-[30%] p-2 lg:p-4 rounded-lg bg-blue-700">
+          <TargetCard />
         </div>
       </div>
 
