@@ -1,8 +1,10 @@
+import { useState, useEffect } from "react";
 import useSalesStore from "../store/useSalesStore";
 import { formatCurrency } from "../utils/formatter";
 
 export const TargetCard = () => {
   const { getTotalSales } = useSalesStore();
+  const [displayPercentage, setDisplayPercentage] = useState(0);
 
   const currentSales = getTotalSales();
   const targetSales = 50000;
@@ -12,7 +14,15 @@ export const TargetCard = () => {
     return (current / target) * 100;
   };
 
-  const pregressPercentage = getPercentage(currentSales, targetSales);
+  const actualPercentage = getPercentage(currentSales, targetSales);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDisplayPercentage(actualPercentage);
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [actualPercentage]);
 
   return (
     <div className="w-full h-full flex flex-col justify-between">
@@ -37,13 +47,13 @@ export const TargetCard = () => {
           <div className="w-[90%] h-[2px] md:h-1 rounded-full bg-gray-50">
             {/* inner */}
             <div
-              className="h-full md:h-1 rounded-full bg-emerald-400"
-              style={{ width: `${pregressPercentage.toFixed(0)}%` }}
+              className="h-full md:h-1 rounded-full bg-emerald-400 transition-all ease-out duration-500"
+              style={{ width: `${displayPercentage.toFixed(0)}%` }}
             ></div>
           </div>
           {/* progression percentage */}
           <span className="text-white text-3xs md:text-xs">
-            {pregressPercentage.toFixed(0)}%
+            {actualPercentage.toFixed(0)}%
           </span>
         </div>
         {/* sale remaining */}
