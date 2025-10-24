@@ -64,7 +64,7 @@ export const TargetCard = () => {
           </div>
         ) : (
           <div className="text-3xs md:text-sm text-gray-200">
-            Target achieved!{"\u{1F389}"}
+            Target achieved! {"\u{1F389}"}
           </div>
         )}
       </div>

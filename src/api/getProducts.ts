@@ -26,7 +26,7 @@ export async function getProducts(): Promise<Products[]> {
   //set to fetch 15 product for testing
   try {
     const res = await axios.get<DummyJsonResponse>(
-      "https://dummyjson.com/products?limit=10"
+      "https://dummyjson.com/products?limit=15"
     );
     const data = res.data.products;
     console.log("data from dummy", data);
