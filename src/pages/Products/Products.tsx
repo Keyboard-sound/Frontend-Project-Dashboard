@@ -8,7 +8,7 @@ export default function ProductsPage() {
         <SearchInput placeholder="search..." />
       </div>
       {/* card list */}
-      <div className="flex flex-wrap items-center gap-y-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         <ProductList />
       </div>
     </div>
