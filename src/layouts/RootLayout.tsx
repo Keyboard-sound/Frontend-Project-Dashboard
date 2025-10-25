@@ -11,7 +11,7 @@ export default function RootLayout() {
     <div className="flex flex-col lg:flex-row bg-white lg:bg-blue-50 h-screen">
       <MobileHeader onMenuClick={() => setMobileMenuOpen(true)} />
       <DesktopSidebar />
-      <main className="flex-1 overflow-y-auto lg:pr-4 lg:py-3">
+      <main className="flex-1 lg:pr-4 lg:py-3">
         <Outlet />
       </main>
       <Dialog
