@@ -7,7 +7,7 @@ export const TargetCard = () => {
   const [displayPercentage, setDisplayPercentage] = useState(0);
 
   const currentSales = getTotalSales();
-  const targetSales = 50000;
+  const targetSales = 500000;
   const remainingSale = Math.max(0, targetSales - currentSales);
 
   const getPercentage = (current: number, target: number) => {
