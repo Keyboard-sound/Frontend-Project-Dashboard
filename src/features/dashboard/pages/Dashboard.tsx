@@ -5,12 +5,12 @@ import {
   RocketLaunchIcon,
   ChevronDownIcon,
 } from "@heroicons/react/24/outline";
-import StatCardList from "../../components/StatCardList";
-import TimeDisplay from "../../components/TimeDisplay";
-import useSalesStore from "../../store/useSalesStore";
-import SalesAnalyticsGraph from "../../components/SalesAnalyticsGraph";
-import SalesAct from "../../components/SalesAct";
-import TargetCard from "../../components/TargetCard";
+import StatCardList from "../components/StatCardList";
+import TimeDisplay from "../components/TimeDisplay";
+import useSalesStore from "../../../store/useSalesStore";
+import SalesAnalyticsGraph from "../components/SalesAnalyticsGraph";
+import SalesAct from "../components/SalesAct";
+import TargetCard from "../components/TargetCard";
 
 export default function Dashboard() {
   const { loadSalesData, filters, updateFilters, clearAllData, loading } =

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import useSalesStore from "../store/useSalesStore";
-import { formatCurrency } from "../utils/formatter";
+import useSalesStore from "../../../store/useSalesStore";
+import { formatCurrency } from "../../../utils/formatter";
 
 export const TargetCard = () => {
   const { getTotalSales } = useSalesStore();

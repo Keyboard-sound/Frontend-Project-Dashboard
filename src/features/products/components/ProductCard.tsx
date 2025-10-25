@@ -1,11 +1,11 @@
-import type { Products } from "../api/getProducts";
+import type { Products } from "../../../api/getProducts";
 
 interface ProductCardProps {
   product: Products;
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
-  console.log("from product Card", product);
+  // console.log("from product Card", product);//test
 
   return (
     <div className="flex flex-col justify-evenly items-center p-3 md:p-4 w-full h-auto border border-gray-200 rounded-lg shadow-md">

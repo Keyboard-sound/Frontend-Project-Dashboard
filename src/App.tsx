@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RootLayout from "./layouts/RootLayout.tsx";
-import Dashboard from "./pages/dashboard/Dashboard.tsx";
-import ProductsPage from "./pages/products/Products.tsx";
+import Dashboard from "./features/dashboard/pages/Dashboard.tsx";
+import ProductsPage from "./features/products/pages/Products.tsx";
 
 const router = createBrowserRouter([
   {

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import useSalesStore from "../store/useSalesStore";
+import useSalesStore from "../../../store/useSalesStore";
 import ProductCard from "./ProductCard";
 
 export default function ProductList() {

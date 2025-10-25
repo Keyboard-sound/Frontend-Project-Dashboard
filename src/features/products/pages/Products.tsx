@@ -1,5 +1,6 @@
-import SearchInput from "../../components/SearchInput";
-import ProductList from "../../components/ProductList";
+import SearchInput from "../../../components/SearchInput";
+import ProductList from "../components/ProductList";
+import AddProductButton from "../components/AddProductButton";
 
 export default function ProductsPage() {
   return (
@@ -10,6 +11,9 @@ export default function ProductsPage() {
       {/* card list */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         <ProductList />
+      </div>
+      <div>
+        <AddProductButton />
       </div>
     </div>
   );
