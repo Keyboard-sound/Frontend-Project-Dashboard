@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import useSalesStore from "../../../store/useSalesStore";
+import useSalesStore from "@store/useSalesStore";
 
 interface SalesActType {
   id: string;

@@ -9,9 +9,9 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import useSalesStore from "../../../store/useSalesStore";
+import useSalesStore from "@store/useSalesStore";
 import colors from "tailwindcss/colors";
-import { formatCurrency, formatDate } from "../../../utils/formatter";
+import { formatCurrency, formatDate } from "@utils/formatter";
 
 interface CustomTooltipProps {
   active?: boolean;

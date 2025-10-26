@@ -1,12 +1,12 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { generateSalesData } from "../data/generateSalesData";
-import { getProducts } from "../api/productsApi";
+import { getProducts } from "@api/productsApi";
 import { generateLastYearSalesData } from "../data/generateLastYearSalesData";
-import { createProduct, editProduct, deleteProduct } from "../api/productsApi";
+import { createProduct, editProduct, deleteProduct } from "@api/productsApi";
 import type { SaleRecord } from "../data/generateSalesData";
 import type { LastYearData } from "../data/generateLastYearSalesData";
-import type { Products } from "../api/productsApi";
+import type { Products } from "@api/productsApi";
 
 export interface SalesStore {
   salesData: SaleRecord[];

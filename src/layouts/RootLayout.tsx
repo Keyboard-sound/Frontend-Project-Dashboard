@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Dialog, DialogPanel } from "@headlessui/react";
-import DesktopSidebar from "../components/DesktopSidebar";
-import MobileHeader from "../components/MobileHeader";
-import MobileNav from "../components/MobileNav";
+import DesktopSidebar from "@components/DesktopSidebar";
+import MobileHeader from "@components/MobileHeader";
+import MobileNav from "@components/MobileNav";
 
 export default function RootLayout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

@@ -1,5 +1,5 @@
-import useWorldTime from "../../../hooks/useWorldTime";
-import { formatTime } from "../../../hooks/useWorldTime";
+import useWorldTime from "@hooks/useWorldTime";
+import { formatTime } from "@hooks/useWorldTime";
 
 export default function TimeDisplay() {
   const { time } = useWorldTime();
