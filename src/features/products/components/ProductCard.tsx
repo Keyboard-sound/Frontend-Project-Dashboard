@@ -29,8 +29,16 @@ const ProductCard = ({ product }: ProductCardProps) => {
       }
     } catch (error) {
       console.log("save editing product failed!", error);
-      alert("Failed to save product");
+      alert(
+        `Failed to save product: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`
+      );
     }
+  };
+
+  const handleCancel = () => {
+    setEditingId(null);
   };
 
   const handleDelete = async (close: () => void) => {
@@ -42,17 +50,44 @@ const ProductCard = ({ product }: ProductCardProps) => {
       }
     } catch (error) {
       console.error("Delete failed:", error);
-      alert("Failed to delete product");
+      alert(
+        `Failed to delete product: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`
+      );
     }
   };
-
+  const isEditing = editingId === product.id;
   return (
-    <div className="flex flex-col justify-evenly items-center px-3 pt-1 pb-3 md:px-4 md:pt-2 md:pb-4 w-full h-auto border border-gray-200 rounded-lg shadow-md overflow-hidden">
-      <div className="flex justify-end w-full">
+    <div className="flex flex-col justify-evenly items-center p-2 md:p-4 w-full h-auto border border-gray-200 rounded-lg shadow-md overflow-hidden">
+      <div className="relative flex justify-between items-center w-full h-5">
+        <div
+          className={`flex justify-between items-center gap-1 ${
+            isEditing ? "visible" : "invisible"
+          }`}
+        >
+          <button
+            type="button"
+            disabled={loading}
+            onClick={() => handleEditSave()}
+            className="p-0.5 md:p-1 border border-gray-200 rounded-sm text-2xs md:text-xs text-slate-400 bg-white cursor-pointer hover:bg-gray-100 focus:outline-none disabled:bg-gray-200"
+          >
+            save
+          </button>
+
+          <button
+            type="button"
+            onClick={() => handleCancel()}
+            className="p-0.5 md:p-1 border border-gray-200 rounded-sm text-2xs md:text-xs text-rose-500 bg-white cursor-pointer hover:bg-gray-100 focus:outline-none disabled:bg-gray-200"
+          >
+            cancel
+          </button>
+        </div>
+
         <Popover>
           <PopoverButton
             type="button"
-            className="flex justify-center items-center cursor-pointer focus:outline-none"
+            className="absolute top-0.5 bottom-0.5 right-0 flex justify-center items-center cursor-pointer focus:outline-none"
           >
             <EllipsisHorizontalIcon className="w-5 h-5 stroke-2 text-slate-400" />
           </PopoverButton>
@@ -93,58 +128,43 @@ const ProductCard = ({ product }: ProductCardProps) => {
       <div className="w-full h-[1px] my-1 bg-gray-200 shadow-sm" />
       <div className="flex flex-col w-full space-y-1 overflow-hidden">
         {/* product title */}
-        <div className="flex flex-row justify-between items-center gap-1 h-8 text-xs md:text-sm">
-          {editingId === product.id ? (
-            <>
-              <input
-                value={editForm.title}
-                onChange={(e) =>
-                  setEditForm({ ...editForm, title: e.target.value })
-                }
-                className="w-[80%] h-full px-1 border border-gray-200 rounded-sm focus:outline-none"
-              />
-              <button
-                type="button"
-                disabled={loading}
-                onClick={handleEditSave}
-                className="h-full p-1 border border-gray-200 rounded-sm text-xs text-slate-400 bg-white cursor-pointer hover:bg-gray-100 focus:outline-none disabled:bg-gray-200"
-              >
-                save
-              </button>
-            </>
+        <div className="flex flex-row justify-between items-center gap-1 h-5 md:h-8 text-xs md:text-sm">
+          {isEditing ? (
+            <input
+              value={editForm.title}
+              onChange={(e) =>
+                setEditForm({ ...editForm, title: e.target.value })
+              }
+              className="w-full h-full px-1 border border-gray-200 rounded-sm focus:outline-none"
+            />
           ) : (
             <h3 className="truncate"> {product.title}</h3>
           )}
         </div>
-        <div className="flex flex-row justify-between items-center gap-1 h-8 text-xs md:text-base">
+        <div className="flex flex-row justify-between items-center gap-1 h-5 md:h-8 text-xs md:text-sm">
           {/* stock quantity */}
-          {editingId === product.id ? (
+          {isEditing ? (
             <input
               type="number"
               value={editForm.stock}
               onChange={(e) =>
                 setEditForm({ ...editForm, stock: Number(e.target.value) })
               }
-              className="w-11 h-full px-1 border border-gray-200 rounded-sm focus:outline-none"
+              className="flex-1 w-full h-full px-1 border border-gray-200 rounded-sm focus:outline-none"
             />
           ) : (
             <span>{`in stock: ${product.stock}`}</span>
           )}
           {/* product price */}
-          {editingId === product.id ? (
-            <>
-              <input
-                type="number"
-                value={editForm.price}
-                onChange={(e) =>
-                  setEditForm({ ...editForm, price: Number(e.target.value) })
-                }
-                className="w-11 h-full px-1 border border-gray-200 rounded-sm focus:outline-none"
-              />
-              <button className="h-full p-1 border border-gray-200 rounded-sm text-xs text-rose-500 bg-white cursor-pointer hover:bg-gray-100 focus:outline-none disabled:bg-gray-200">
-                cancel
-              </button>
-            </>
+          {isEditing ? (
+            <input
+              type="number"
+              value={editForm.price}
+              onChange={(e) =>
+                setEditForm({ ...editForm, price: Number(e.target.value) })
+              }
+              className="flex-1 w-full h-full px-1 border border-gray-200 rounded-sm focus:outline-none"
+            />
           ) : (
             <span>{`$${product.price}`}</span>
           )}

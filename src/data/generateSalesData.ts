@@ -14,12 +14,14 @@ export interface SaleRecord {
   date: Date;
   status: string;
   channel: string;
+  payment: string;
 }
 
 export function generateSalesData(
   count: number,
   products: Products[]
 ): SaleRecord[] {
+
   const sales = Array.from({ length: count }).map(() => {
     const product = faker.helpers.arrayElement(products);
     const quantity = faker.number.int({ min: 1, max: 10 });
@@ -27,6 +29,7 @@ export function generateSalesData(
     const paymentMethod = ["credit_card", "paypal", "bank_transfer"];
     const channel = ["online", "physical"];
     const roundedPrice = Math.floor(product.price);
+
     return {
       id: faker.string.alphanumeric(5),
       customerName: faker.person.firstName(),

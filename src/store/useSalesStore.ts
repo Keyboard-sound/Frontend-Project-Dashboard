@@ -209,11 +209,32 @@ const useSalesStore = create<SalesStore>()(
       },
 
       editProduct: async (id, updates) => {
-        const { setLoading } = get();
+        const { setLoading, products } = get();
+
+        set((state) => ({
+          products: state.products.map((p) =>
+            p.id === id ? { ...p, ...updates } : p
+          ),
+        }));
 
         try {
           setLoading(true);
-          const updatedProduct = await editProduct(id, updates);
+          // Find the product to check if it's local and pass original data
+          const product = products.find((p) => p.id === id);
+
+          if (!product) {
+            throw new Error(`Product with id ${id} not found in store`);
+          }
+
+          const isLocal = product.isLocal ?? false;
+
+          // Pass the original product so local updates can merge properly
+          const updatedProduct = await editProduct(
+            id,
+            updates,
+            isLocal,
+            product
+          );
 
           return updatedProduct;
         } catch (error) {
