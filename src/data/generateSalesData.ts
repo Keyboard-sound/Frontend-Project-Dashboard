@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import type { Products } from "../api/getProducts";
+import type { Products } from "../api/productsApi";
 
 export interface SaleRecord {
   id: string;

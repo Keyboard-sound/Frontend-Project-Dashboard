@@ -7,7 +7,7 @@ const SearchInput: FC<{ placeholder: string }> = ({ placeholder }) => {
     <div className="flex items-center w-30 h-6 lg:w-50 lg:h-10 border-2 border-gray-200 rounded-lg px-2 md:px-4 py-1">
       <input
         type="text"
-        className="w-full h-full text-sm placeholder:text-xs placeholder:text-black focus:outline-none"
+        className="w-full h-full text-sm placeholder:text-xs placeholder:text-slate-400 focus:outline-none"
         placeholder={placeholder}
       />
       <MagnifyingGlassIcon className=" pl-0.5 w-5  h-5 stroke-2 text-slate-400" />

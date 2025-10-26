@@ -1,11 +1,12 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { generateSalesData } from "../data/generateSalesData";
-import { getProducts } from "../api/getProducts";
+import { getProducts } from "../api/productsApi";
 import { generateLastYearSalesData } from "../data/generateLastYearSalesData";
+import { createProduct, editProduct, deleteProduct } from "../api/productsApi";
 import type { SaleRecord } from "../data/generateSalesData";
 import type { LastYearData } from "../data/generateLastYearSalesData";
-import type { Products } from "../api/getProducts";
+import type { Products } from "../api/productsApi";
 
 export interface SalesStore {
   salesData: SaleRecord[];
@@ -35,6 +36,9 @@ export interface SalesStore {
   getTotalCustomers: () => number;
   getTotalOrders: () => number;
   getFilteredSales: () => SaleRecord[];
+  createProduct: (product: Omit<Products, "id">) => Promise<Products>;
+  editProduct: (id: number, updates: Partial<Products>) => Promise<Products>;
+  deleteProduct: (id: number) => Promise<void>;
 }
 
 const sortSalesByDate = (sales: SaleRecord[]): SaleRecord[] => {
@@ -183,6 +187,57 @@ const useSalesStore = create<SalesStore>()(
 
           return true;
         });
+      },
+
+      createProduct: async (product) => {
+        const { setLoading } = get();
+
+        try {
+          setLoading(true);
+          const newProduct = await createProduct(product);
+
+          set((state) => ({
+            products: [...state.products, newProduct],
+          }));
+          return newProduct;
+        } catch (error) {
+          console.error("Error creating product:", error);
+          throw error;
+        } finally {
+          setLoading(false);
+        }
+      },
+
+      editProduct: async (id, updates) => {
+        const { setLoading } = get();
+
+        try {
+          setLoading(true);
+          const updatedProduct = await editProduct(id, updates);
+
+          return updatedProduct;
+        } catch (error) {
+          console.error("Error updating product:", error);
+          throw error;
+        } finally {
+          setLoading(false);
+        }
+      },
+      deleteProduct: async (id) => {
+        const { setLoading } = get();
+
+        set((state) => ({
+          products: state.products.filter((p) => p.id !== id),
+        }));
+        try {
+          setLoading(true);
+          await deleteProduct(id);
+        } catch (error) {
+          console.error("Error deleting product:", error);
+          throw error;
+        } finally {
+          setLoading(false);
+        }
       },
     }),
 
