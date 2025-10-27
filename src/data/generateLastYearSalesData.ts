@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import type { Products } from "../api/productsApi";
+import type { Product } from "../api/productsApi";
 
 export interface LastYearSalesData {
   totalPhysicalSales: number;
@@ -15,7 +15,7 @@ export interface LastYearData {
 }
 
 function generatePeriodData(
-  products: Products[],
+  products: Product[],
   salesCount: number
 ): LastYearSalesData {
   let physicalTotal = 0;
@@ -51,7 +51,7 @@ function generatePeriodData(
   };
 }
 
-export function generateLastYearSalesData(products: Products[]): LastYearData {
+export function generateLastYearSalesData(products: Product[]): LastYearData {
   return {
     "7d": generatePeriodData(products, faker.number.int({ min: 10, max: 30 })),
     "30d": generatePeriodData(products, faker.number.int({ min: 40, max: 80 })),

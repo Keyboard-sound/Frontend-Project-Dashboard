@@ -54,7 +54,6 @@ export default function CreateProductForm({
       const newProduct = await createProduct(formData);
       console.log("Product created successfully:", newProduct);
 
-      // Reset form
       setFormData({
         title: "",
         price: 0,

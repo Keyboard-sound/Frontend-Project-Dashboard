@@ -2,22 +2,25 @@ import { useState } from "react";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
 import useSalesStore from "@store/useSalesStore";
-import type { Products } from "@api/productsApi";
+import type { Product } from "@api/productsApi";
 
 interface ProductCardProps {
-  product: Products;
+  product: Product;
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
   // console.log("from product Card", product); //test
   const [editingId, setEditingId] = useState<number | null>(null);
-  const [editForm, setEditForm] = useState<Partial<Products>>({});
+  const [editForm, setEditForm] = useState<Partial<Product>>({
+    title: product.title,
+    stock: product.stock,
+    price: product.price,
+  });
 
   const { deleteProduct, editProduct, loading } = useSalesStore();
 
   const handleEdit = (close: () => void) => {
     setEditingId(product.id);
-    setEditForm({ ...product });
     close();
   };
 
@@ -25,6 +28,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
     try {
       if (editingId !== null) {
         await editProduct(editingId, editForm);
+        alert(`Product "${editForm.title || "item"}" saved successfully!`);
         setEditingId(null);
       }
     } catch (error) {
@@ -153,7 +157,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
               className="flex-1 w-full h-full px-1 border border-gray-200 rounded-sm focus:outline-none"
             />
           ) : (
-            <span>{`in stock: ${product.stock}`}</span>
+            <span>{`in stock: ${product.stock.toLocaleString()}`}</span>
           )}
           {/* product price */}
           {isEditing ? (

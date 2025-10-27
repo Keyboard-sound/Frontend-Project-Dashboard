@@ -6,11 +6,11 @@ import { generateLastYearSalesData } from "../data/generateLastYearSalesData";
 import { createProduct, editProduct, deleteProduct } from "@api/productsApi";
 import type { SaleRecord } from "../data/generateSalesData";
 import type { LastYearData } from "../data/generateLastYearSalesData";
-import type { Products } from "@api/productsApi";
+import type { Product } from "@api/productsApi";
 
 export interface SalesStore {
   salesData: SaleRecord[];
-  products: Products[];
+  products: Product[];
   lastYearData: LastYearData | null;
   loading: boolean;
   filters: {
@@ -19,7 +19,7 @@ export interface SalesStore {
 
   setSalesData: (data: SaleRecord[]) => void;
   addSalesData: (data: SaleRecord[]) => void;
-  setProducts: (products: Products[]) => void;
+  setProducts: (products: Product[]) => void;
   setLoading: (loading: boolean) => void;
   updateFilters: (filters: Partial<SalesStore["filters"]>) => void;
   clearAllData: () => void;
@@ -36,8 +36,8 @@ export interface SalesStore {
   getTotalCustomers: () => number;
   getTotalOrders: () => number;
   getFilteredSales: () => SaleRecord[];
-  createProduct: (product: Omit<Products, "id">) => Promise<Products>;
-  editProduct: (id: number, updates: Partial<Products>) => Promise<Products>;
+  createProduct: (product: Omit<Product, "id">) => Promise<Product>;
+  editProduct: (id: number, updates: Partial<Product>) => Promise<Product>;
   deleteProduct: (id: number) => Promise<void>;
 }
 
@@ -244,15 +244,24 @@ const useSalesStore = create<SalesStore>()(
           setLoading(false);
         }
       },
+
       deleteProduct: async (id) => {
-        const { setLoading } = get();
+        const { setLoading, products } = get();
 
         set((state) => ({
           products: state.products.filter((p) => p.id !== id),
         }));
+
         try {
           setLoading(true);
-          await deleteProduct(id);
+          const product = products.find((p) => p.id === id);
+
+          if (!product) {
+            throw new Error(`Product with id ${id} not found in store`);
+          }
+          const isLocal = product.isLocal ?? false;
+
+          await deleteProduct(id, isLocal);
         } catch (error) {
           console.error("Error deleting product:", error);
           throw error;

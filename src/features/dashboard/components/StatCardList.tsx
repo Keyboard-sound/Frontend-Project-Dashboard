@@ -7,6 +7,7 @@ import {
 import useSalesStore from "@store/useSalesStore";
 import { StatCard } from "./StatCard";
 import type { ComponentProps } from "react";
+import { formatCurrency } from "@/utils/formatter";
 
 type StatCardProps = ComponentProps<typeof StatCard>;
 
@@ -107,13 +108,13 @@ export default function StatCardList() {
   };
 
   const renderedCompareValue = (value: number | null) => {
-    return value !== null ? value.toLocaleString() : "N/A";
+    return value !== null ? formatCurrency(value) : "N/A";
   };
 
   const cardItems: StatCardProps[] = [
     {
       title: "total sales",
-      value: stats.totalSales.toLocaleString(),
+      value: formatCurrency(stats.totalSales),
       icon: ShoppingCartIcon,
       trend: renderedTrend(stats.totalSalesChange, false),
       trendValue: renderedTrendValue(stats.totalSalesChange),
@@ -122,7 +123,7 @@ export default function StatCardList() {
     },
     {
       title: "online sales",
-      value: stats.online.toLocaleString(),
+      value: formatCurrency(stats.online),
       icon: CreditCardIcon,
       trend: renderedTrend(stats.totalOnlineSalesChange, false),
       trendValue: renderedTrendValue(stats.totalOnlineSalesChange),
@@ -131,7 +132,7 @@ export default function StatCardList() {
     },
     {
       title: "returns",
-      value: stats.returns.toLocaleString(),
+      value: formatCurrency(stats.returns),
       icon: ReceiptRefundIcon,
       trend: renderedTrend(stats.totalReturnsChange, true),
       trendValue: renderedTrendValue(stats.totalReturnsChange),

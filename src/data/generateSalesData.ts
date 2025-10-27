@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import type { Products } from "../api/productsApi";
+import type { Product } from "../api/productsApi";
 
 export interface SaleRecord {
   id: string;
@@ -19,16 +19,15 @@ export interface SaleRecord {
 
 export function generateSalesData(
   count: number,
-  products: Products[]
+  products: Product[]
 ): SaleRecord[] {
-
   const sales = Array.from({ length: count }).map(() => {
     const product = faker.helpers.arrayElement(products);
     const quantity = faker.number.int({ min: 1, max: 10 });
     const salesStatus = ["completed", "pending", "returns"];
     const paymentMethod = ["credit_card", "paypal", "bank_transfer"];
     const channel = ["online", "physical"];
-    const roundedPrice = Math.floor(product.price);
+    const roundedPrice = Math.round(product.price);
 
     return {
       id: faker.string.alphanumeric(5),

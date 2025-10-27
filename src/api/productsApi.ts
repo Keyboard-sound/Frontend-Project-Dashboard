@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export interface Products {
+export interface Product {
   id: number;
   title: string;
   description: string;
@@ -28,14 +28,16 @@ export type CreateProductInput = {
   images?: string[];
 };
 
+export type ProductUpdateInput = Omit<Partial<Product>, "id" | "isLocal">;
+
 interface DummyJsonResponse {
-  products: Products[];
+  products: Product[];
   total: number;
   skip: number;
   limit: number;
 }
 
-export async function getProducts(): Promise<Products[]> {
+export async function getProducts(): Promise<Product[]> {
   // fetch max 20 product
   try {
     const res = await axios.get<DummyJsonResponse>(
@@ -53,7 +55,7 @@ export async function getProducts(): Promise<Products[]> {
 
 export async function createProduct(
   product: CreateProductInput
-): Promise<Products> {
+): Promise<Product> {
   //Provided defaults for optional fields
   const productData = {
     description: "",
@@ -64,11 +66,11 @@ export async function createProduct(
     category: "",
     thumbnail: "https://via.placeholder.com/150",
     images: ["https://via.placeholder.com/150"],
-    ...product, // ← Override defaults with user's input
+    ...product,
   };
 
   try {
-    const res = await axios.post<Products>(
+    const res = await axios.post<Product>(
       "https://dummyjson.com/products/add",
       productData
     );
@@ -83,35 +85,37 @@ export async function createProduct(
 
 export async function editProduct(
   id: number,
-  updates: Partial<Products>,
+  updates: ProductUpdateInput,
   isLocal: boolean = false,
-  originalProduct?: Products
-): Promise<Products> {
+  originalProduct?: Product
+): Promise<Product> {
   console.log("editProduct called with:", { id, isLocal, updates });
+
   // For locally created products, skip API call and return merged data
   if (isLocal && originalProduct) {
     console.log("Updating local product (skipping API call):", id);
+
     // Return the full product with updates merged in
-    return { ...originalProduct, ...updates };
+    return { ...originalProduct, ...updates, isLocal: true };
   }
+
   // For products from the API, make the actual update request
   const url = `https://dummyjson.com/products/${id}`;
 
   try {
-    const res = await axios.put(url, updates);
+    const res = await axios.put<Product>(url, updates);
     console.log("Update successful:", res.data);
     return res.data;
   } catch (error) {
     console.error("Error updating product:", { id, url, error });
-    if (axios.isAxiosError(error)) {
-      console.error("Response:", error.response?.data);
-      console.error("Status:", error.response?.status);
-    }
     throw error;
   }
 }
 
-export async function deleteProduct(id: number) {
+export async function deleteProduct(id: number, isLocal: boolean) {
+  //Skip API call for locally created product
+  if (isLocal) return;
+
   try {
     const res = await axios.delete(`https://dummyjson.com/products/${id}`);
 

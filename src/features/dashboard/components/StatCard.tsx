@@ -63,7 +63,7 @@ export const StatCard: FC<{
         {title}
       </span>
       <span className="text-md lg:text-2xl font-bold">{value}</span>
-      <span className="text-slate-400 text-3xs md:text-2xs lg:text-xs">{`compared to $${compareValue} (same period LY)`}</span>
+      <span className="text-slate-400 text-3xs md:text-2xs lg:text-xs">{`compared to ${compareValue} (same period LY)`}</span>
     </div>
   );
 };
