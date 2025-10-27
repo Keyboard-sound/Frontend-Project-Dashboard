@@ -6,7 +6,7 @@ import { generateLastYearSalesData } from "../data/generateLastYearSalesData";
 import { createProduct, editProduct, deleteProduct } from "@api/productsApi";
 import type { SaleRecord } from "../data/generateSalesData";
 import type { LastYearData } from "../data/generateLastYearSalesData";
-import type { Product } from "@api/productsApi";
+import type { CreateProductInput, Product } from "@api/productsApi";
 
 export interface SalesStore {
   salesData: SaleRecord[];
@@ -36,7 +36,7 @@ export interface SalesStore {
   getTotalCustomers: () => number;
   getTotalOrders: () => number;
   getFilteredSales: () => SaleRecord[];
-  createProduct: (product: Omit<Product, "id">) => Promise<Product>;
+  createProduct: (product: CreateProductInput) => Promise<Product>;
   editProduct: (id: number, updates: Partial<Product>) => Promise<Product>;
   deleteProduct: (id: number) => Promise<void>;
 }
@@ -190,16 +190,29 @@ const useSalesStore = create<SalesStore>()(
       },
 
       createProduct: async (product) => {
-        const { setLoading } = get();
+        const { setLoading, products } = get();
 
         try {
           setLoading(true);
+          //generate new ID
+          const localId = products.map((p) => p.id);
+          const maxLocalId =
+            localId.length > 0 ? Math.max(...localId, 195) : 194;
+          const uniqueId = maxLocalId + 1;
+          //get image
+          const imageUrl = [`https://picsum.photos/id/${uniqueId}/200/300`];
+
           const newProduct = await createProduct(product);
+          const productWithUniqueId = {
+            ...newProduct,
+            id: uniqueId,
+            images: imageUrl,
+          };
 
           set((state) => ({
-            products: [...state.products, newProduct],
+            products: [...state.products, productWithUniqueId], // not done
           }));
-          return newProduct;
+          return productWithUniqueId;
         } catch (error) {
           console.error("Error creating product:", error);
           throw error;

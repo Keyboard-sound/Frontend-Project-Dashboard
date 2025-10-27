@@ -25,7 +25,7 @@ export type CreateProductInput = {
   brand?: string;
   category?: string;
   thumbnail?: string;
-  images?: string[];
+  images?: string[] | null;
 };
 
 export type ProductUpdateInput = Omit<Partial<Product>, "id" | "isLocal">;
@@ -56,6 +56,7 @@ export async function getProducts(): Promise<Product[]> {
 export async function createProduct(
   product: CreateProductInput
 ): Promise<Product> {
+
   //Provided defaults for optional fields
   const productData = {
     description: "",
@@ -65,7 +66,7 @@ export async function createProduct(
     brand: "",
     category: "",
     thumbnail: "https://via.placeholder.com/150",
-    images: ["https://via.placeholder.com/150"],
+    images: null,
     ...product,
   };
 
