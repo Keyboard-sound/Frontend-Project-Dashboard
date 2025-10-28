@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Dialog, Button, DialogPanel } from "@headlessui/react";
+import { Dialog, Button, DialogPanel, DialogBackdrop } from "@headlessui/react";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import SearchInput from "@components/SearchInput";
 import CreateProductForm from "./CreatProductForm";
@@ -28,14 +28,15 @@ export default function ProductToolBar() {
         className="relative z-50"
       >
         {/* Backdrop */}
-        <div
-          className="fixed inset-0 bg-black/30 transition"
+        <DialogBackdrop
+          transition
+          className="fixed inset-0 bg-black/30 transition duration-150 ease-out data-closed:opacity-0"
           aria-hidden="true"
         />
-        <div className="fixed inset-0 flex justify-end">
+        <div className="fixed inset-0 flex items-center justify-end">
           <DialogPanel
             transition
-            className="w-96 h-full bg-white transition duration-300 ease-in-out data-closed:translate-x-full data-open:translate-x-0"
+            className="w-96 h-full bg-white transition duration-500 ease-in-out shadow-2xl data-closed:translate-x-full data-closed:opacity-0 data-open:translate-x-0"
           >
             <CreateProductForm
               onSuccess={() => setIsDialogOpen(false)}

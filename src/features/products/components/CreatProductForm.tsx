@@ -7,6 +7,11 @@ interface CreateProductFormProps {
   onCancel?: () => void;
 }
 
+type FormErrors = {
+  title?: string;
+  price?: string;
+};
+
 export default function CreateProductForm({
   onSuccess,
   onCancel,
@@ -22,9 +27,7 @@ export default function CreateProductForm({
     category: "",
   });
 
-  const [errors, setErrors] = useState<
-    Partial<Record<keyof CreateProductInput, string>>
-  >({});
+  const [errors, setErrors] = useState<FormErrors>({});
 
   // Validate form
   const validateForm = (): boolean => {
@@ -64,7 +67,6 @@ export default function CreateProductForm({
       });
       setErrors({});
 
-      // Call success callback
       if (onSuccess) {
         onSuccess();
       }
@@ -85,13 +87,14 @@ export default function CreateProductForm({
       [name]: type === "number" ? Number(value) : value,
     }));
 
-    // // Clear error when user starts typing
-    // if (errors[name as keyof CreateProductInput]) {
-    //   setErrors((prev) => ({
-    //     ...prev,
-    //     [name]: undefined,
-    //   }));
-    // }
+    // Clear error when user starts typing
+    // need this condition because name could be something else not just "title" and "price"
+    if (errors[name as keyof FormErrors]) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: undefined,
+      }));
+    }
   };
 
   return (
