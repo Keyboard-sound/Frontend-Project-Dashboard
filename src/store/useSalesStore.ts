@@ -194,19 +194,19 @@ const useSalesStore = create<SalesStore>()(
 
         try {
           setLoading(true);
-          //generate new ID
-          const localId = products.map((p) => p.id);
-          const maxLocalId =
-            localId.length > 0 ? Math.max(...localId, 195) : 194;
+          //find the ID at 195 and above, ignore 1-20
+          const localId = products.map((p) => p.id).filter((id) => id >= 195);
+          const maxLocalId = localId.length > 0 ? Math.max(...localId) : 194;
           const uniqueId = maxLocalId + 1;
           //get image
-          const imageUrl = [`https://picsum.photos/id/${uniqueId}/200/300`];
+          const imageUrl = `https://picsum.photos/id/${uniqueId}/200/300`;
 
           const newProduct = await createProduct(product);
           const productWithUniqueId = {
             ...newProduct,
             id: uniqueId,
-            images: imageUrl,
+            images: [imageUrl],
+            thumbnail: imageUrl,
           };
 
           set((state) => ({
