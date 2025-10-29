@@ -11,16 +11,17 @@ interface ProductCardProps {
 const ProductCard = ({ product }: ProductCardProps) => {
   // console.log("from product Card", product); //test
   const [editingId, setEditingId] = useState<number | null>(null);
-  const [editForm, setEditForm] = useState<Partial<Product>>({
-    title: product.title,
-    stock: product.stock,
-    price: product.price,
-  });
+  const [editForm, setEditForm] = useState<Partial<Product>>({});
 
   const { deleteProduct, editProduct, loading } = useSalesStore();
 
   const handleEdit = (close: () => void) => {
     setEditingId(product.id);
+    setEditForm({
+      title: product.title,
+      stock: product.stock,
+      price: product.price,
+    });
     close();
   };
 
