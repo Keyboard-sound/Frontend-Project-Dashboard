@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import {
   Line,
   LineChart,
@@ -9,7 +8,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import useSalesStore from "@store/useSalesStore";
+import useSalesStat from "@/hooks/useSalesStat";
 import colors from "tailwindcss/colors";
 import { formatCurrency, formatDate } from "@utils/formatter";
 
@@ -36,42 +35,9 @@ const tooltipFormatDate = (dateStr: string) => {
 };
 
 export default function SalesAnalyticsGraph() {
-  const { salesData, filters } = useSalesStore();
+  const { aggregatedByDate } = useSalesStat();
 
-  const chartData = useMemo(() => {
-    const filtered = salesData.filter((sale) => {
-      if (!sale.date) return false;
-
-      const dayDiff = Math.floor(
-        (Date.now() - new Date(sale.date).getTime()) / (1000 * 60 * 60 * 24)
-      );
-
-      const dayLimit = parseInt(filters.dateRange.replace("d", ""));
-
-      return dayDiff <= dayLimit;
-    });
-    const completed = filtered.filter((sale) => sale.status === "completed");
-
-    const grouped: Record<
-      string,
-      { date: string; physicalTotal: number; onlineTotal: number }
-    > = {};
-
-    completed.forEach((sale) => {
-      const key = new Date(sale.date).toISOString().split("T")[0];
-
-      if (!grouped[key]) {
-        grouped[key] = { date: key, physicalTotal: 0, onlineTotal: 0 };
-      }
-
-      if (sale.channel === "physical") {
-        grouped[key].physicalTotal += sale.total;
-      } else if (sale.channel === "online") {
-        grouped[key].onlineTotal += sale.total;
-      }
-    });
-    return Object.values(grouped);
-  }, [salesData, filters]);
+  const chartData = aggregatedByDate;
 
   const CustomTooltip = ({ payload, active }: CustomTooltipProps) => {
     if (!active || !payload || payload.length === 0) return null;

@@ -11,6 +11,7 @@ import useSalesStore from "@store/useSalesStore";
 import SalesAnalyticsGraph from "../components/SalesAnalyticsGraph";
 import SalesActivities from "../components/SalesActivities";
 import TargetCard from "../components/TargetCard";
+import RecentSales from "../components/RecentSales";
 
 export default function Dashboard() {
   const { loadSalesData, filters, updateFilters, clearAllData, loading } =
@@ -139,8 +140,8 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="w-full lg:w-[30%] border border-gray-200 rounded-lg px-4 py-4 mt-3 lg:mt-0">
-          Activities log
+        <div className="flex flex-col justify-between items-cemter w-full lg:w-[30%] space-y-1 border border-gray-200 rounded-lg px-4 py-4 mt-3 lg:mt-0">
+          <RecentSales />
         </div>
       </div>
 

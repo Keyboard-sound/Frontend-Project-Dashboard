@@ -9,7 +9,7 @@ export default function useWorldTime(timeZone: string = "Etc/UTC") {
   const [time, setTime] = useState<Date | null>(null);
 
   useEffect(() => {
-    let intervalID: number;
+    let intervalID: ReturnType<typeof setInterval>;
     let startTime: number;
     let startDate: Date;
 
