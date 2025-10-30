@@ -12,7 +12,7 @@ export const AddProductButton: FC = () => {
       <button
         type="button"
         onClick={() => setIsDialogOpen(true)}
-        className="flex flex-row gap-1 justify-center items-center w-auto h-full p-1 md:p-2 border border-gray-200 rounded-lg bg-white cursor-pointer hover:shadow-sm active:bg-gray-100"
+        className="flex flex-row justify-between items-center gap-1 min-w-20 h-full p-1 md:p-2 border border-gray-200 rounded-lg bg-white cursor-pointer hover:shadow-sm active:bg-gray-100"
       >
         <PlusIcon className="w-4 h-4 md:w-5 md:h-5 text-slate-400" />
         <span className="text-2xs md:text-base font-normal text-slate-400">

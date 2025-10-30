@@ -16,8 +16,9 @@ const ProductToolBar: FC = () => {
   };
 
   return (
-    <div className="flex flex-row justify-between gap-2">
+    <div className="flex flex-row justify-between items-center">
       {/* Add product button */}
+
       <AddProductButton />
       <div>
         <SearchInput
