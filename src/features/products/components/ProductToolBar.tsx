@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Dialog, Button, DialogPanel, DialogBackdrop } from "@headlessui/react";
-import { PlusIcon } from "@heroicons/react/24/outline";
+import { Dialog, DialogPanel, DialogBackdrop } from "@headlessui/react";
 import SearchInput from "@components/SearchInput";
 import CreateProductForm from "./CreatProductForm";
 import useSalesStore from "@/store/useSalesStore";
 import type { Product } from "@/api/productsApi";
+import { AddProductButton } from "./AddProductButton";
 
 export default function ProductToolBar() {
   const { products, setSearchQuery } = useSalesStore();
@@ -20,14 +20,8 @@ export default function ProductToolBar() {
 
   return (
     <div className="flex flex-row justify-between gap-2">
-      <Button
-        type="button"
-        onClick={() => setIsDialogOpen(true)}
-        className="flex flex-row gap-1 justify-center items-center p-2 border border-gray-200 rounded-lg bg-white cursor-pointer hover:shadow-sm active:bg-gray-100"
-      >
-        <PlusIcon className="w-5 h-5 text-slate-400" />
-        <span className="text-slate-400">Add Product</span>
-      </Button>
+      {/* Add product button */}
+      <AddProductButton onClick={() => setIsDialogOpen(true)} />
       <div>
         <SearchInput
           placeholder="search..."
