@@ -41,7 +41,7 @@ const SearchInput: FC<SearchInputProps> = ({
     //when small screen try to collapse to magnify button when clicked show search box
     <Combobox value={selectedProduct} onChange={handleSelect}>
       <div className="relative">
-        <div className="flex items-center w-25 md:w-30 h-6 lg:w-50 lg:h-10 border-2 border-gray-200 rounded-lg px-2 md:px-4 py-1">
+        <div className="flex items-center w-25 md:w-30 h-full lg:w-50 lg:h-10 border-1 border-gray-200 rounded-lg px-2 md:px-4 py-1">
           <ComboboxInput
             type="text"
             onChange={(e) => setQuery(e.target.value)}
