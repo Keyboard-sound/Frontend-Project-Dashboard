@@ -214,7 +214,7 @@ export default function CreateProductForm({
         <button
           type="submit"
           disabled={loading}
-          className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+          className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg font-medium cursor-pointer hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
         >
           {loading ? "Adding Product..." : "Add Product"}
         </button>
@@ -224,7 +224,7 @@ export default function CreateProductForm({
             type="button"
             onClick={onCancel}
             disabled={loading}
-            className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 disabled:bg-gray-100 disabled:cursor-not-allowed transition-colors"
+            className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg font-medium cursor-pointer hover:bg-gray-300 disabled:bg-gray-100 disabled:cursor-not-allowed transition-colors"
           >
             Cancel
           </button>

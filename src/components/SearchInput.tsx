@@ -50,27 +50,29 @@ const SearchInput: FC<SearchInputProps> = ({
           />
           <MagnifyingGlassIcon className=" pl-0.5 w-5  h-5 stroke-2 text-slate-400" />
         </div>
-        <ComboboxOptions
-          transition
-          anchor="bottom end"
-          className="absolute z-50 w-50 p-1 rounded-lg shadow-md [--anchor-gap:--spacing(5)] bg-white"
-        >
-          {filteredProducts.length === 0 && query !== "" ? (
-            <div className="px-4 py-2 text-sm text-slate-400">
-              No products found.
-            </div>
-          ) : (
-            filteredProducts.map((product) => (
-              <ComboboxOption
-                key={product.id}
-                value={product}
-                className="px-4 py-2 text-sm rounded-lg cursor-pointer hover:bg-gray-100"
-              >
-                <div className="truncate">{product.title}</div>
-              </ComboboxOption>
-            ))
-          )}
-        </ComboboxOptions>
+        {query !== "" && (
+          <ComboboxOptions
+            transition
+            anchor="bottom end"
+            className="absolute z-50 w-50 p-1 rounded-lg shadow-md [--anchor-gap:--spacing(5)] bg-white data-closed:opacity-0"
+          >
+            {filteredProducts.length === 0 && query !== "" ? (
+              <div className="px-4 py-2 text-sm text-slate-400">
+                No products found.
+              </div>
+            ) : (
+              filteredProducts.map((product) => (
+                <ComboboxOption
+                  key={product.id}
+                  value={product}
+                  className="px-4 py-2 text-sm rounded-lg cursor-pointer hover:bg-gray-100"
+                >
+                  <div className="truncate">{product.title}</div>
+                </ComboboxOption>
+              ))
+            )}
+          </ComboboxOptions>
+        )}
       </div>
     </Combobox>
   );
