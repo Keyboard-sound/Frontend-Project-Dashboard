@@ -9,7 +9,7 @@ import StatCardList from "../components/StatCardList";
 import TimeDisplay from "../components/TimeDisplay";
 import useSalesStore from "@store/useSalesStore";
 import SalesAnalyticsGraph from "../components/SalesAnalyticsGraph";
-import SalesAct from "../components/SalesAct";
+import SalesActivities from "../components/SalesActivities";
 import TargetCard from "../components/TargetCard";
 
 export default function Dashboard() {
@@ -146,7 +146,7 @@ export default function Dashboard() {
 
       {/* Show Sale activities */}
       <div className="w-full min-h-50 border border-gray-200 rounded-lg mt-3 lg:mt-5 px-4 py-4 overflow-x-auto">
-        <SalesAct />
+        <SalesActivities />
       </div>
     </div>
   );

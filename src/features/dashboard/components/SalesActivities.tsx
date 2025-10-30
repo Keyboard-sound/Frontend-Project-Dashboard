@@ -21,7 +21,7 @@ const formatDate = (dateStr: string) => {
   return `${day}/${month}/${year}`;
 };
 
-export default function SalesAct() {
+export default function SalesActivities() {
   const { salesData } = useSalesStore();
 
   const invoices: SalesActType[] = useMemo(() => {
