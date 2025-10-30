@@ -14,7 +14,7 @@ const RecentSales = () => {
           className="flex flex-row justify-between items-center rounded-lg p-1"
         >
           <div className="flex flex-row items-center gap-3">
-            {/* <UserProfile className="w-8 h-8" /> */}
+            <UserProfile className="w-8 h-8 text-slate-500" />
             <div className="flex flex-col">
               <span className="text-sm md:text-base">{sale.customerName}</span>
               <span className="text-2xs md:text-sm text-slate-400">
