@@ -1,17 +1,78 @@
+import { useState } from "react";
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxOption,
+  ComboboxOptions,
+} from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import type { Product } from "@/api/productsApi";
 import type { FC } from "react";
 
-const SearchInput: FC<{ placeholder: string }> = ({ placeholder }) => {
+interface SearchInputProps {
+  placeholder: string;
+  products: Product[];
+  onSelectProduct?: (product: Product | null) => void;
+}
+
+const SearchInput: FC<SearchInputProps> = ({
+  placeholder,
+  products,
+  onSelectProduct,
+}) => {
+  const [query, setQuery] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
+  const filteredProducts =
+    query === ""
+      ? []
+      : products.filter((p) => {
+          return p.title.toLowerCase().includes(query.toLowerCase());
+        });
+
+  const handleSelect = (product: Product | null) => {
+    setSelectedProduct(product);
+    if (onSelectProduct) {
+      onSelectProduct(product);
+    }
+  };
+
   return (
     //when small screen try to collapse to magnify button when clicked show search box
-    <div className="flex items-center w-30 h-6 lg:w-50 lg:h-10 border-2 border-gray-200 rounded-lg px-2 md:px-4 py-1">
-      <input
-        type="text"
-        className="w-full h-full text-sm placeholder:text-xs placeholder:text-slate-400 focus:outline-none"
-        placeholder={placeholder}
-      />
-      <MagnifyingGlassIcon className=" pl-0.5 w-5  h-5 stroke-2 text-slate-400" />
-    </div>
+    <Combobox value={selectedProduct} onChange={handleSelect}>
+      <div className="relative">
+        <div className="flex items-center w-30 h-6 lg:w-50 lg:h-10 border-2 border-gray-200 rounded-lg px-2 md:px-4 py-1">
+          <ComboboxInput
+            type="text"
+            onChange={(e) => setQuery(e.target.value)}
+            className="w-full h-full text-sm placeholder:text-xs placeholder:text-slate-400 focus:outline-none"
+            placeholder={placeholder}
+          />
+          <MagnifyingGlassIcon className=" pl-0.5 w-5  h-5 stroke-2 text-slate-400" />
+        </div>
+        <ComboboxOptions
+          transition
+          anchor="bottom end"
+          className="absolute z-50 w-50 p-1 rounded-lg shadow-md [--anchor-gap:--spacing(5)] bg-white"
+        >
+          {filteredProducts.length === 0 && query !== "" ? (
+            <div className="px-4 py-2 text-sm text-slate-400">
+              No products found.
+            </div>
+          ) : (
+            filteredProducts.map((product) => (
+              <ComboboxOption
+                key={product.id}
+                value={product}
+                className="px-4 py-2 text-sm rounded-lg cursor-pointer hover:bg-gray-100"
+              >
+                <div className="truncate">{product.title}</div>
+              </ComboboxOption>
+            ))
+          )}
+        </ComboboxOptions>
+      </div>
+    </Combobox>
   );
 };
 

@@ -6,13 +6,18 @@ import { generateLastYearSalesData } from "../data/generateLastYearSalesData";
 import { createProduct, editProduct, deleteProduct } from "@api/productsApi";
 import type { SaleRecord } from "../data/generateSalesData";
 import type { LastYearData } from "../data/generateLastYearSalesData";
-import type { CreateProductInput, Product } from "@api/productsApi";
+import type {
+  CreateProductInput,
+  Product,
+  ProductUpdateInput,
+} from "@api/productsApi";
 
 export interface SalesStore {
   salesData: SaleRecord[];
   products: Product[];
   lastYearData: LastYearData | null;
   loading: boolean;
+  searchQuery: string;
   filters: {
     dateRange: "7d" | "30d" | "90d";
   };
@@ -21,6 +26,7 @@ export interface SalesStore {
   addSalesData: (data: SaleRecord[]) => void;
   setProducts: (products: Product[]) => void;
   setLoading: (loading: boolean) => void;
+  setSearchQuery: (query: string) => void;
   updateFilters: (filters: Partial<SalesStore["filters"]>) => void;
   clearAllData: () => void;
   loadSalesData: (count: number) => Promise<void>;
@@ -36,8 +42,9 @@ export interface SalesStore {
   getTotalCustomers: () => number;
   getTotalOrders: () => number;
   getFilteredSales: () => SaleRecord[];
+  getFilteredProducts: () => Product[];
   createProduct: (product: CreateProductInput) => Promise<Product>;
-  editProduct: (id: number, updates: Partial<Product>) => Promise<Product>;
+  editProduct: (id: number, updates: ProductUpdateInput) => Promise<Product>;
   deleteProduct: (id: number) => Promise<void>;
 }
 
@@ -56,6 +63,7 @@ const useSalesStore = create<SalesStore>()(
       salesData: [],
       products: [],
       lastYearData: null,
+      searchQuery: "",
       loading: false,
       filters: {
         dateRange: "30d",
@@ -77,6 +85,20 @@ const useSalesStore = create<SalesStore>()(
           lastYearData: null,
           filters: { dateRange: "30d" },
         }),
+
+      setSearchQuery: (query) => set({ searchQuery: query }),
+
+      getFilteredProducts: () => {
+        const { products, searchQuery } = get();
+
+        if (!searchQuery || searchQuery.trim() === "") {
+          return products;
+        }
+
+        return products.filter((product) =>
+          product.title.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+      },
 
       fetchProducts: async () => {
         const { setProducts, setLoading } = get();

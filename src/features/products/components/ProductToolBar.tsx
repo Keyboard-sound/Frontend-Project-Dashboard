@@ -3,9 +3,20 @@ import { Dialog, Button, DialogPanel, DialogBackdrop } from "@headlessui/react";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import SearchInput from "@components/SearchInput";
 import CreateProductForm from "./CreatProductForm";
+import useSalesStore from "@/store/useSalesStore";
+import type { Product } from "@/api/productsApi";
 
 export default function ProductToolBar() {
+  const { products, setSearchQuery } = useSalesStore();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleSelectProduct = (product: Product | null) => {
+    if (product) {
+      setSearchQuery(product.title);
+    } else {
+      setSearchQuery("");
+    }
+  };
 
   return (
     <div className="flex flex-row justify-between gap-2">
@@ -18,7 +29,11 @@ export default function ProductToolBar() {
         <span className="text-slate-400">Add Product</span>
       </Button>
       <div>
-        <SearchInput placeholder="search..." />
+        <SearchInput
+          placeholder="search..."
+          products={products}
+          onSelectProduct={handleSelectProduct}
+        />
       </div>
 
       {/* Create product form */}
