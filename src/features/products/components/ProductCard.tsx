@@ -19,6 +19,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
     setEditingId(product.id);
     setEditForm({
       title: product.title,
+      description: product.description,
       stock: product.stock,
       price: product.price,
     });
@@ -133,46 +134,67 @@ const ProductCard = ({ product }: ProductCardProps) => {
       <div className="w-full h-[1px] my-1 bg-gray-200 shadow-sm" />
       <div className="flex flex-col w-full space-y-1 overflow-hidden">
         {/* product title */}
-        <div className="flex flex-row justify-between items-center gap-1 h-5 md:h-8 text-xs md:text-sm">
+        <div className="flex flex-col justify-center items-start gap-1 min-h-14 text-xs md:text-sm">
           {isEditing ? (
             <input
+              type="text"
               value={editForm.title}
               onChange={(e) =>
                 setEditForm({ ...editForm, title: e.target.value })
               }
-              className="w-full h-full px-1 border border-gray-200 rounded-sm focus:outline-none"
+              className="w-full px-1 border border-gray-200 rounded-sm focus:border-blue-400"
             />
           ) : (
-            <h3 className="truncate"> {product.title}</h3>
+            <h3 className="truncate">{product.title}</h3>
+          )}
+
+          {/*Product description */}
+          {isEditing ? (
+            <textarea
+              value={editForm.description}
+              onChange={(e) =>
+                setEditForm({ ...editForm, description: e.target.value })
+              }
+              className="w-full px-1 text-3xs md:text-xs border border-gray-200 rounded-sm focus:border-blue-400"
+            />
+          ) : (
+            <h3 className="text-3xs md:text-xs text-wrap text-slate-400 font-normal line-clamp-2 truncate">
+              {product.description}
+            </h3>
           )}
         </div>
-        <div className="flex flex-row justify-between items-center gap-1 h-5 md:h-8 text-xs md:text-sm">
+
+        <div className="flex flex-row justify-between items-center gap-2">
           {/* stock quantity */}
-          {isEditing ? (
-            <input
-              type="number"
-              value={editForm.stock}
-              onChange={(e) =>
-                setEditForm({ ...editForm, stock: Number(e.target.value) })
-              }
-              className="flex-1 w-full h-full px-1 border border-gray-200 rounded-sm focus:outline-none"
-            />
-          ) : (
-            <span>{`in stock: ${product.stock.toLocaleString()}`}</span>
-          )}
+          <div className="flex-1">
+            {isEditing ? (
+              <input
+                type="number"
+                value={editForm.stock}
+                onChange={(e) =>
+                  setEditForm({ ...editForm, stock: Number(e.target.value) })
+                }
+                className="flex-1 w-full h-full px-1 py-1 md:py-1.5 text-xs md:text-sm border border-gray-200 rounded-sm focus:border-blue-400"
+              />
+            ) : (
+              <span className="inline-block px-1 py-1 md:py-1.5 text-xs md:text-sm">{`in stock: ${product.stock.toLocaleString()}`}</span>
+            )}
+          </div>
           {/* product price */}
-          {isEditing ? (
-            <input
-              type="number"
-              value={editForm.price}
-              onChange={(e) =>
-                setEditForm({ ...editForm, price: Number(e.target.value) })
-              }
-              className="flex-1 w-full h-full px-1 border border-gray-200 rounded-sm focus:outline-none"
-            />
-          ) : (
-            <span>{`$${product.price}`}</span>
-          )}
+          <div className="flex-1">
+            {isEditing ? (
+              <input
+                type="number"
+                value={editForm.price}
+                onChange={(e) =>
+                  setEditForm({ ...editForm, price: Number(e.target.value) })
+                }
+                className="flex-1 w-full h-full px-1 py-1 md:py-1.5 text-xs md:text-sm border border-gray-200 rounded-sm focus:border-blue-400"
+              />
+            ) : (
+              <span className="inline-block px-1 py-1 md:py-1.5 text-xs md:text-sm">{`$${product.price}`}</span>
+            )}
+          </div>
         </div>
       </div>
     </div>
