@@ -181,7 +181,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
             )}
           </div>
           {/* product price */}
-          <div className="flex-1">
+          <div className="flex-1 text-right">
             {isEditing ? (
               <input
                 type="number"
