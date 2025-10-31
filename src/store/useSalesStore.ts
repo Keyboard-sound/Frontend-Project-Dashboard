@@ -48,7 +48,7 @@ export interface SalesStore {
   deleteProduct: (id: number) => Promise<void>;
 }
 
-const sortSalesByDate = (sales: SaleRecord[]): SaleRecord[] => {
+export const sortSalesByDate = (sales: SaleRecord[]): SaleRecord[] => {
   return [...sales].sort((a, b) => {
     const dateA = a.date instanceof Date ? a.date : new Date(a.date);
     const dateB = b.date instanceof Date ? b.date : new Date(b.date);
