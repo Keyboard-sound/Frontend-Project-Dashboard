@@ -60,8 +60,6 @@ export default function CreateProductForm({
         price: 0,
         description: "",
         stock: 0,
-        brand: "",
-        category: "",
       });
       setErrors({});
 

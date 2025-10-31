@@ -9,7 +9,6 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
-  // console.log("from product Card", product); //test
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editForm, setEditForm] = useState<Partial<Product>>({});
 
@@ -30,8 +29,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
     try {
       if (editingId !== null) {
         await editProduct(editingId, editForm);
-        alert(`Product "${editForm.title || "item"}" saved successfully!`);
         setEditingId(null);
+        setEditForm({});
+        alert(`Product "${editForm.title || "item"}" saved successfully!`);
       }
     } catch (error) {
       console.log("save editing product failed!", error);
@@ -145,7 +145,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
               className="w-full px-1 border border-gray-200 rounded-sm focus:border-blue-400"
             />
           ) : (
-            <h3 className="truncate">{product.title}</h3>
+            <p className="line-clamp-1">{product.title}</p>
           )}
 
           {/*Product description */}
@@ -158,9 +158,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
               className="w-full px-1 text-3xs md:text-xs border border-gray-200 rounded-sm focus:border-blue-400"
             />
           ) : (
-            <h3 className="text-3xs md:text-xs text-wrap text-slate-400 font-normal line-clamp-2 truncate">
+            <p className="w-full text-3xs md:text-xs text-slate-400 font-normal line-clamp-2 break-all">
               {product.description}
-            </h3>
+            </p>
           )}
         </div>
 
