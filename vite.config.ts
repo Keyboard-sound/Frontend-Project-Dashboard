@@ -24,10 +24,14 @@ export default defineConfig({
       compress: {
         // Remove console.log, console.info, console.debug, console.warn
         // Keep console.error for production error tracking
-        pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.warn'],
+        pure_funcs: [
+          "console.log",
+          "console.info",
+          "console.debug",
+          "console.warn",
+        ],
         drop_debugger: true,
       },
     },
   },
 });
-
