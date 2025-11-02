@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+.recharts-surface:focus {
+  outline: none !important;
+}
+
+@theme {
+  --text-2xs: 0.625rem;
+  --text-3xs: 0.5rem;
+}

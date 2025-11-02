@@ -1,7 +1,7 @@
-import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RootLayout from "./layouts/RootLayout.tsx";
-import Dashboard from "./pages/Dashboard.tsx";
+import Dashboard from "@features/dashboard/pages/Dashboard.tsx";
+import ProductsPage from "@features/products/pages/Products.tsx";
 
 const router = createBrowserRouter([
   {
@@ -13,8 +13,8 @@ const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
-        path: "/dashboard",
-        element: <Dashboard />,
+        path: "/products",
+        element: <ProductsPage />,
       },
     ],
   },
