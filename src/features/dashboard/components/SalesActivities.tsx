@@ -71,9 +71,11 @@ export default function SalesActivities() {
     <div className="h-full overflow-auto">
       <table className="w-full mb-1 border-separate border-spacing-1 md:border-spacing-2 bg-white">
         <thead>
-          <tr className="text-[10px] text-center text-slate-400 font-medium">
+          <tr className="text-[10px] text-center align-top text-slate-400 font-medium">
             {HEADERS.map((header) => (
-              <th className="sticky top-0 px-2 py-3 bg-white">{header}</th>
+              <th key={header} className="sticky top-0 px-2 py-3 bg-white">
+                {header}
+              </th>
             ))}
           </tr>
         </thead>
