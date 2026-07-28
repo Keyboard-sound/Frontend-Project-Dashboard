@@ -14,8 +14,13 @@ import TargetCard from "../components/TargetCard";
 import RecentSales from "../components/RecentSales";
 
 export default function Dashboard() {
-  const { loadSalesData, filters, updateFilters, clearAllData, loading } =
-    useSalesStore();
+  const {
+    loadSalesData,
+    filters,
+    updateFilters,
+    clearAllData,
+    salesDataLoading,
+  } = useSalesStore();
 
   return (
     <div className="w-full h-full p-4 lg:pl-5 lg:pr-7 lg:pt-6 rounded-lg bg-white overflow-y-auto">
@@ -32,7 +37,7 @@ export default function Dashboard() {
           <button
             onClick={() => loadSalesData(100)}
             className="flex gap-1 items-center w-full p-1 lg:px-2 lg:py-1 cursor-pointer"
-            disabled={loading}
+            disabled={salesDataLoading}
           >
             <ChartBarIcon className="w-3 h-3 lg:w-4 lg:h-4 stroke-2" />
             <span className="hidden md:inline">Generate 100 Sales</span>
@@ -44,7 +49,7 @@ export default function Dashboard() {
           <button
             onClick={() => loadSalesData(300)}
             className="flex gap-1 items-center w-full p-1 lg:px-2 lg:py-1 cursor-pointer"
-            disabled={loading}
+            disabled={salesDataLoading}
           >
             <RocketLaunchIcon className="w-3 h-3 lg:w-4 lg:h-4 stroke-2" />
             <span className="hidden md:inline">Generate 300 Sales</span>

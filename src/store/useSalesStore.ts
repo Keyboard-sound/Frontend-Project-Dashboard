@@ -16,7 +16,10 @@ export interface SalesStore {
   salesData: SaleRecord[];
   products: Product[];
   lastYearData: LastYearData | null;
-  loading: boolean;
+  createProductsLoading: boolean;
+  editingProductsLoading: boolean;
+  deleteProductLoading: boolean;
+  salesDataLoading: boolean;
   searchQuery: string;
   filters: {
     dateRange: "7d" | "30d" | "90d";
@@ -25,7 +28,10 @@ export interface SalesStore {
   setSalesData: (data: SaleRecord[]) => void;
   addSalesData: (data: SaleRecord[]) => void;
   setProducts: (products: Product[]) => void;
-  setLoading: (loading: boolean) => void;
+  setCreateProductsLoading: (loading: boolean) => void;
+  setEditingProductsLoading: (loading: boolean) => void;
+  setDeleteProductLoading: (loading: boolean) => void;
+  setSalesDataLoading: (loading: boolean) => void;
   setSearchQuery: (query: string) => void;
   updateFilters: (filters: Partial<SalesStore["filters"]>) => void;
   clearAllData: () => void;
@@ -64,7 +70,10 @@ const useSalesStore = create<SalesStore>()(
       products: [],
       lastYearData: null,
       searchQuery: "",
-      loading: false,
+      createProductsLoading: false,
+      editingProductsLoading: false,
+      deleteProductLoading: false,
+      salesDataLoading: false,
       filters: {
         dateRange: "30d",
       },
@@ -75,13 +84,18 @@ const useSalesStore = create<SalesStore>()(
           salesData: sortSalesByDate([...state.salesData, ...data]),
         })),
       setProducts: (products) => set({ products }),
-      setLoading: (loading) => set({ loading }),
+      setCreateProductsLoading: (loading) =>
+        set({ createProductsLoading: loading }),
+      setEditingProductsLoading: (loading) =>
+        set({ editingProductsLoading: loading }),
+      setDeleteProductLoading: (loading) =>
+        set({ deleteProductLoading: loading }),
+      setSalesDataLoading: (loading) => set({ salesDataLoading: loading }),
       updateFilters: (newFilters) =>
         set((state) => ({ filters: { ...state.filters, ...newFilters } })),
       clearAllData: () =>
         set({
           salesData: [],
-          products: [],
           lastYearData: null,
           filters: { dateRange: "30d" },
         }),
@@ -96,40 +110,48 @@ const useSalesStore = create<SalesStore>()(
         }
 
         return products.filter((product) =>
-          product.title.toLowerCase().includes(searchQuery.toLowerCase())
+          product.title.toLowerCase().includes(searchQuery.toLowerCase()),
         );
       },
 
       fetchProducts: async () => {
-        const { setProducts, setLoading } = get();
+        const { setProducts } = get();
 
         try {
-          setLoading(true);
           const products = await getProducts();
           setProducts(products);
           console.log("Products from store", products);
         } catch (error) {
           console.error("Error fetching products:", error);
         }
-        setLoading(false);
       },
 
       loadSalesData: async (count) => {
-        const { products, addSalesData, fetchProducts, loadLastYearData } =
-          get();
-
-        if (products.length === 0) {
-          await fetchProducts();
-        }
+        const {
+          products,
+          addSalesData,
+          fetchProducts,
+          loadLastYearData,
+          setSalesDataLoading,
+        } = get();
 
         try {
+          setSalesDataLoading(true);
+
+          if (products.length === 0) {
+            await fetchProducts();
+          }
+
           const currentProducts = get().products;
           const newSales = generateSalesData(count, currentProducts);
           addSalesData(newSales);
 
           await loadLastYearData();
         } catch (error) {
-          console.error("Error generating sales data", error);
+          console.error(error);
+          throw new Error("Failed to salesData");
+        } finally {
+          setSalesDataLoading(false);
         }
       },
 
@@ -156,7 +178,7 @@ const useSalesStore = create<SalesStore>()(
       getPhysicalSales: () => {
         const { salesData } = get();
         return salesData.filter(
-          (sale) => sale.channel === "physical" && sale.status === "completed"
+          (sale) => sale.channel === "physical" && sale.status === "completed",
         );
       },
       getTotalPhysicalSale: () => {
@@ -178,7 +200,7 @@ const useSalesStore = create<SalesStore>()(
       getOnlineSales: () => {
         const { salesData } = get();
         return salesData.filter(
-          (sale) => sale.channel === "online" && sale.status === "completed"
+          (sale) => sale.channel === "online" && sale.status === "completed",
         );
       },
       getTotalReturns: () => {
@@ -202,7 +224,8 @@ const useSalesStore = create<SalesStore>()(
           if (!sale.date) return false;
 
           const daysDiff = Math.floor(
-            (Date.now() - new Date(sale.date).getTime()) / (1000 * 60 * 60 * 24)
+            (Date.now() - new Date(sale.date).getTime()) /
+              (1000 * 60 * 60 * 24),
           );
           const dateLimit = parseInt(filters.dateRange.replace("d", ""));
           if (daysDiff > dateLimit) return false;
@@ -212,10 +235,10 @@ const useSalesStore = create<SalesStore>()(
       },
 
       createProduct: async (product) => {
-        const { setLoading, products } = get();
+        const { products, setCreateProductsLoading } = get();
 
         try {
-          setLoading(true);
+          setCreateProductsLoading(true);
           //find the ID at 195 and above, ignore 1-20
           const localId = products.map((p) => p.id).filter((id) => id >= 195);
           const maxLocalId = localId.length > 0 ? Math.max(...localId) : 194;
@@ -236,72 +259,72 @@ const useSalesStore = create<SalesStore>()(
           }));
           return productWithUniqueId;
         } catch (error) {
-          console.error("Error creating product:", error);
-          throw error;
+          console.error(error);
+          throw new Error("Failed to creating product");
         } finally {
-          setLoading(false);
+          setCreateProductsLoading(false);
         }
       },
 
       editProduct: async (id, updates) => {
-        const { setLoading, products } = get();
+        const { setEditingProductsLoading, products } = get();
 
         set((state) => ({
           products: state.products.map((p) =>
-            p.id === id ? { ...p, ...updates } : p
+            p.id === id ? { ...p, ...updates } : p,
           ),
         }));
 
         try {
-          setLoading(true);
+          setEditingProductsLoading(true);
           // Find the product to check if it's local and pass original data
-          const product = products.find((p) => p.id === id);
+          const existed = products.find((p) => p.id === id);
 
-          if (!product) {
+          if (!existed) {
             throw new Error(`Product with id ${id} not found in store`);
           }
 
-          const isLocal = product.isLocal ?? false;
+          const isLocal = existed.isLocal ?? false;
 
           // Pass the original product so local updates can merge properly
           const updatedProduct = await editProduct(
             id,
             updates,
             isLocal,
-            product
+            existed,
           );
 
           return updatedProduct;
         } catch (error) {
-          console.error("Error updating product:", error);
-          throw error;
+          console.error(error);
+          throw new Error("Failed to updating product");
         } finally {
-          setLoading(false);
+          setEditingProductsLoading(false);
         }
       },
 
       deleteProduct: async (id) => {
-        const { setLoading, products } = get();
+        const { setDeleteProductLoading, products } = get();
 
         set((state) => ({
           products: state.products.filter((p) => p.id !== id),
         }));
 
         try {
-          setLoading(true);
-          const product = products.find((p) => p.id === id);
+          setDeleteProductLoading(true);
+          const existed = products.find((p) => p.id === id);
 
-          if (!product) {
+          if (!existed) {
             throw new Error(`Product with id ${id} not found in store`);
           }
-          const isLocal = product.isLocal ?? false;
+          const isLocal = existed.isLocal ?? false;
 
           await deleteProduct(id, isLocal);
         } catch (error) {
-          console.error("Error deleting product:", error);
-          throw error;
+          console.error(error);
+          throw new Error("Failed to delete product");
         } finally {
-          setLoading(false);
+          setDeleteProductLoading(false);
         }
       },
     }),
@@ -314,8 +337,8 @@ const useSalesStore = create<SalesStore>()(
         lastYearData: state.lastYearData,
         filters: state.filters,
       }),
-    }
-  )
+    },
+  ),
 );
 
 export default useSalesStore;
