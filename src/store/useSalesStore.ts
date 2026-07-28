@@ -149,7 +149,7 @@ const useSalesStore = create<SalesStore>()(
           await loadLastYearData();
         } catch (error) {
           console.error(error);
-          throw new Error("Failed to salesData");
+          throw new Error("Failed to salesData")
         } finally {
           setSalesDataLoading(false);
         }

@@ -16,7 +16,7 @@ export default function CreateProductForm({
   onSuccess,
   onCancel,
 }: CreateProductFormProps) {
-  const { createProduct, loading } = useSalesStore();
+  const { createProduct, createProductsLoading } = useSalesStore();
 
   const [formData, setFormData] = useState<CreateProductInput>({
     title: "",
@@ -74,7 +74,7 @@ export default function CreateProductForm({
 
   // Handle input change
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value, type } = e.target;
 
@@ -190,17 +190,17 @@ export default function CreateProductForm({
       <div className="flex gap-3 pt-4">
         <button
           type="submit"
-          disabled={loading}
+          disabled={createProductsLoading}
           className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg font-medium cursor-pointer hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
         >
-          {loading ? "Adding Product..." : "Add Product"}
+          {createProductsLoading ? "Adding Product..." : "Add Product"}
         </button>
 
         {onCancel && (
           <button
             type="button"
             onClick={onCancel}
-            disabled={loading}
+            disabled={createProductsLoading}
             className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg font-medium cursor-pointer hover:bg-gray-300 disabled:bg-gray-100 disabled:cursor-not-allowed transition-colors"
           >
             Cancel
