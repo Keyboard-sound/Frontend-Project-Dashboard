@@ -41,22 +41,21 @@ export async function getProducts(): Promise<Product[]> {
   // fetch max 20 product
   try {
     const res = await axios.get<DummyJsonResponse>(
-      "https://dummyjson.com/products?limit=20"
+      "https://dummyjson.com/products?limit=20",
     );
     const data = res.data.products;
     console.log("data from dummy", data);
 
     return data;
   } catch (error) {
-    console.error("Error", error);
+    console.error("Fail to fetch products", error);
     return [];
   }
 }
 
 export async function createProduct(
-  product: CreateProductInput
+  product: CreateProductInput,
 ): Promise<Product> {
-
   //Provided defaults for optional fields
   const productData = {
     description: "",
@@ -73,7 +72,7 @@ export async function createProduct(
   try {
     const res = await axios.post<Product>(
       "https://dummyjson.com/products/add",
-      productData
+      productData,
     );
     console.log("Product created:", res.data);
     // Mark the product as locally created
@@ -88,7 +87,7 @@ export async function editProduct(
   id: number,
   updates: ProductUpdateInput,
   isLocal: boolean = false,
-  originalProduct?: Product
+  originalProduct?: Product,
 ): Promise<Product> {
   console.log("editProduct called with:", { id, isLocal, updates });
 
