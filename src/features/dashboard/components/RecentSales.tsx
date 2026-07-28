@@ -14,7 +14,7 @@ const RecentSales = () => {
         .map((sale) => (
           <div
             key={sale.id}
-            className="flex flex-row justify-between items-center rounded-lg p-1"
+            className="w-full flex flex-row justify-between items-center rounded-lg p-1"
           >
             <div className="flex flex-row items-center gap-3">
               <UserProfile className="w-8 h-8 text-slate-500" />

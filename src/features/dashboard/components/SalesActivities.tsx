@@ -12,6 +12,16 @@ interface SalesActType {
   channel: string;
 }
 
+const HEADERS = [
+  "Invoice No.",
+  "Customer Name",
+  "Date",
+  "Amount",
+  "Email",
+  "Product ID",
+  "Status",
+];
+
 const formatDate = (dateStr: string) => {
   const date = new Date(dateStr);
   const day = date.getDate();
@@ -37,31 +47,42 @@ export default function SalesActivities() {
         channel: sale.channel,
       }))
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-      .slice(0, 3);
+      .slice(0, 10);
   }, [salesData]);
 
+  const Status = ({ type }: { type: string }) => {
+    return (
+      <div
+        className={`p-1 rounded-lg text-xs font-medium 
+                    ${
+                      type === "completed"
+                        ? "bg-emerald-200 text-emerald-400"
+                        : type === "returns"
+                          ? "bg-rose-200 text-rose-400"
+                          : "bg-gray-200 text-slate-400"
+                    }`}
+      >
+        <p>{type}</p>
+      </div>
+    );
+  };
+
   return (
-    <div>
-      <h3 className="text-sm lg:text-base font-semibold mb-1">
-        Latest Invoices
-      </h3>
-      <table className="w-full border-separate border-spacing-x-2 border-spacing-y-1 md:border-spacing-y-2 text-left">
+    <div className="h-full overflow-auto">
+      <h3 className="text-sm lg:text-base font-semibold">Latest Invoices</h3>
+      <table className="w-full border-separate border-spacing-1 md:border-spacing-2 bg-white">
         <thead>
-          <tr className="text-[10px] text-slate-400 font-medium">
-            <th className="w-20 ">Invoice No.</th>
-            <th className="w-25  ">Customer Name</th>
-            <th className="w-10 ">Date</th>
-            <th className="w-25 text-center">Amount</th>
-            <th className="w-25 ">Email</th>
-            <th className="w-20 ">Product ID</th>
-            <th className="w-20 ">Status</th>
+          <tr className="text-[10px] text-center text-slate-400 font-medium">
+            {HEADERS.map((header) => (
+              <th className="sticky top-0 px-2 py-3 bg-white">{header}</th>
+            ))}
           </tr>
         </thead>
         <tbody>
           {invoices.map((invoice) => (
             <tr
               key={invoice.id}
-              className=" text-[10px] lg:text-xs font-medium"
+              className="text-[10px] text-center lg:text-xs font-medium"
             >
               <td>{invoice.id}</td>
 
@@ -77,19 +98,8 @@ export default function SalesActivities() {
 
               <td>{invoice.productId}</td>
 
-              <td className="text-center">
-                <div
-                  className={`w-20 px-2 py-1 rounded-lg text-xs font-medium 
-                    ${
-                      invoice.status === "completed"
-                        ? "bg-emerald-200 text-emerald-400"
-                        : invoice.status === "returns"
-                        ? "bg-rose-200 text-rose-400"
-                        : "bg-gray-200 text-slate-400"
-                    }`}
-                >
-                  {invoice.status}
-                </div>
+              <td className="">
+                <Status type={invoice.status} />
               </td>
             </tr>
           ))}
