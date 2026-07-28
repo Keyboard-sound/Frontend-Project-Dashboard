@@ -152,6 +152,9 @@ export default function Dashboard() {
 
       {/* Show Sale activities */}
       <div className="w-full h-80 border border-gray-200 rounded-lg mt-3 lg:mt-5 p-4 overflow-hidden">
+        <h3 className="text-sm lg:text-base font-semibold bg-white">
+          Latest Invoices
+        </h3>
         <SalesActivities />
       </div>
     </div>

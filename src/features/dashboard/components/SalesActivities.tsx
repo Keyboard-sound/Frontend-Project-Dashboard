@@ -69,8 +69,7 @@ export default function SalesActivities() {
 
   return (
     <div className="h-full overflow-auto">
-      <h3 className="text-sm lg:text-base font-semibold">Latest Invoices</h3>
-      <table className="w-full border-separate border-spacing-1 md:border-spacing-2 bg-white">
+      <table className="w-full mb-1 border-separate border-spacing-1 md:border-spacing-2 bg-white">
         <thead>
           <tr className="text-[10px] text-center text-slate-400 font-medium">
             {HEADERS.map((header) => (
