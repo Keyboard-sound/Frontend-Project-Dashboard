@@ -145,13 +145,13 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="flex flex-col justify-between items-start w-full lg:w-[30%] space-y-1 border border-gray-200 rounded-lg px-4 py-4 mt-3 lg:mt-0">
+        <div className="flex flex-col justify-between items-start w-full lg:w-[30%] space-y-1 border border-gray-200 rounded-lg p-2 mt-3 lg:mt-0">
           <RecentSales />
         </div>
       </div>
 
       {/* Show Sale activities */}
-      <div className="w-full h-80 border border-gray-200 rounded-lg mt-3 lg:mt-5 p-4 overflow-hidden">
+      <div className="w-full h-80 border border-gray-200 rounded-lg mt-3 lg:mt-5 p-2 overflow-hidden">
         <h3 className="text-sm lg:text-base font-semibold bg-white">
           Latest Invoices
         </h3>
