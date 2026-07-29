@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { Bars3Icon } from "@heroicons/react/24/outline";
-import SearchInput from "./SearchInput";
+import SearchInput from "../features/products/components/SearchInput";
 import useSalesStore from "@/store/useSalesStore";
 import type { FC } from "react";
 import type { Product } from "@/api/productsApi";

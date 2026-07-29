@@ -1,11 +1,11 @@
-import SearchInput from "@components/SearchInput";
+import SearchInput from "@/features/products/components/SearchInput";
 import useSalesStore from "@/store/useSalesStore";
 import { AddProductButton } from "./AddProductButton";
 import type { Product } from "@/api/productsApi";
 import type { FC } from "react";
 
 const ProductToolBar: FC = () => {
-  const { products, setSearchQuery } = useSalesStore();
+  const { setSearchQuery } = useSalesStore();
 
   const handleSelectProduct = (product: Product | null) => {
     if (product) {
@@ -23,8 +23,11 @@ const ProductToolBar: FC = () => {
       <div>
         <SearchInput
           placeholder="search..."
-          products={products}
           onSelectProduct={handleSelectProduct}
+          productsData={[]}
+          onClear={function (): void {
+            throw new Error("Function not implemented.");
+          }}
         />
       </div>
     </div>
