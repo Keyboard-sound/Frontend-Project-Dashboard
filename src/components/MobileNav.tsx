@@ -12,8 +12,10 @@ const MobileNav: FC<{ onNavigate: () => void }> = ({ onNavigate }) => {
               to={to}
               onClick={onNavigate}
               className={({ isActive }) =>
-                `flex items-center gap-4 w-full rounded-lg pl-2 py-2 transition-colors duration-100 ${
-                  isActive ? "bg-blue-700 font-medium text-white" : ""
+                `flex items-center gap-4 w-full font-medium rounded-lg pl-2 py-2 transition-colors duration-100 ${
+                  isActive
+                    ? "bg-blue-700 text-white"
+                    : "text-black hover:bg-gray-100"
                 }`
               }
             >
