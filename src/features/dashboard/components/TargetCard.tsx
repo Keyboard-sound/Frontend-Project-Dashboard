@@ -25,7 +25,7 @@ export const TargetCard = () => {
   }, [actualPercentage]);
 
   return (
-    <div className="w-full h-full flex flex-col justify-between">
+    <div className="flex flex-col justify-between w-full h-full">
       <h3 className="text-2xs md:text-sm text-white">
         Marketing goal for this year
       </h3>
@@ -35,7 +35,7 @@ export const TargetCard = () => {
             {formatCurrency(currentSales)}
           </span>{" "}
           <span className="text-2xs md:text-sm text-gray-200">{`/ ${formatCurrency(
-            targetSales
+            targetSales,
           )}`}</span>
         </div>
       </div>

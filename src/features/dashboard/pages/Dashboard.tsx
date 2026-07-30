@@ -23,7 +23,7 @@ export default function Dashboard() {
   } = useSalesStore();
 
   return (
-    <div className="w-full h-full p-4 lg:pl-5 lg:pr-7 lg:pt-6 rounded-lg bg-white overflow-y-auto">
+    <div className="flex flex-col w-full h-full p-4 lg:pl-5 lg:pr-7 lg:pt-6 rounded-lg bg-white">
       <div className="flex justify-between">
         <div className="flex flex-col">
           <h1 className="pl-2 font-semibold text-base lg:text-lg">
@@ -133,28 +133,22 @@ export default function Dashboard() {
       </div>
 
       {/* graph */}
-      <div className="flex-wrap lg:flex lg:flex-nowrap gap-3 lg:gap-5 mt-3 lg:mt-5">
-        <div className=" bg-white border border-gray-200 w-full lg:w-[70%] h-full rounded-lg p-2 lg:px-4 lg:py-5">
-          <div className="flex justify-between items-center">
-            <h3 className="text-sm lg:text-base font-semibold">
-              Sales Analytics
-            </h3>
-          </div>
-          <div>
-            <SalesAnalyticsGraph />
-          </div>
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-3 lg:gap-5 mt-3 lg:mt-5">
+        <div className="lg:col-span-3 w-full h-full border border-gray-200 rounded-lg p-2 lg:px-4 lg:py-5">
+          <h3 className="text-sm lg:text-base font-semibold">
+            Sales Analytics
+          </h3>
+          <SalesAnalyticsGraph />
         </div>
 
-        <div className="flex flex-col justify-between items-start w-full lg:w-[30%] space-y-1 border border-gray-200 rounded-lg p-2 mt-3 lg:mt-0">
+        <div className="lg:col-span-1 w-full space-y-1 border border-gray-200 rounded-lg p-2 mt-3 lg:mt-0">
           <RecentSales />
         </div>
       </div>
 
       {/* Show Sale activities */}
-      <div className="w-full h-80 border border-gray-200 rounded-lg mt-3 lg:mt-5 p-2 overflow-hidden">
-        <h3 className="text-sm lg:text-base font-semibold bg-white">
-          Latest Invoices
-        </h3>
+      <div className="flex-1 w-full max-h-[600px] border border-gray-200 rounded-lg mt-3 lg:mt-5 p-4 overflow-hidden">
+        <h3 className="text-sm lg:text-base font-semibold">Latest Invoices</h3>
         <SalesActivities />
       </div>
     </div>

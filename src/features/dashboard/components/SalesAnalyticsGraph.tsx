@@ -62,7 +62,7 @@ export default function SalesAnalyticsGraph() {
   };
 
   return (
-    <ResponsiveContainer width="100%" height={400}>
+    <ResponsiveContainer width="100%" height={300}>
       <LineChart data={chartData} margin={{ right: 30 }}>
         <CartesianGrid stroke={colors.slate[200]} horizontal={false} />
         <Legend
