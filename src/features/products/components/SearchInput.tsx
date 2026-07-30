@@ -66,7 +66,7 @@ export const SearchInput: FC<SearchInputProps> = ({
           <button
             type="button"
             onClick={() => handleClear()}
-            className="inline-flex justify-center items-center w-4 h-4 p-1 rounded-full hover:bg-slate-200/30 cursor-pointer"
+            className="inline-flex justify-center items-center w-4 h-4 p-0.5 rounded-full bg-slate-200/30 hover:bg-slate-200 cursor-pointer"
           >
             <XMarkIcon className="size-3 text-slate-400" />
           </button>
