@@ -12,7 +12,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editForm, setEditForm] = useState<Partial<Product>>({});
 
-  const { deleteProduct, editProduct, loading } = useSalesStore();
+  const { deleteProduct, editProduct, editingProductsLoading } = useSalesStore();
 
   const handleEdit = (close: () => void) => {
     setEditingId(product.id);
@@ -74,7 +74,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         >
           <button
             type="button"
-            disabled={loading}
+            disabled={editingProductsLoading}
             onClick={() => handleEditSave()}
             className="p-0.5 md:p-1 border border-gray-200 rounded-sm text-2xs md:text-xs text-slate-400 bg-white cursor-pointer hover:bg-gray-100 focus:outline-none disabled:bg-gray-200"
           >
@@ -130,7 +130,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
           className="w-25 h-25 md:w-50 md:h-50"
         />
       </div>
-      {/* divieded line */}
+      {/* divided line */}
       <div className="w-full h-[1px] my-1 bg-gray-200 shadow-sm" />
       <div className="flex flex-col w-full space-y-1 overflow-hidden">
         {/* product title */}

@@ -18,7 +18,6 @@ export interface SalesStore {
   lastYearData: LastYearData | null;
   createProductsLoading: boolean;
   editingProductsLoading: boolean;
-  deleteProductLoading: boolean;
   salesDataLoading: boolean;
   searchQuery: string;
   filters: {
@@ -30,7 +29,6 @@ export interface SalesStore {
   setProducts: (products: Product[]) => void;
   setCreateProductsLoading: (loading: boolean) => void;
   setEditingProductsLoading: (loading: boolean) => void;
-  setDeleteProductLoading: (loading: boolean) => void;
   setSalesDataLoading: (loading: boolean) => void;
   setSearchQuery: (query: string) => void;
   updateFilters: (filters: Partial<SalesStore["filters"]>) => void;
@@ -88,8 +86,6 @@ const useSalesStore = create<SalesStore>()(
         set({ createProductsLoading: loading }),
       setEditingProductsLoading: (loading) =>
         set({ editingProductsLoading: loading }),
-      setDeleteProductLoading: (loading) =>
-        set({ deleteProductLoading: loading }),
       setSalesDataLoading: (loading) => set({ salesDataLoading: loading }),
       updateFilters: (newFilters) =>
         set((state) => ({ filters: { ...state.filters, ...newFilters } })),
@@ -149,7 +145,7 @@ const useSalesStore = create<SalesStore>()(
           await loadLastYearData();
         } catch (error) {
           console.error(error);
-          throw new Error("Failed to salesData")
+          throw new Error("Failed to salesData");
         } finally {
           setSalesDataLoading(false);
         }
@@ -304,14 +300,13 @@ const useSalesStore = create<SalesStore>()(
       },
 
       deleteProduct: async (id) => {
-        const { setDeleteProductLoading, products } = get();
+        const { products } = get();
 
         set((state) => ({
           products: state.products.filter((p) => p.id !== id),
         }));
 
         try {
-          setDeleteProductLoading(true);
           const existed = products.find((p) => p.id === id);
 
           if (!existed) {
@@ -323,8 +318,6 @@ const useSalesStore = create<SalesStore>()(
         } catch (error) {
           console.error(error);
           throw new Error("Failed to delete product");
-        } finally {
-          setDeleteProductLoading(false);
         }
       },
     }),
