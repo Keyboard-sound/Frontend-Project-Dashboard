@@ -8,27 +8,27 @@ import {
 import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import type { Product } from "@/api/productsApi";
 import type { FC } from "react";
+import useSalesStore from "@/store/useSalesStore";
 
 interface SearchInputProps {
   placeholder: string;
-  productsData: Product[];
   onSelectProduct: (product: Product | null) => void;
   onClear: () => void;
 }
 
-export const SearchInput: FC<SearchInputProps> = ({
+export const ProductsSearchInput: FC<SearchInputProps> = ({
   placeholder,
-  productsData,
   onSelectProduct,
   onClear,
 }) => {
   const [query, setQuery] = useState("");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const { products } = useSalesStore();
 
   const filteredProducts =
     query === ""
       ? []
-      : productsData.filter((p) => {
+      : products.filter((p) => {
           return p.title.toLowerCase().includes(query.toLowerCase());
         });
 
@@ -98,4 +98,4 @@ export const SearchInput: FC<SearchInputProps> = ({
   );
 };
 
-export default SearchInput;
+export default ProductsSearchInput;

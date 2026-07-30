@@ -1,4 +1,4 @@
-import SearchInput from "@/features/products/components/SearchInput";
+import ProductsSearchInput from "@/features/products/components/ProductsSearchInput";
 import useSalesStore from "@/store/useSalesStore";
 import { AddProductButton } from "./AddProductButton";
 import type { Product } from "@/api/productsApi";
@@ -21,7 +21,7 @@ const ProductToolBar: FC = () => {
 
       <AddProductButton />
       <div>
-        <SearchInput
+        <ProductsSearchInput
           placeholder="search..."
           onSelectProduct={handleSelectProduct}
           productsData={[]}

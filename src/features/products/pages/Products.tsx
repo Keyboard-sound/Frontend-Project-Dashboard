@@ -1,12 +1,12 @@
 // import { useState } from "react";
 import ProductList from "../components/ProductList";
 import { AddProductButton } from "../components/AddProductButton";
-import { SearchInput } from "../components/SearchInput";
+import { ProductsSearchInput } from "../components/ProductsSearchInput";
 import useSalesStore from "@/store/useSalesStore";
 import type { Product } from "@api/productsApi";
 
 export default function ProductsPage() {
-  const { products, setSearchQuery } = useSalesStore();
+  const { setSearchQuery } = useSalesStore();
 
   const handleProductSearch = (product: Product | null) => {
     if (product) {
@@ -25,9 +25,8 @@ export default function ProductsPage() {
       <div className="px-4 py-4">
         <div className="flex justify-end items-center mb-2 gap-1">
           <AddProductButton />
-          <SearchInput
+          <ProductsSearchInput
             placeholder={"search..."}
-            productsData={products}
             onSelectProduct={handleProductSearch}
             onClear={handleClearSearch}
           />
