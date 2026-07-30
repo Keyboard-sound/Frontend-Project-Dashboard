@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware";
 import { generateSalesData } from "../data/generateSalesData";
 import { getProducts } from "@api/productsApi";
 import { generateLastYearSalesData } from "../data/generateLastYearSalesData";
-import { createProduct, editProduct, deleteProduct } from "@api/productsApi";
+import { createProduct, apiEditProduct, deleteProduct } from "@api/productsApi";
 import type { SaleRecord } from "../data/generateSalesData";
 import type { LastYearData } from "../data/generateLastYearSalesData";
 import type {
@@ -266,8 +266,8 @@ const useSalesStore = create<SalesStore>()(
         const { setEditingProductsLoading, products } = get();
 
         set((state) => ({
-          products: state.products.map((p) =>
-            p.id === id ? { ...p, ...updates } : p,
+          products: state.products.map((product) =>
+            product.id === id ? { ...product, ...updates } : product,
           ),
         }));
 
@@ -283,7 +283,7 @@ const useSalesStore = create<SalesStore>()(
           const isLocal = existed.isLocal ?? false;
 
           // Pass the original product so local updates can merge properly
-          const updatedProduct = await editProduct(
+          const updatedProduct = await apiEditProduct(
             id,
             updates,
             isLocal,

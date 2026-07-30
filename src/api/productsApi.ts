@@ -83,7 +83,7 @@ export async function createProduct(
   }
 }
 
-export async function editProduct(
+export async function apiEditProduct(
   id: number,
   updates: ProductUpdateInput,
   isLocal: boolean = false,
