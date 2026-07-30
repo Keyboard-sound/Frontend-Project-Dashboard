@@ -1,5 +1,7 @@
-import { useState, type FormEvent } from "react";
+import { useState } from "react";
 import useSalesStore from "@store/useSalesStore";
+import { ProductInputSchema } from "../product.schema";
+import type { FormEvent } from "react";
 import type { CreateProductInput } from "@api/productsApi";
 
 interface CreateProductFormProps {
@@ -10,6 +12,7 @@ interface CreateProductFormProps {
 type FormErrors = {
   title?: string;
   price?: string;
+  stock?: string;
 };
 
 export default function CreateProductForm({
@@ -27,32 +30,32 @@ export default function CreateProductForm({
 
   const [errors, setErrors] = useState<FormErrors>({});
 
-  // Validate form
-  const validateForm = (): boolean => {
-    const newErrors: Partial<Record<keyof CreateProductInput, string>> = {};
-
-    if (!formData.title || formData.title.trim() === "") {
-      newErrors.title = "Title is required";
-    }
-
-    if (!formData.price || formData.price <= 0) {
-      newErrors.price = "Price must be greater than 0";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  // Handle form submit
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (!validateForm()) {
-      return;
+    const formattedData = {
+      ...formData,
+      title: formData.title.trim(),
+      price: Number(formData.price),
+      Description: formData.description?.trim(),
+      stock: Number(formData.stock),
+    };
+
+    const result = ProductInputSchema.safeParse(formattedData);
+
+    if (!result.success) {
+      const newErrors: Record<string, string> = {};
+
+      for (const issue of result.error.issues) {
+        newErrors[issue.path[0] as string] = issue.message;
+      }
+
+      setErrors(newErrors);
+      return result.data;
     }
 
     try {
-      const newProduct = await createProduct(formData);
+      const newProduct = await createProduct(result.data);
       console.log("Product created successfully:", newProduct);
 
       setFormData({
@@ -76,11 +79,11 @@ export default function CreateProductForm({
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    const { name, value, type } = e.target;
+    const { name, value } = e.target;
 
     setFormData((prev) => ({
       ...prev,
-      [name]: type === "number" ? Number(value) : value,
+      [name]: value,
     }));
 
     // Clear error when user starts typing
@@ -94,118 +97,126 @@ export default function CreateProductForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 p-4">
+    <form onSubmit={handleSubmit} className="space-y-2 p-4 pt-8">
       <h2 className="text-lg font-semibold">Create New Product</h2>
-
-      {/* Title */}
-      <div>
-        <label
-          htmlFor="title"
-          className="block text-sm font-medium text-gray-700 mb-1"
-        >
-          Title <span className="text-red-500">*</span>
-        </label>
-        <input
-          type="text"
-          id="title"
-          name="title"
-          value={formData.title}
-          onChange={handleChange}
-          className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-            errors.title ? "border-red-500" : "border-gray-300"
-          }`}
-          placeholder="Enter product title"
-        />
-        {errors.title && (
-          <p className="mt-1 text-sm text-red-500">{errors.title}</p>
-        )}
-      </div>
-
-      {/* Price */}
-      <div>
-        <label
-          htmlFor="price"
-          className="block text-sm font-medium text-gray-700 mb-1"
-        >
-          Price <span className="text-red-500">*</span>
-        </label>
-        <input
-          type="number"
-          id="price"
-          name="price"
-          value={formData.price}
-          onChange={handleChange}
-          min="0"
-          step="0.01"
-          className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-            errors.price ? "border-red-500" : "border-gray-300"
-          }`}
-          placeholder="0.00"
-        />
-        {errors.price && (
-          <p className="mt-1 text-sm text-red-500">{errors.price}</p>
-        )}
-      </div>
-
-      {/* Description */}
-      <div>
-        <label
-          htmlFor="description"
-          className="block text-sm font-medium text-gray-700 mb-1"
-        >
-          Description
-        </label>
-        <textarea
-          id="description"
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-          rows={3}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Enter product description"
-        />
-      </div>
-
-      {/* Stock */}
-      <div>
-        <label
-          htmlFor="stock"
-          className="block text-sm font-medium text-gray-700 mb-1"
-        >
-          Stock
-        </label>
-        <input
-          type="number"
-          id="stock"
-          name="stock"
-          value={formData.stock}
-          onChange={handleChange}
-          min="0"
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="0"
-        />
-      </div>
-
-      {/* Buttons */}
-      <div className="flex gap-3 pt-4">
-        {onCancel && (
-          <button
-            type="button"
-            onClick={onCancel}
-            disabled={createProductsLoading}
-            className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg font-medium cursor-pointer hover:bg-gray-300 disabled:bg-gray-100 disabled:cursor-not-allowed transition-colors"
+      <div className="mt-2">
+        {/* Title */}
+        <div className="min-h-22">
+          <label
+            htmlFor="title"
+            className="block text-sm font-medium text-gray-700"
           >
-            Cancel
+            Title <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              errors.title ? "border-red-500" : "border-gray-300"
+            }`}
+            placeholder="Enter product title"
+          />
+          {errors.title && (
+            <p className="text-sm text-red-500">{errors.title}</p>
+          )}
+        </div>
+
+        {/* Price */}
+        <div className="min-h-22">
+          <label
+            htmlFor="price"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Price <span className="text-red-500">*</span>
+          </label>
+          <input
+            id="price"
+            type="text"
+            pattern="[0-9]*"
+            inputMode="numeric"
+            name="price"
+            value={formData.price}
+            onChange={handleChange}
+            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              errors.price ? "border-red-500" : "border-gray-300"
+            }`}
+            placeholder="0"
+          />
+          {errors.price && (
+            <p className="text-sm text-red-500">{errors.price}</p>
+          )}
+        </div>
+
+        {/* Description */}
+        <div className="min-h-22">
+          <label
+            htmlFor="description"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Description
+          </label>
+          <textarea
+            id="description"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            rows={3}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter product description"
+          />
+        </div>
+
+        {/* Stock */}
+        <div className="min-h-22">
+          <label
+            htmlFor="stock"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Stock <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            id="stock"
+            name="stock"
+            value={formData.stock}
+            onChange={handleChange}
+            min="0"
+            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              errors.price ? "border-red-500" : "border-gray-300"
+            }`}
+            placeholder="0"
+          />
+          {errors.stock && (
+            <p className="text-sm text-red-500">{errors.stock}</p>
+          )}
+        </div>
+
+        {/* Buttons */}
+        <div className="flex gap-3 pt-4">
+          {onCancel && (
+            <button
+              type="button"
+              onClick={onCancel}
+              disabled={createProductsLoading}
+              className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg font-medium cursor-pointer hover:bg-gray-300 disabled:bg-gray-100 disabled:cursor-not-allowed transition-colors"
+            >
+              Cancel
+            </button>
+          )}
+
+          <button
+            type="submit"
+            disabled={createProductsLoading}
+            className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg font-medium cursor-pointer hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+          >
+            {createProductsLoading ? "Adding Product..." : "Add Product"}
           </button>
-        )}
-        
-        <button
-          type="submit"
-          disabled={createProductsLoading}
-          className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg font-medium cursor-pointer hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
-        >
-          {createProductsLoading ? "Adding Product..." : "Add Product"}
-        </button>
+        </div>
       </div>
     </form>
   );
