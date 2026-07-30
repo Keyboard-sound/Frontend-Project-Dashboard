@@ -62,10 +62,14 @@ export default function SalesAnalyticsGraph() {
   };
 
   return (
-    <ResponsiveContainer width="100%" height={300}>
+    <ResponsiveContainer width="100%" height={400}>
       <LineChart data={chartData} margin={{ right: 30 }}>
         <CartesianGrid stroke={colors.slate[200]} horizontal={false} />
-        <Legend verticalAlign="top" align="center" />
+        <Legend
+          verticalAlign="top"
+          align="center"
+          wrapperStyle={{ fontSize: "12px" }}
+        />
         {chartData.length > 0 ? (
           <>
             <Line
