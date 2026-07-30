@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Combobox,
   ComboboxInput,
@@ -7,7 +7,7 @@ import {
 } from "@headlessui/react";
 import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import type { Product } from "@/api/productsApi";
-import type { FC } from "react";
+import type { ChangeEvent, FC } from "react";
 import useSalesStore from "@/store/useSalesStore";
 
 interface SearchInputProps {
@@ -24,6 +24,16 @@ export const ProductsSearchInput: FC<SearchInputProps> = ({
   const [query, setQuery] = useState("");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const { products } = useSalesStore();
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+
+    debounceRef.current = setTimeout(() => {
+      setQuery(value);
+    }, 300);
+  };
 
   const filteredProducts =
     query === ""
@@ -58,7 +68,7 @@ export const ProductsSearchInput: FC<SearchInputProps> = ({
           displayValue={(product: Product | null) =>
             product ? product.title : ""
           }
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={handleSearch}
           className="w-full h-full text-xs md:text-sm font-normal placeholder:text-2xs md:placeholder:text-xs placeholder:text-slate-400 focus:outline-none"
           placeholder={placeholder}
         />
@@ -75,7 +85,7 @@ export const ProductsSearchInput: FC<SearchInputProps> = ({
 
       <ComboboxOptions
         transition
-        anchor={{ to: "bottom end", gap: 6, offset: 25 }}
+        anchor={{ to: "bottom end", gap: 8, offset: 25 }}
         className="z-50 w-50 p-1 rounded-lg shadow-md bg-white transition-opacity ease-out duration-200 data-closed:opacity-0 empty:hidden"
       >
         {filteredProducts.length === 0 && query !== "" ? (
