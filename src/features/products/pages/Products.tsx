@@ -1,4 +1,3 @@
-// import { useState } from "react";
 import ProductList from "../components/ProductList";
 import { AddProductButton } from "../components/AddProductButton";
 import { ProductsSearchInput } from "../components/ProductsSearchInput";
