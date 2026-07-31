@@ -24,7 +24,6 @@ const ProductToolBar: FC = () => {
         <ProductsSearchInput
           placeholder="search..."
           onSelectProduct={handleSelectProduct}
-          productsData={[]}
           onClear={function (): void {
             throw new Error("Function not implemented.");
           }}
