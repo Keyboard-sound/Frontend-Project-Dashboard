@@ -141,13 +141,13 @@ export default function Dashboard() {
           <SalesAnalyticsGraph />
         </div>
 
-        <div className="lg:col-span-1 w-full space-y-1 border border-gray-200 rounded-lg p-2 mt-3 lg:mt-0">
+        <div className="lg:col-span-1 w-full min-h-30 space-y-1 border border-gray-200 rounded-lg p-2 mt-3 lg:mt-0">
           <RecentSales />
         </div>
       </div>
 
       {/* Show Sale activities */}
-      <div className="flex-1 w-full max-h-[600px] border border-gray-200 rounded-lg mt-3 lg:mt-5 p-4 overflow-hidden">
+      <div className="flex-1 w-full max-h-[600px] border border-gray-200 rounded-lg mt-3 lg:mt-5 p-2 overflow-hidden">
         <h3 className="text-sm lg:text-base font-semibold">Latest Invoices</h3>
         <SalesActivities />
       </div>
