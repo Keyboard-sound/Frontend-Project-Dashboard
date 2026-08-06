@@ -10,7 +10,7 @@ export interface Product {
   stock: number;
   brand: string;
   category: string;
-  thumbnail?: string | null;
+  thumbnail?: string;
   images: string[];
   isLocal?: boolean; // Flag to track locally created products
 }
@@ -24,8 +24,7 @@ export type CreateProductInput = {
   stock?: number;
   brand?: string;
   category?: string;
-  thumbnail?: string | null;
-  images: string[];
+  thumbnail?: string;
 };
 
 export type ProductUpdateInput = Omit<Partial<Product>, "id" | "isLocal">;
