@@ -22,10 +22,27 @@ const HEADERS = [
   "Status",
 ];
 
+const Status = ({ type }: { type: string }) => {
+  return (
+    <div
+      className={`p-1 rounded-lg text-xs font-medium max-w-30
+                    ${
+                      type === "completed"
+                        ? "bg-emerald-200 text-emerald-400"
+                        : type === "returns"
+                          ? "bg-rose-200 text-rose-400"
+                          : "bg-gray-200 text-slate-400"
+                    }`}
+    >
+      <p>{type}</p>
+    </div>
+  );
+};
+
 const formatDate = (dateStr: string) => {
   const date = new Date(dateStr);
   const day = date.getDate();
-  const month = date.getMonth();
+  const month = date.getMonth() + 1;
   const year = date.getFullYear();
 
   return `${day}/${month}/${year}`;
@@ -45,27 +62,11 @@ export default function SalesActivities() {
         productId: sale.productId,
         status: sale.status,
         channel: sale.channel,
+        _timestamp: new Date(sale.date).getTime(),
       }))
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      .sort((a, b) => b._timestamp - a._timestamp)
       .slice(0, 20);
   }, [salesData]);
-
-  const Status = ({ type }: { type: string }) => {
-    return (
-      <div
-        className={`p-1 rounded-lg text-xs font-medium 
-                    ${
-                      type === "completed"
-                        ? "bg-emerald-200 text-emerald-400"
-                        : type === "returns"
-                          ? "bg-rose-200 text-rose-400"
-                          : "bg-gray-200 text-slate-400"
-                    }`}
-      >
-        <p>{type}</p>
-      </div>
-    );
-  };
 
   return (
     <div className="h-full overflow-auto">
@@ -99,7 +100,7 @@ export default function SalesActivities() {
 
               <td>{invoice.productId}</td>
 
-              <td className="">
+              <td>
                 <Status type={invoice.status} />
               </td>
             </tr>
