@@ -6,7 +6,7 @@ const RecentSales = () => {
   const { salesData } = useSalesStore();
 
   return (
-    <>
+    <div className="space-y-1">
       <h3 className="text-base font-semibold">Recent Sales</h3>
       {sortSalesByDate(salesData)
         .slice(-5)
@@ -14,7 +14,7 @@ const RecentSales = () => {
         .map((sale) => (
           <div
             key={sale.id}
-            className="w-full flex flex-row justify-between items-center rounded-lg p-1"
+            className="flex flex-row justify-between items-center rounded-lg p-1"
           >
             <div className="flex flex-row items-center gap-3">
               <UserProfile className="w-8 h-8 text-slate-500" />
@@ -32,7 +32,7 @@ const RecentSales = () => {
             </span>
           </div>
         ))}
-    </>
+    </div>
   );
 };
 

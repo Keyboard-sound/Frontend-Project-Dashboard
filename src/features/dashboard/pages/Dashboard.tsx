@@ -33,7 +33,7 @@ export default function Dashboard() {
         </div>
       </div>
       <div className="flex gap-2 pt-2 pb-3 lg:pb-5 text-2xs lg:text-sm text-slate-400">
-        <div className="flex items-center border border-gray-200  rounded-lg hover:shadow-sm ">
+        <div className="flex items-center border border-gray-200  rounded-lg hover:shadow-sm">
           <button
             onClick={() => loadSalesData(100)}
             className="flex gap-1 items-center w-full p-1 lg:px-2 lg:py-1 cursor-pointer"
@@ -45,7 +45,7 @@ export default function Dashboard() {
           </button>
         </div>
 
-        <div className="flex items-center border  border-gray-200  rounded-lg hover:shadow-sm ">
+        <div className="flex items-center border  border-gray-200  rounded-lg hover:shadow-sm">
           <button
             onClick={() => loadSalesData(300)}
             className="flex gap-1 items-center w-full p-1 lg:px-2 lg:py-1 cursor-pointer"
@@ -133,21 +133,20 @@ export default function Dashboard() {
       </div>
 
       {/* graph */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-3 lg:gap-5 mt-3 lg:mt-5">
-        <div className="lg:col-span-3 w-full h-full border border-gray-200 rounded-lg p-2 lg:px-4 lg:py-5">
+      <div className="flex flex-wrap md:flex-nowrap flex-row justify-between items-stretch gap-3 lg:gap-5 mt-3 lg:mt-5">
+        <div className="w-full lg:w-[70%] border border-gray-200 rounded-lg p-4">
           <h3 className="text-sm lg:text-base font-semibold">
             Sales Analytics
           </h3>
           <SalesAnalyticsGraph />
         </div>
-
-        <div className="lg:col-span-1 w-full min-h-30 space-y-1 border border-gray-200 rounded-lg p-2 mt-3 lg:mt-0">
+        <div className="w-full lg:w-[30%] border border-gray-200 rounded-lg p-4">
           <RecentSales />
         </div>
       </div>
 
       {/* Show Sale activities */}
-      <div className="flex-1 w-full max-h-[600px] border border-gray-200 rounded-lg mt-3 lg:mt-5 p-2 overflow-hidden">
+      <div className="flex-1 w-full max-h-[600px] border border-gray-200 rounded-lg mt-3 lg:mt-5 p-4 overflow-hidden">
         <h3 className="text-sm lg:text-base font-semibold">Latest Invoices</h3>
         <SalesActivities />
       </div>
