@@ -10,7 +10,7 @@ export interface Product {
   stock: number;
   brand: string;
   category: string;
-  thumbnail: string;
+  thumbnail?: string | null;
   images: string[];
   isLocal?: boolean; // Flag to track locally created products
 }
@@ -24,8 +24,8 @@ export type CreateProductInput = {
   stock?: number;
   brand?: string;
   category?: string;
-  thumbnail?: string;
-  images?: string[] | null;
+  thumbnail?: string | null;
+  images: string[];
 };
 
 export type ProductUpdateInput = Omit<Partial<Product>, "id" | "isLocal">;
@@ -64,11 +64,10 @@ export async function createProduct(
     stock: 0,
     brand: "",
     category: "",
-    thumbnail: "https://via.placeholder.com/150",
-    images: null,
     ...product,
   };
 
+  //this create product api will return only name you send and id
   try {
     const res = await axios.post<Product>(
       "https://dummyjson.com/products/add",
@@ -76,7 +75,7 @@ export async function createProduct(
     );
     console.log("Product created:", res.data);
     // Mark the product as locally created
-    return { ...res.data, isLocal: true };
+    return { ...res.data };
   } catch (error) {
     console.log("error creating product", error);
     throw error;

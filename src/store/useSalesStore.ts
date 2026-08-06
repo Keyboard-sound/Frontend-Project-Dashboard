@@ -16,6 +16,7 @@ export interface SalesStore {
   salesData: SaleRecord[];
   products: Product[];
   lastYearData: LastYearData | null;
+  productsLoading: boolean;
   createProductsLoading: boolean;
   editingProductsLoading: boolean;
   salesDataLoading: boolean;
@@ -27,6 +28,7 @@ export interface SalesStore {
   setSalesData: (data: SaleRecord[]) => void;
   addSalesData: (data: SaleRecord[]) => void;
   setProducts: (products: Product[]) => void;
+  setProductsLoading: (loading: boolean) => void;
   setCreateProductsLoading: (loading: boolean) => void;
   setEditingProductsLoading: (loading: boolean) => void;
   setSalesDataLoading: (loading: boolean) => void;
@@ -68,6 +70,7 @@ const useSalesStore = create<SalesStore>()(
       products: [],
       lastYearData: null,
       searchQuery: "",
+      productsLoading: false,
       createProductsLoading: false,
       editingProductsLoading: false,
       deleteProductLoading: false,
@@ -82,6 +85,7 @@ const useSalesStore = create<SalesStore>()(
           salesData: sortSalesByDate([...state.salesData, ...data]),
         })),
       setProducts: (products) => set({ products }),
+      setProductsLoading: (loading) => set({ productsLoading: loading }),
       setCreateProductsLoading: (loading) =>
         set({ createProductsLoading: loading }),
       setEditingProductsLoading: (loading) =>
@@ -246,12 +250,12 @@ const useSalesStore = create<SalesStore>()(
           const productWithUniqueId = {
             ...newProduct,
             id: uniqueId,
-            images: [imageUrl],
-            thumbnail: imageUrl,
+            images: [imageUrl], //add as array because image return from dummy api is array.
+            isLocal: true,
           };
 
           set((state) => ({
-            products: [...state.products, productWithUniqueId], // not done
+            products: [...state.products, productWithUniqueId],
           }));
           return productWithUniqueId;
         } catch (error) {
