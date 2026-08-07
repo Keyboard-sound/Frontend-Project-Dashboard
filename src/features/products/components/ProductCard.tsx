@@ -12,7 +12,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editForm, setEditForm] = useState<Partial<Product>>({});
 
-  const { deleteProduct, editProduct, editingProductsLoading } = useSalesStore();
+  const { deleteProduct, editProduct, editingProductsLoading } =
+    useSalesStore();
 
   const handleEdit = (close: () => void) => {
     setEditingId(product.id);
@@ -38,7 +39,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
       alert(
         `Failed to save product: ${
           error instanceof Error ? error.message : "Unknown error"
-        }`
+        }`,
       );
     }
   };
@@ -59,11 +60,12 @@ const ProductCard = ({ product }: ProductCardProps) => {
       alert(
         `Failed to delete product: ${
           error instanceof Error ? error.message : "Unknown error"
-        }`
+        }`,
       );
     }
   };
   const isEditing = editingId === product.id;
+  
   return (
     <div className="flex flex-col justify-evenly items-center p-2 md:p-4 w-full h-auto border border-gray-200 rounded-lg shadow-md overflow-hidden">
       <div className="relative flex justify-between items-center w-full h-5">
@@ -127,6 +129,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <img
           src={product.images[0]}
           alt={product.title}
+          fetchPriority="high"
           className="w-25 h-25 md:w-50 md:h-50"
         />
       </div>
