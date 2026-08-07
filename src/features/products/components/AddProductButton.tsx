@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { PlusIcon } from "@heroicons/react/16/solid";
-import CreateProductForm from "./CreatProductForm";
+import CreateProductForm from "./CreateProductForm";
 import type { FC } from "react";
 
 export const AddProductButton: FC = () => {
