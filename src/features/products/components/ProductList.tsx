@@ -1,19 +1,29 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import useSalesStore from "@store/useSalesStore";
 import ProductCard from "./ProductCard";
 
 export default function ProductList() {
-  const { products, fetchProducts, getFilteredProducts } = useSalesStore();
+  const fetchProducts = useSalesStore((state) => state.fetchProducts);
+  const productsLength = useSalesStore((state) => state.products.length);
+  const products = useSalesStore((state) => state.products);
+  const searchQuery = useSalesStore((state) => state.searchQuery);
 
   useEffect(() => {
-    if (products.length === 0) {
+    if (productsLength === 0) {
+      console.log("fetch product called inside productList page");
       fetchProducts();
     }
-  }, [products, fetchProducts]);
+  }, [productsLength, fetchProducts]);
 
-  const filteredProduct = getFilteredProducts();
+  const filteredProducts = useMemo(() => {
+    if (!searchQuery?.trim()) return products;
 
-  if (filteredProduct.length === 0) {
+    return products.filter((product) =>
+      product.title.toLowerCase().includes(searchQuery.toLowerCase()),
+    );
+  }, [products, searchQuery]);
+
+  if (filteredProducts.length === 0) {
     return (
       <div className="col-span-full text-center py-8 text-gray-500">
         No products found matching your search.
@@ -23,7 +33,7 @@ export default function ProductList() {
 
   return (
     <>
-      {filteredProduct.map((product) => (
+      {filteredProducts.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}
     </>

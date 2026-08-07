@@ -48,7 +48,6 @@ export interface SalesStore {
   getTotalCustomers: () => number;
   getTotalOrders: () => number;
   getFilteredSales: () => SaleRecord[];
-  getFilteredProducts: () => Product[];
   createProduct: (product: CreateProductInput) => Promise<Product>;
   editProduct: (id: number, updates: ProductUpdateInput) => Promise<Product>;
   deleteProduct: (id: number) => Promise<void>;
@@ -101,18 +100,6 @@ const useSalesStore = create<SalesStore>()(
         }),
 
       setSearchQuery: (query) => set({ searchQuery: query }),
-
-      getFilteredProducts: () => {
-        const { products, searchQuery } = get();
-
-        if (!searchQuery || searchQuery.trim() === "") {
-          return products;
-        }
-
-        return products.filter((product) =>
-          product.title.toLowerCase().includes(searchQuery.toLowerCase()),
-        );
-      },
 
       fetchProducts: async () => {
         const { setProducts } = get();
