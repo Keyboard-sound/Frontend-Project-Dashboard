@@ -44,7 +44,7 @@ export default function DesktopSidebar() {
     <aside
       className={`${
         isOpen ? "w-64" : "w-18"
-      } hidden lg:flex flex-col h-full lg:items-center bg-blue-50 rounded-lg transition-all ease-out duration-150 lg:p-3 lg:pt-6`}
+      } hidden lg:flex flex-col lg:items-center bg-blue-50 rounded-lg transition-all ease-out duration-150 lg:p-3 lg:pt-6`}
     >
       <div className="w-full flex items-center mb-2.5">
         <div className="flex justify-center font-bold">

@@ -20,20 +20,19 @@ export default function ProductsPage() {
   };
 
   return (
-    <div className="w-full h-screen rounded-lg bg-white overflow-auto">
-      <div className="px-4 py-4">
-        <div className="flex justify-end items-center mb-2 gap-1">
-          <AddProductButton />
-          <ProductsSearchInput
-            placeholder={"search..."}
-            onSelectProduct={handleProductSearch}
-            onClear={handleClearSearch}
-          />
-        </div>
-        {/* card list */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-          <ProductList />
-        </div>
+    <div className="w-full rounded-lg bg-white">
+      <div className="sticky top-9 lg:top-0 z-30 flex justify-end items-center gap-1 px-2 pt-4 pb-2 bg-white">
+        <AddProductButton />
+        <ProductsSearchInput
+          placeholder={"search..."}
+          onSelectProduct={handleProductSearch}
+          onClear={handleClearSearch}
+        />
+      </div>
+      {/* card list */}
+
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 px-4 pb-4">
+        <ProductList />
       </div>
     </div>
   );

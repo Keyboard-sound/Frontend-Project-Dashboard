@@ -20,7 +20,7 @@ export default function RootLayout() {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row bg-white h-screen overflow-y-auto">
+    <div className="flex flex-col lg:flex-row bg-white min-h-screen">
       <div className="sticky top-0 z-50 lg:hidden">
         <MobileHeader onMenuClick={() => setMobileMenuOpen(true)} />
       </div>
@@ -31,14 +31,14 @@ export default function RootLayout() {
       <Dialog
         open={mobileMenuOpen}
         onClose={() => setMobileMenuOpen(false)}
-        className="relative z-10 lg:hidden"
+        className="relative z-40 lg:hidden"
       >
         <DialogBackdrop
           transition
           className="fixed inset-0 bg-black/30 transition-opacity duration-300 data-closed:opacity-0"
           aria-hidden="true"
         />
-        <div className="fixed top-8 bottom-0 inset-0 flex">
+        <div className="fixed inset-0 top-8  flex">
           <DialogPanel
             transition
             className="px-2 py-3 w-56 h-full bg-white shadow-xl transition-transform duration-300 ease-in-out data-closed:-translate-x-full"
