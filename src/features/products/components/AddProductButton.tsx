@@ -26,16 +26,15 @@ export const AddProductButton: FC = () => {
         onClose={setIsDialogOpen}
         className="relative z-50"
       >
-        {/* Backdrop */}
         <DialogBackdrop
           transition
-          className="fixed inset-0 bg-black/30 transition duration-150 ease-out data-closed:opacity-0"
+          className="fixed inset-0 bg-black/50 transition duration-150 ease-out data-closed:opacity-0"
           aria-hidden="true"
         />
-        <div className="fixed inset-0 flex items-center justify-end">
+        <div className="fixed inset-0 flex justify-end items-center">
           <DialogPanel
             transition
-            className="w-full md:w-96 h-full bg-white transition duration-500 ease-in-out shadow-2xl data-closed:translate-x-full data-closed:opacity-0 data-open:translate-x-0"
+            className="w-full max-w-md h-full rounded-sm bg-white transition duration-500 ease-in-out shadow-2xl data-closed:translate-x-full data-closed:opacity-0 data-open:translate-x-0"
           >
             <CreateProductForm
               onSuccess={() => setIsDialogOpen(false)}

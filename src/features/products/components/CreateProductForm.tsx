@@ -97,126 +97,121 @@ export default function CreateProductForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-2 p-4 pt-8">
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col justify-start h-full space-y-2 px-4 pt-8 pb-10"
+    >
       <h2 className="text-lg font-semibold">Create New Product</h2>
-      <div className="mt-2">
-        {/* Title */}
-        <div className="min-h-22">
-          <label
-            htmlFor="title"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Title <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              errors.title ? "border-red-500" : "border-gray-300"
-            }`}
-            placeholder="Enter product title"
-          />
-          {errors.title && (
-            <p className="text-sm text-red-500">{errors.title}</p>
-          )}
-        </div>
+      {/* Title */}
+      <div className="min-h-22">
+        <label
+          htmlFor="title"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Title <span className="text-red-500">*</span>
+        </label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          value={formData.title}
+          onChange={handleChange}
+          className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+            errors.title ? "border-red-500" : "border-gray-300"
+          }`}
+          placeholder="Enter product title"
+        />
+        {errors.title && <p className="text-sm text-red-500">{errors.title}</p>}
+      </div>
 
-        {/* Price */}
-        <div className="min-h-22">
-          <label
-            htmlFor="price"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Price <span className="text-red-500">*</span>
-          </label>
-          <input
-            id="price"
-            type="text"
-            pattern="[0-9]*"
-            inputMode="numeric"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              errors.price ? "border-red-500" : "border-gray-300"
-            }`}
-            placeholder="0"
-          />
-          {errors.price && (
-            <p className="text-sm text-red-500">{errors.price}</p>
-          )}
-        </div>
+      {/* Price */}
+      <div className="min-h-22">
+        <label
+          htmlFor="price"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Price <span className="text-red-500">*</span>
+        </label>
+        <input
+          id="price"
+          type="text"
+          pattern="[0-9]*"
+          inputMode="numeric"
+          name="price"
+          value={formData.price}
+          onChange={handleChange}
+          className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+            errors.price ? "border-red-500" : "border-gray-300"
+          }`}
+          placeholder="0"
+        />
+        {errors.price && <p className="text-sm text-red-500">{errors.price}</p>}
+      </div>
 
-        {/* Description */}
-        <div className="min-h-22">
-          <label
-            htmlFor="description"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Description
-          </label>
-          <textarea
-            id="description"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            rows={3}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter product description"
-          />
-        </div>
+      {/* Description */}
+      <div className="min-h-22">
+        <label
+          htmlFor="description"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Description
+        </label>
+        <textarea
+          id="description"
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
+          rows={3}
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+          placeholder="Enter product description"
+        />
+      </div>
 
-        {/* Stock */}
-        <div className="min-h-22">
-          <label
-            htmlFor="stock"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Stock <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            inputMode="numeric"
-            pattern="[0-9]*"
-            id="stock"
-            name="stock"
-            value={formData.stock}
-            onChange={handleChange}
-            min="0"
-            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              errors.price ? "border-red-500" : "border-gray-300"
-            }`}
-            placeholder="0"
-          />
-          {errors.stock && (
-            <p className="text-sm text-red-500">{errors.stock}</p>
-          )}
-        </div>
+      {/* Stock */}
+      <div className="min-h-22">
+        <label
+          htmlFor="stock"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Stock <span className="text-red-500">*</span>
+        </label>
+        <input
+          type="text"
+          inputMode="numeric"
+          pattern="[0-9]*"
+          id="stock"
+          name="stock"
+          value={formData.stock}
+          onChange={handleChange}
+          min="0"
+          className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+            errors.price ? "border-red-500" : "border-gray-300"
+          }`}
+          placeholder="0"
+        />
+        {errors.stock && <p className="text-sm text-red-500">{errors.stock}</p>}
+      </div>
 
-        {/* Buttons */}
-        <div className="flex gap-3 pt-4">
-          {onCancel && (
-            <button
-              type="button"
-              onClick={onCancel}
-              disabled={createProductsLoading}
-              className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg font-medium cursor-pointer hover:bg-gray-300 disabled:bg-gray-100 disabled:cursor-not-allowed transition-colors"
-            >
-              Cancel
-            </button>
-          )}
-
+      {/* Buttons */}
+      <div className="inline-flex mt-auto gap-3 pt-4">
+        {onCancel && (
           <button
-            type="submit"
+            type="button"
+            onClick={onCancel}
             disabled={createProductsLoading}
-            className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg font-medium cursor-pointer hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+            className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg font-medium cursor-pointer hover:bg-gray-300 disabled:bg-gray-100 disabled:cursor-not-allowed transition-colors"
           >
-            {createProductsLoading ? "Adding Product..." : "Add Product"}
+            Cancel
           </button>
-        </div>
+        )}
+
+        <button
+          type="submit"
+          disabled={createProductsLoading}
+          className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg font-medium cursor-pointer hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+        >
+          {createProductsLoading ? "Adding Product..." : "Add Product"}
+        </button>
       </div>
     </form>
   );
