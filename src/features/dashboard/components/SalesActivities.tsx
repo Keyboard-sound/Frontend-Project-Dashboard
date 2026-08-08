@@ -69,7 +69,7 @@ export default function SalesActivities() {
   }, [salesData]);
 
   return (
-    <div className="h-full overflow-auto">
+    <div className="max-h-[600px] overflow-auto">
       <table className="w-full pb-4 border-separate border-spacing-2 bg-white">
         <thead>
           <tr className="text-[10px] text-center align-top text-slate-400 font-medium">

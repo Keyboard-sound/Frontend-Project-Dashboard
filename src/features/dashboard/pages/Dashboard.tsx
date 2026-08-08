@@ -146,7 +146,7 @@ export default function Dashboard() {
       </div>
 
       {/* Show Sale activities */}
-      <div className="flex-1 w-full max-h-[600px] border border-gray-200 rounded-lg mt-3 lg:mt-5 p-4 overflow-hidden">
+      <div className="flex-1 border border-gray-200 rounded-lg mt-3 lg:mt-5 p-4">
         <h3 className="text-sm lg:text-base font-semibold">Latest Invoices</h3>
         <SalesActivities />
       </div>
