@@ -1,12 +1,15 @@
-import type { Product } from "@/api/productsApi";
 import { AddProductButton } from "@/features/products/components/AddProductButton";
 import ProductsSearchInput from "@/features/products/components/ProductsSearchInput";
 import useSalesStore from "@/store/useSalesStore";
 import { Bars3Icon } from "@heroicons/react/24/outline";
+import { useLocation } from "react-router";
 import type { FC } from "react";
+import type { Product } from "@/api/productsApi";
 
 const MobileHeader: FC<{ onMenuClick: () => void }> = ({ onMenuClick }) => {
   const { setSearchQuery } = useSalesStore();
+  const location = useLocation();
+  const isProductPage = location.pathname.includes("/products");
 
   const handleProductSearch = (product: Product | null) => {
     if (product) {
@@ -29,14 +32,16 @@ const MobileHeader: FC<{ onMenuClick: () => void }> = ({ onMenuClick }) => {
         <Bars3Icon className="w-5 h-5 stroke-2" />
       </button>
 
-      <div className="flex flex-row justify-end items-center gap-1">
-        <AddProductButton />
-        <ProductsSearchInput
-          placeholder={"search..."}
-          onSelectProduct={handleProductSearch}
-          onClear={handleClearSearch}
-        />
-      </div>
+      {isProductPage && (
+        <div className="flex flex-row justify-end items-center gap-1">
+          <AddProductButton />
+          <ProductsSearchInput
+            placeholder={"search..."}
+            onSelectProduct={handleProductSearch}
+            onClear={handleClearSearch}
+          />
+        </div>
+      )}
     </div>
   );
 };
