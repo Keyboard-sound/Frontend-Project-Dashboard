@@ -61,8 +61,8 @@ export const ProductsSearchInput: FC<SearchInputProps> = ({
       onChange={handleSelect}
       onClose={() => setQuery("")}
     >
-      <div className="flex justify-center items-center w-30 sm:w-50 lg:w-50 h-8 border-1 border-gray-200 rounded-lg px-2 py-1 has-[:focus]:ring-2 has-[:focus]:ring-blue-500">
-        <MagnifyingGlassIcon className="w-5 h-5 pr-1 stroke-2 text-slate-400" />
+      <div className="flex justify-center items-center w-30 md:w-60 h-6 lg:h-8 border border-gray-200 rounded-lg px-2 py-1 bg-white has-[:focus]:ring-2 has-[:focus]:ring-blue-500">
+        <MagnifyingGlassIcon className="size-4 lg:size-5 pr-1 stroke-2 text-slate-400" />
         <ComboboxInput
           type="text"
           displayValue={(product: Product | null) =>
