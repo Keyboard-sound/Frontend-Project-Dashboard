@@ -1,6 +1,7 @@
 import { AddProductButton } from "@/features/products/components/AddProductButton";
 import ProductsSearchInput from "@/features/products/components/ProductsSearchInput";
 import useSalesStore from "@/store/useSalesStore";
+import useProductStore from "@/store/useProductStore";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { useLocation } from "react-router";
 import type { FC } from "react";
@@ -8,6 +9,7 @@ import type { Product } from "@/api/productsApi";
 
 const MobileHeader: FC<{ onMenuClick: () => void }> = ({ onMenuClick }) => {
   const { setSearchQuery } = useSalesStore();
+  const { setFormDialogOpen } = useProductStore();
   const location = useLocation();
   const isProductPage = location.pathname.includes("/products");
 
@@ -34,7 +36,7 @@ const MobileHeader: FC<{ onMenuClick: () => void }> = ({ onMenuClick }) => {
 
       {isProductPage && (
         <div className="flex flex-row justify-end items-center gap-1">
-          <AddProductButton />
+          <AddProductButton onClick={() => setFormDialogOpen(true)} />
           <ProductsSearchInput
             placeholder={"search..."}
             onSelectProduct={handleProductSearch}
