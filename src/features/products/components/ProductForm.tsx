@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useSalesStore from "@store/useSalesStore";
 import { ProductInputSchema } from "../product.schema";
 import type { FormEvent } from "react";
-import type { CreateProductInput } from "@api/productsApi";
+import type { Product } from "@api/productsApi";
 
-interface CreateProductFormProps {
+type Mode = "create" | "edit";
+
+interface ProductFormProps {
+  mode: Mode;
+  initialData?: Partial<Product>;
   onSuccess?: () => void;
   onCancel?: () => void;
 }
@@ -15,18 +19,26 @@ type FormErrors = {
   stock?: string;
 };
 
-export default function CreateProductForm({
+export function ProductForm({
+  mode,
+  initialData,
   onSuccess,
   onCancel,
-}: CreateProductFormProps) {
+}: ProductFormProps) {
   const { createProduct, createProductsLoading } = useSalesStore();
 
-  const [formData, setFormData] = useState<CreateProductInput>({
+  const [formData, setFormData] = useState<Partial<Product>>({
     title: "",
     price: 0,
     description: "",
     stock: 0,
   });
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData(initialData);
+    }
+  }, [initialData]);
 
   const [errors, setErrors] = useState<FormErrors>({});
 
@@ -35,7 +47,7 @@ export default function CreateProductForm({
 
     const formattedData = {
       ...formData,
-      title: formData.title.trim(),
+      title: formData.title?.trim(),
       price: Number(formData.price),
       Description: formData.description?.trim(),
       stock: Number(formData.stock),
@@ -101,14 +113,15 @@ export default function CreateProductForm({
       onSubmit={handleSubmit}
       className="flex flex-col justify-start h-full space-y-2 px-4 pt-8 pb-10"
     >
-      <h2 className="text-lg font-semibold">Create New Product</h2>
+      <h2 className="text-lg font-semibold">{`${mode === "create" ? "Create New Product Form" : "Edit Product Form"}`}</h2>
       {/* Title */}
       <div className="min-h-22">
         <label
           htmlFor="title"
           className="block text-sm font-medium text-gray-700"
         >
-          Title <span className="text-red-500">*</span>
+          Title
+          <span className="text-red-500">*</span>
         </label>
         <input
           type="text"
@@ -210,7 +223,13 @@ export default function CreateProductForm({
           disabled={createProductsLoading}
           className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg font-medium cursor-pointer hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
         >
-          {createProductsLoading ? "Adding Product..." : "Add Product"}
+          {/* {mode === "create"
+            ? createProductsLoading
+              ? "Adding Product..."
+              : "Add Product"
+            : editProductLoading
+              ? "Saving..."
+              : "Save"} */}
         </button>
       </div>
     </form>

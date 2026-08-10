@@ -25,7 +25,7 @@ const HEADERS = [
 const Status = ({ type }: { type: string }) => {
   return (
     <div
-      className={`p-1 rounded-lg text-xs font-medium max-w-30
+      className={`w-full max-w-30 p-1 rounded-lg text-xs font-medium
                     ${
                       type === "completed"
                         ? "bg-emerald-200 text-emerald-400"
@@ -69,7 +69,7 @@ export default function SalesActivities() {
   }, [salesData]);
 
   return (
-    <div className="max-h-[600px] overflow-auto">
+
       <table className="w-full pb-4 border-separate border-spacing-2 bg-white">
         <thead>
           <tr className="text-[10px] text-center align-top text-slate-400 font-medium">
@@ -101,12 +101,14 @@ export default function SalesActivities() {
               <td>{invoice.productId}</td>
 
               <td>
-                <Status type={invoice.status} />
+                <div className="flex justify-center items-center w-full">
+                  <Status type={invoice.status} />
+                </div>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-    </div>
+  
   );
 }

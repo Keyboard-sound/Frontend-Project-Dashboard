@@ -23,7 +23,7 @@ export default function Dashboard() {
   } = useSalesStore();
 
   return (
-    <div className="flex flex-col w-full h-full p-4 lg:pl-5 lg:pr-7 lg:pt-6 rounded-lg bg-white">
+    <div className="flex flex-col w-full min-h-screen lg:h-screen p-4 lg:pl-5 lg:pr-7 lg:pt-6 rounded-lg bg-white">
       <div className="flex justify-between">
         <div className="flex flex-col">
           <h1 className="pl-2 font-semibold text-base lg:text-lg">
@@ -146,9 +146,11 @@ export default function Dashboard() {
       </div>
 
       {/* Show Sale activities */}
-      <div className="flex-1 border border-gray-200 rounded-lg mt-3 lg:mt-5 p-4">
+      <div className="flex flex-col flex-1 max-h-[600px] border border-gray-200 rounded-lg mt-3 lg:mt-5 p-4 overflow-hidden">
         <h3 className="text-sm lg:text-base font-semibold">Latest Invoices</h3>
-        <SalesActivities />
+        <div className="overflow-auto">
+          <SalesActivities />
+        </div>
       </div>
     </div>
   );
