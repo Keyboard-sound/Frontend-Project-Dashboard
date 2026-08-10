@@ -12,7 +12,7 @@ import type {
   ProductUpdateInput,
 } from "@api/productsApi";
 
-export interface SalesStore {
+interface SalesStore {
   salesData: SaleRecord[];
   products: Product[];
   lastYearData: LastYearData | null;
