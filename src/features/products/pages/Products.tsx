@@ -4,12 +4,12 @@ import { ProductsSearchInput } from "../components/ProductsSearchInput";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { ProductForm } from "../components/ProductForm";
 import useSalesStore from "@/store/useSalesStore";
-import useProductStore from "@/store/useProductStore";
+import useProductDialogStore from "@/store/useProductDialogStore";
 import type { Product } from "@api/productsApi";
 
 export default function ProductsPage() {
   const { setSearchQuery } = useSalesStore();
-  const { isFormDialogOpen, setFormDialogOpen } = useProductStore();
+  const { isCreateDialogOpen, setCreateDialogOpen } = useProductDialogStore();
 
   const handleProductSearch = (product: Product | null) => {
     if (product) {
@@ -26,7 +26,7 @@ export default function ProductsPage() {
   return (
     <div className="w-full rounded-lg bg-white">
       <div className="sticky top-9 lg:top-0 z-30 hidden lg:flex justify-end items-center gap-1 px-4 py-2 bg-white shadow-sm">
-        <AddProductButton onClick={() => setFormDialogOpen(true)} />
+        <AddProductButton onClick={() => setCreateDialogOpen(true)} />
         <ProductsSearchInput
           placeholder={"search..."}
           onSelectProduct={handleProductSearch}
@@ -41,8 +41,8 @@ export default function ProductsPage() {
 
       {/* Create product form */}
       <Dialog
-        open={isFormDialogOpen}
-        onClose={setFormDialogOpen}
+        open={isCreateDialogOpen}
+        onClose={setCreateDialogOpen}
         className="relative z-50"
       >
         <DialogBackdrop
@@ -53,12 +53,13 @@ export default function ProductsPage() {
         <div className="fixed inset-0 flex justify-end items-center">
           <DialogPanel
             transition
+            aria-hidden="true"
             className="w-full max-w-md h-full rounded-sm bg-white transition duration-500 ease-in-out shadow-2xl data-closed:translate-x-full data-closed:opacity-0 data-open:translate-x-0"
           >
             <ProductForm
               mode="create"
-              onSuccess={() => setFormDialogOpen(false)}
-              onCancel={() => setFormDialogOpen(false)}
+              onSuccess={() => setCreateDialogOpen(false)}
+              onCancel={() => setCreateDialogOpen(false)}
             />
           </DialogPanel>
         </div>
