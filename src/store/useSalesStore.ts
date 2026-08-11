@@ -18,7 +18,7 @@ interface SalesStore {
   lastYearData: LastYearData | null;
   productsLoading: boolean;
   createProductsLoading: boolean;
-  editingProductsLoading: boolean;
+  editProductsLoading: boolean;
   salesDataLoading: boolean;
   searchQuery: string;
   filters: {
@@ -30,7 +30,7 @@ interface SalesStore {
   setProducts: (products: Product[]) => void;
   setProductsLoading: (loading: boolean) => void;
   setCreateProductsLoading: (loading: boolean) => void;
-  setEditingProductsLoading: (loading: boolean) => void;
+  setEditProductsLoading: (loading: boolean) => void;
   setSalesDataLoading: (loading: boolean) => void;
   setSearchQuery: (query: string) => void;
   updateFilters: (filters: Partial<SalesStore["filters"]>) => void;
@@ -71,7 +71,7 @@ const useSalesStore = create<SalesStore>()(
       searchQuery: "",
       productsLoading: false,
       createProductsLoading: false,
-      editingProductsLoading: false,
+      editProductsLoading: false,
       deleteProductLoading: false,
       salesDataLoading: false,
       filters: {
@@ -87,8 +87,8 @@ const useSalesStore = create<SalesStore>()(
       setProductsLoading: (loading) => set({ productsLoading: loading }),
       setCreateProductsLoading: (loading) =>
         set({ createProductsLoading: loading }),
-      setEditingProductsLoading: (loading) =>
-        set({ editingProductsLoading: loading }),
+      setEditProductsLoading: (loading) =>
+        set({ editProductsLoading: loading }),
       setSalesDataLoading: (loading) => set({ salesDataLoading: loading }),
       updateFilters: (newFilters) =>
         set((state) => ({ filters: { ...state.filters, ...newFilters } })),
@@ -254,7 +254,7 @@ const useSalesStore = create<SalesStore>()(
       },
 
       editProduct: async (id, updates) => {
-        const { setEditingProductsLoading, products } = get();
+        const { setEditProductsLoading: setEditingProductsLoading, products } = get();
 
         set((state) => ({
           products: state.products.map((product) =>
