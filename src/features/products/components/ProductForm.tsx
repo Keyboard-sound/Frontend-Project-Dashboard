@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useSalesStore from "@store/useSalesStore";
-import { ProductInputSchema } from "../product.schema";
+import { ProductInputSchema, type ProductInput } from "../product.schema";
 import type { FormEvent } from "react";
 import type { Product } from "@api/productsApi";
 
@@ -25,7 +25,12 @@ export function ProductForm({
   onSuccess,
   onCancel,
 }: ProductFormProps) {
-  const { createProduct, createProductsLoading } = useSalesStore();
+  const {
+    createProduct,
+    createProductsLoading,
+    editProductsLoading,
+    editProduct,
+  } = useSalesStore();
 
   const [formData, setFormData] = useState<Partial<Product>>({
     title: "",
@@ -66,28 +71,47 @@ export function ProductForm({
       return result.data;
     }
 
-    try {
-      const newProduct = await createProduct(result.data);
-      console.log("Product created successfully:", newProduct);
+    if (mode === "edit") {
+      await handleEditSubmit(result.data);
+    } else {
+      await handleCreateSubmit(result.data);
+    }
 
-      setFormData({
-        title: "",
-        price: 0,
-        description: "",
-        stock: 0,
-      });
-      setErrors({});
+    setFormData({
+      title: "",
+      price: 0,
+      description: "",
+      stock: 0,
+    });
+    setErrors({});
 
-      if (onSuccess) {
-        onSuccess();
-      }
-    } catch (error) {
-      console.error("Failed to create product:", error);
-      alert("Failed to create product. Please try again.");
+    if (onSuccess) {
+      onSuccess();
     }
   };
 
-  // Handle input change
+  const handleEditSubmit = async (data: ProductInput) => {
+    if (!initialData?.id) {
+      console.error("Missing product id for edit");
+      return;
+    }
+    try {
+      await editProduct(initialData.id, data);
+    } catch (error) {
+      console.error("Failed to edit product:", error);
+      alert("Edit product failed, Please try again");
+    }
+  };
+
+  const handleCreateSubmit = async (data: ProductInput) => {
+    try {
+      await createProduct(data);
+    } catch (error) {
+      console.error("Failed to create product:", error);
+      alert("Failed to create product");
+    }
+  };
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -220,16 +244,18 @@ export function ProductForm({
 
         <button
           type="submit"
-          disabled={createProductsLoading}
+          disabled={
+            mode === "create" ? createProductsLoading : editProductsLoading
+          }
           className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg font-medium cursor-pointer hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
         >
-          {/* {mode === "create"
+          {mode === "create"
             ? createProductsLoading
               ? "Adding Product..."
               : "Add Product"
-            : editProductLoading
+            : editProductsLoading
               ? "Saving..."
-              : "Save"} */}
+              : "Save"}
         </button>
       </div>
     </form>
