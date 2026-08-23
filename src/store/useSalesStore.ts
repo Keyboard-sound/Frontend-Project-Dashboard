@@ -254,7 +254,7 @@ const useSalesStore = create<SalesStore>()(
       },
 
       editProduct: async (id, updates) => {
-        const { setEditProductsLoading: setEditingProductsLoading, products } = get();
+        const { setEditProductsLoading, products } = get();
 
         set((state) => ({
           products: state.products.map((product) =>
@@ -263,22 +263,22 @@ const useSalesStore = create<SalesStore>()(
         }));
 
         try {
-          setEditingProductsLoading(true);
+          setEditProductsLoading(true);
           // Find the product to check if it's local and pass original data
-          const existed = products.find((p) => p.id === id);
+          const existingProduct = products.find((p) => p.id === id);
 
-          if (!existed) {
+          if (!existingProduct) {
             throw new Error(`Product with id ${id} not found in store`);
           }
 
-          const isLocal = existed.isLocal ?? false;
+          const isLocal = existingProduct.isLocal ?? false;
 
           // Pass the original product so local updates can merge properly
           const updatedProduct = await apiEditProduct(
             id,
             updates,
             isLocal,
-            existed,
+            existingProduct,
           );
 
           return updatedProduct;
@@ -286,7 +286,7 @@ const useSalesStore = create<SalesStore>()(
           console.error(error);
           throw new Error("Failed to updating product");
         } finally {
-          setEditingProductsLoading(false);
+          setEditProductsLoading(false);
         }
       },
 
