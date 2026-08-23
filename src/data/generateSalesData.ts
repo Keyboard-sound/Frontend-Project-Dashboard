@@ -7,7 +7,7 @@ export interface SaleRecord {
   customerEmail: string;
   productId: number;
   productName: string;
-  category: string;
+  category?: string;
   price: number;
   quantity: number;
   total: number;
