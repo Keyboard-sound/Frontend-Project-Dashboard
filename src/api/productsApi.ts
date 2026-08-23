@@ -3,13 +3,13 @@ import axios from "axios";
 export interface Product {
   id: number;
   title: string;
-  description: string;
+  description?: string;
   price: number;
-  discountPercentage: number;
-  rating: number;
+  discountPercentage?: number;
+  rating?: number;
   stock: number;
-  brand: string;
-  category: string;
+  brand?: string;
+  category?: string;
   thumbnail?: string;
   images: string[];
   isLocal?: boolean; // Flag to track locally created products
@@ -85,16 +85,17 @@ export async function apiEditProduct(
   id: number,
   updates: ProductUpdateInput,
   isLocal: boolean = false,
-  originalProduct?: Product,
+  originalData?: Product,
 ): Promise<Product> {
   console.log("editProduct called with:", { id, isLocal, updates });
 
   // For locally created products, skip API call and return merged data
-  if (isLocal && originalProduct) {
+  if (isLocal && originalData) {
     console.log("Updating local product (skipping API call):", id);
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
     // Return the full product with updates merged in
-    return { ...originalProduct, ...updates, isLocal: true };
+    return { ...originalData, ...updates, isLocal: true };
   }
 
   // For products from the API, make the actual update request
